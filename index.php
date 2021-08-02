@@ -25,6 +25,10 @@
       width: 30px;
       border-radius: 50%;
     }
+
+    .space {
+      white-space: pre-line;
+    }
   </style>
   <!-- import jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>

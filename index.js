@@ -14,7 +14,7 @@ $(document).ready(() => {
           `
         <div class="d-flex align-items-center list-group-item todo">
           <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox" >
-          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p me-4 mb-0">${escapeHtml($('#input-todo-content').val())}</p>
+          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p space p-2 me-4 mb-0">${escapeHtml($('#input-todo-content').val())}</p>
           <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
         </div>
         `
@@ -569,7 +569,7 @@ $(document).ready(() => {
             `
           <div class="d-flex align-items-center list-group-item done">
             <input class="flex-shrink-0 form-check-input pointer me-3" type="checkbox" checked >
-            <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p me-4 mb-0 complete">${data[i].content}</p>
+            <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p p-2 me-4 mb-0 space complete">${escapeHtml(data[i].content)}</p>
             <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
           </div>
           `
@@ -579,7 +579,7 @@ $(document).ready(() => {
             `
           <div class="d-flex align-items-center list-group-item todo">
             <input class="flex-shrink-0 form-check-input pointer me-3" type="checkbox" >
-            <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p me-4 mb-0">${data[i].content}</p>
+            <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p p-2 me-4 mb-0 space">${escapeHtml(data[i].content)}</p>
             <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
           </div>
           `
@@ -594,10 +594,10 @@ $(document).ready(() => {
   function getAllUploadData() {
     // create object array to store todo list
     const todos = []
-    // $(this) doesn't work on arrow function, use function instead
-    $('.list-group-all > .list-group-item').each(function () {
-      const content = $(this).find('.list-group-item-p').text()
-      if ($(this).hasClass('done')) {
+    $('.list-group-all > .list-group-item > .list-group-item-p').each(function () {
+      // use innerText get formatted content (include new line)
+      let content = $(this).get(0).innerText
+      if ($(this).parent().hasClass('done')) {
         todos.push({
           checked: 1,
           content: content
