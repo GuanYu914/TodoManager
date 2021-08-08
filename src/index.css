@@ -1,0 +1,21 @@
+.complete {
+  text-decoration: line-through;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.circle {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.space {
+  white-space: pre-line;
+}
