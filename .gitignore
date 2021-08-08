@@ -1,2 +1,5 @@
-conn.php
+src/backend/conn.php
 log
+node_modules
+package-lock.json
+dist/main.js
