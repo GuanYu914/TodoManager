@@ -19,7 +19,8 @@ $(document).ready(() => {
           `
         <div class="d-flex align-items-center list-group-item todo">
           <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox" >
-          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p space p-2 me-4 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
+          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
+          <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
           <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
         </div>
         `
@@ -64,22 +65,24 @@ $(document).ready(() => {
   $('#unfinished-tab').click((e) => {
     // clear all previous records
     $('.list-group-unfinished').empty()
-    // remove deletion buttons, checkboxes and p on every todo
+    // remove deletion buttons, checkboxes, img and p on every todo
     $('.list-group-all > .list-group-item.todo').clone().prependTo('.list-group-unfinished')
     $('.list-group-unfinished').find('button').remove()
     $('.list-group-unfinished').find('input').remove()
     $('.list-group-unfinished').find('p').removeAttr('contenteditable')
+    $('.list-group-unfinished').find('img').remove()
   })
 
   // switch to finished-tab
   $('#finished-tab').click((e) => {
     // clear all previous records
     $('.list-group-finished').empty()
-    // remove deletion buttons, checkboxes and p on every todo
+    // remove deletion buttons, checkboxes, img and p on every todo
     $('.list-group-all > .list-group-item.done').clone().prependTo('.list-group-finished')
     $('.list-group-finished').find('button').remove()
     $('.list-group-finished').find('input').remove()
     $('.list-group-finished').find('p').removeAttr('contenteditable')
+    $('.list-group-finished').find('img').remove()
   })
 
   // upload todo list to server database
@@ -126,5 +129,64 @@ $(document).ready(() => {
   // confirm logout event listener
   $('.btn-logout-confirm').click(() => {
     ajax.OperationByAjax('button', 'logout')
+  })
+
+  // open filter modal event listener
+  $('.filter-icon').click(() => {
+    $('#filterModal').modal('show') 
+  })
+
+  // open todo info modal event listener
+  $('.list-group-all').on('click', '.todo-info-icon', (e) => {
+    $('#todoInfoModal').modal('show')
+  })
+
+  // RWD at width@450px 
+  // switch navbar to offcanva style
+  // use filter icon to replace filter dropdown buttons
+  var mql_450px = window.matchMedia("(max-width: 450px)")
+  if (mql_450px.matches) {
+    $('.nav-button-block').toggleClass('d-none')
+    $('.nav-offcanvas-block').toggleClass('d-none')
+    $('.dropdown-btn-block').toggleClass('d-none')
+    $('.filter-icon').toggleClass('d-none')
+  }
+  
+  mql_450px.addEventListener('change', (e) => {
+    if (e.matches) {
+      $('.nav-button-block').toggleClass('d-none')
+      $('.nav-offcanvas-block').toggleClass('d-none')
+      $('.dropdown-btn-block').toggleClass('d-none')
+      $('.filter-icon').toggleClass('d-none')
+    } else {
+      $('.nav-button-block').toggleClass('d-none')
+      $('.nav-offcanvas-block').toggleClass('d-none')
+      $('.dropdown-btn-block').toggleClass('d-none')
+      $('.filter-icon').toggleClass('d-none')
+    }
+  })
+
+  // RWD at width@380px
+  // make .btn-store-on-db & .btn-clear-todo full width
+  var mql_380px = window.matchMedia("(max-width: 380px)")
+  if (mql_380px.matches) {
+    $('.btn-store-on-db').toggleClass('me-3')
+    $('.btn-store-on-db').toggleClass('mb-3')
+    $('.btn-store-on-db').toggleClass('w-100')
+    $('.btn-clear-todo').toggleClass('w-100')
+  }
+
+  mql_380px.addEventListener('change', (e) => {
+    if (e.matches) {
+      $('.btn-store-on-db').toggleClass('me-3')
+      $('.btn-store-on-db').toggleClass('mb-3')
+      $('.btn-store-on-db').toggleClass('w-100')
+      $('.btn-clear-todo').toggleClass('w-100')
+    } else {
+      $('.btn-store-on-db').toggleClass('me-3')
+      $('.btn-store-on-db').toggleClass('mb-3')
+      $('.btn-store-on-db').toggleClass('w-100')
+      $('.btn-clear-todo').toggleClass('w-100')
+    }
   })
 })

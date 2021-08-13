@@ -30,9 +30,10 @@ function SwitchToLoginState(data) {
       if (data[i].checked === 1) {
         $('.list-group-all').prepend(
           `
-        <div class="d-flex align-items-center list-group-item done">
-          <input class="flex-shrink-0 form-check-input pointer me-3" type="checkbox" checked >
-          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p p-2 me-4 mb-0 space complete">${escapeHtml(data[i].content)}</p>
+          <div class="d-flex align-items-center list-group-item todo">
+          <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox" checked>
+          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${escapeHtml(data[i].content)}</p>
+          <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
           <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
         </div>
         `
@@ -41,8 +42,9 @@ function SwitchToLoginState(data) {
         $('.list-group-all').prepend(
           `
         <div class="d-flex align-items-center list-group-item todo">
-          <input class="flex-shrink-0 form-check-input pointer me-3" type="checkbox" >
-          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p p-2 me-4 mb-0 space">${escapeHtml(data[i].content)}</p>
+          <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox" >
+          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${escapeHtml(data[i].content)}</p>
+          <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
           <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
         </div>
         `
@@ -50,6 +52,8 @@ function SwitchToLoginState(data) {
       }
     }
     getUnfinishedTodos()
+    // remove alert message
+    $('.alert-block').empty()
   }
 }
 
@@ -66,6 +70,13 @@ function SwitchToLogoutState() {
   // remove all previous stored todos
   $('.list-group-all').empty()
   getUnfinishedTodos()
+  // add alert message
+  $('.alert-block').empty()
+  $('.alert-block').append(`
+  <div class="alert alert-primary" role="alert">
+      註冊登入即可線上保存代辦事項，<strong class="pointer" data-bs-toggle="modal" data-bs-target="#registerModal">現在就立即註冊吧！</strong>
+  </div>
+  `)
 }
 
 // get all todos content information and pack into object array
@@ -93,7 +104,16 @@ function getAllUploadData() {
 // count number of todos needed to be finished
 function getUnfinishedTodos() {
   const remainingTodos = $('.list-group-all > .todo').length
-  $('.todos-remaining').text(`剩餘 ${remainingTodos} 個代辦事項`)
+  if (remainingTodos) { // if there have todos to finish
+    $('.todos-remaining').empty()
+    $('.todos-remaining').append(`
+    <span class="position-absolute top-0 start-86 translate-middle badge rounded-pill bg-danger">
+      ${remainingTodos}
+    </span>
+    `)
+  } else { // have nothing to finish
+    $('.todos-remaining').empty()
+  }
 }
 
 // html escape 
