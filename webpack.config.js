@@ -5,6 +5,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
+    host: '192.168.0.15', // use for testing on local network
     port: 8080,
   },
   entry: './src/index.js',

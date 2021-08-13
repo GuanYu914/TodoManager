@@ -16,7 +16,7 @@ function OperationByAjax(type, op) {
       let password = $('#registerModal-form-password').val()
       $.ajax({
         method: 'POST',
-        url: 'http://localhost/todo_manager/handle_register.php',
+        url: 'http://192.168.0.15/todo_manager/handle_register.php',
         data: {
           nickname: nickname,
           account: account,
@@ -62,7 +62,7 @@ function OperationByAjax(type, op) {
       let password = $('#registerModal-form-password').val()
       $.ajax({
         method: 'POST',
-        url: 'http://localhost/todo_manager/handle_register_login.php',
+        url: 'http://192.168.0.15/todo_manager/handle_register_login.php',
         data: {
           nickname: nickname,
           account: account,
@@ -88,7 +88,7 @@ function OperationByAjax(type, op) {
     // when get successful response, it will switch to login state
     if (op === 'register-get-session') {
       $.ajax({
-        url: 'http://localhost/todo_manager/get_session.php',
+        url: 'http://192.168.0.15/todo_manager/get_session.php',
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
@@ -112,7 +112,7 @@ function OperationByAjax(type, op) {
       let password = $('#login-form-password').val()
       $.ajax({
         method: 'POST',
-        url: 'http://localhost/todo_manager/handle_login.php',
+        url: 'http://192.168.0.15/todo_manager/handle_login.php',
         xhrFields: { withCredentials: true },
         data: {
           account: account,
@@ -147,7 +147,7 @@ function OperationByAjax(type, op) {
     // when get successful response, it will switch to login state and execute 'get-todos'
     if (op === 'login-get-session') {
       $.ajax({
-        url: 'http://localhost/todo_manager/get_session.php',
+        url: 'http://192.168.0.15/todo_manager/get_session.php',
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
@@ -173,7 +173,7 @@ function OperationByAjax(type, op) {
   if (type === 'button') {
     if (op === 'upload-todos') {
       $.post({
-        url: "http://localhost/todo_manager/handle_store_todos.php",
+        url: "http://192.168.0.15/todo_manager/handle_store_todos.php",
         xhrFields: { withCredentials: true }
       }, {
         content: JSON.stringify(utils.getAllUploadData())
@@ -195,7 +195,7 @@ function OperationByAjax(type, op) {
     }
     if (op === 'logout') {
       $.ajax({
-        url: 'http://localhost/todo_manager/handle_logout.php',
+        url: 'http://192.168.0.15/todo_manager/handle_logout.php',
         xhrFields: { withCredentials: true }
       })
       .done(() => {
@@ -212,7 +212,7 @@ function OperationByAjax(type, op) {
   if (type === 'general') {
     if (op === 'reload-get-session') {
       $.ajax({
-        url: 'http://localhost/todo_manager/get_session.php',
+        url: 'http://192.168.0.15/todo_manager/get_session.php',
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
@@ -230,7 +230,7 @@ function OperationByAjax(type, op) {
     if (op === 'get-todos') {
       $.ajax({
         method: 'GET',
-        url: 'http://localhost/todo_manager/handle_get_todos.php',
+        url: 'http://192.168.0.15/todo_manager/handle_get_todos.php',
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
