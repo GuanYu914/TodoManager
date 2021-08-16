@@ -217,15 +217,13 @@
             <!-- categories block -->
             <div class="categories-block mb-3">
               <label class="d-block form-label">分類名稱</label>
+              <div class="d-none existed-categories-tags mb-3"></div>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="打上你想要的分類名稱" aria-label="輸入分類名稱" aria-describedby="送出分類名稱">
-                <button class="btn btn-outline-secondary" type="button" id="btn-add-category-name">送出</button>
+                <input type="text" class="form-control" id="category-input-content" maxlength="12" placeholder="打上你想要的分類名稱" aria-label="輸入分類名稱" aria-describedby="送出分類名稱">
+                <button class="btn btn-outline-primary btn-add-category-name" type="button">送出</button>
               </div>
-              <div class="categories-tags">
-                <h4 class="d-inline"><span class="badge rounded-pill bg-primary">家事</span></h4>
-                <h4 class="d-inline"><span class="badge rounded-pill bg-secondary">工作</span></h4>
-                <h4 class="d-inline"><span class="badge rounded-pill bg-success">外出</span></h4>
-              </div>
+              <div class="form-text mb-2">分類名稱最多只能設置六個</div>
+              <div class="categories-tags mb-3"></div>
             </div>
             <!-- comment block -->
             <div class="comment-block mb-3">
@@ -235,9 +233,8 @@
             <!-- priority block -->
             <div class="priority-block mb-3">
               <label class="d-block form-label">優先順序</label>
-              <select class="form-select" aria-label="選擇優先性">
-                <option selected>尚未設置</option>
-                <option value="1">低</option>
+              <select class="form-select" id="priority-dropdown-selection" aria-label="選擇優先性">
+                <option selected value="1">低</option>
                 <option value="2">中</option>
                 <option value="3">高</option>
               </select>

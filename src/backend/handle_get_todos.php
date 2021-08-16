@@ -26,7 +26,7 @@ if (!isset($_SESSION)) {
 $account = $_SESSION['account'];
 
 // get all todos according to account
-$stmt = $conn->prepare('SELECT checked, content FROM todos WHERE account=? ORDER BY id DESC');
+$stmt = $conn->prepare('SELECT checked, content, categories, comment, priority FROM todos WHERE account=? ORDER BY id DESC');
 $stmt->bind_param('s', $account);
 $res = $stmt->execute();
 
@@ -52,7 +52,10 @@ try {
   while ($row = $res->fetch_assoc()) {
     array_push($data, array(
       'checked' => $row['checked'],
-      'content' => $row['content']
+      'content' => $row['content'],
+      'categories' => $row['categories'],
+      'comment' => $row['comment'],
+      'priority' => $row['priority']
     ));
   }
   // no errors, commit this 

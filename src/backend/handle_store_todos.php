@@ -47,9 +47,14 @@ $conn->begin_transaction();
 
 try {
   for ($i = 0; $i < count($json); $i++) {
-
-    $stmt = $conn->prepare('INSERT INTO todos (checked, content, account) VALUES (?, ?, ?)');
-    $stmt->bind_param('iss', $json[$i]->checked, $json[$i]->content, $_SESSION['account']);
+    $stmt = $conn->prepare('INSERT INTO todos (checked, content, categories, comment, priority, account) VALUES (?, ?, ?, ?, ?, ?)');
+    $stmt->bind_param('isssis', 
+      $json[$i]->checked, 
+      $json[$i]->content, 
+      $json[$i]->categories, 
+      $json[$i]->comment, 
+      $json[$i]->priority, 
+      $_SESSION['account']);
     $res = $stmt->execute();
   }
   // if no errors, then commit this 

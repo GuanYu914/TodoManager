@@ -17,12 +17,22 @@ $(document).ready(() => {
         // add input content to lists
         $('.list-group-all').prepend(
           `
-        <div class="d-flex align-items-center list-group-item todo">
-          <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox" >
-          <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
-          <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
-          <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
-        </div>
+          <div class="list-group-item todo">
+            <div class="categories-tags">
+              <h4 class="d-inline category-badge">
+                <span class="align-middle badge rounded-pill bg-secondary">
+                  <span class="align-middle category-name">優先性：低</span>
+                </span>
+              </h4>
+            </div>
+            <div class="d-flex list-group-item-user-operation align-items-center mt-2">
+              <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox" >
+              <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
+              <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
+              <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
+            </div>
+            <div class="comment-block text-secondary space mt-2"></div>
+          </div>
         `
         )
         // clear input field content
@@ -39,8 +49,8 @@ $(document).ready(() => {
 
   // remove todo (by pressing close button at list-group-all tap)
   $('.list-group-all').on('click', '.btn-close', (e) => {
-    $(e.target).parent().fadeOut('fast', () => {
-      $(e.target).parent().remove()
+    $(e.target).parent().parent().fadeOut('fast', () => {
+      $(e.target).parent().parent().remove()
       utils.getUnfinishedTodos()
     })
   })
@@ -56,8 +66,8 @@ $(document).ready(() => {
   // complete todo (by pressing checkbox at list-group-all top)
   $(".list-group-all").on('click', '.form-check-input', (e) => {
     $(e.target).next().toggleClass('complete')
-    $(e.target).parent().toggleClass('todo')
-    $(e.target).parent().toggleClass('done')
+    $(e.target).parent().parent().toggleClass('todo')
+    $(e.target).parent().parent().toggleClass('done')
     utils.getUnfinishedTodos()
   })
 
@@ -93,7 +103,6 @@ $(document).ready(() => {
     if (todos === 0) {
       // show modal view
       modal.DisplayModal('button', 'upload-todos', 'empty-uploaded-content')
-      // $('#emptyUploadTodoContent').modal('show')
       return
     }
     ajax.OperationByAjax('button', 'upload-todos')
@@ -136,9 +145,234 @@ $(document).ready(() => {
     $('#filterModal').modal('show') 
   })
 
+  // add categories of todo event listener (by pressing button)
+  $('.btn-add-category-name').click(() => {
+    // get current categories number, maximum number is 6
+    // if number reached maximum, don't do anything then clear input
+    let totalCategories = $('.modal-body > .categories-block > .categories-tags > .category-badge').length
+    if (totalCategories === 6) {
+      $('#category-input-content').val('')
+      return 
+    }
+    // search all categories, check if it existed
+    // if it existed, skip operation 
+    let content = $('#category-input-content').val()
+    // use trim to remove space character in both ends of string 
+    let currentCategories = $('.modal-body > .categories-block > .categories-tags').get(0).innerText.trim()
+    currentCategories = currentCategories.replace(/\s+/g, ' ').split(' ')
+    for (let i = 0; i < currentCategories.length; i++) {
+      if (currentCategories[i] === content) {
+        $('#category-input-content').val('')
+        return
+      }
+    }
+    // if get non-empty content, add input content as category name
+    if (content) {
+      $('.modal-body > .categories-block > .categories-tags').prepend(`
+        <h4 class="d-inline category-badge">
+          <span class="align-middle badge rounded-pill bg-secondary mb-2">
+            <span class="align-middle category-name">${utils.escapeHtml(content)}</span>
+            <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
+          </span>
+        </h4>
+      `)
+    }
+    // clear categories input field
+    $('#category-input-content').val('')
+  })
+
+  // add categories of todo event listener2 (by pressing enter key)
+  $('#category-input-content').on('keyup', (e) => {
+    if (e.key === 'Enter' || e.keyCode === 13) {  // press enter key
+      // get current categories number, maximum number is 6
+      // if number reached maximum, don't do anything then clear input
+      let totalCategories = $('.modal-body > .categories-block > .categories-tags > .category-badge').length
+      if (totalCategories === 6) { 
+        $('#category-input-content').val('')
+        return 
+      }
+      // search all categories, check if it existed
+      // if it existed, skip operation 
+      let content = $('#category-input-content').val()
+      // use trim to remove space character in both ends of string 
+      let currentCategories = $('.modal-body > .categories-block > .categories-tags').get(0).innerText.trim()
+      currentCategories = currentCategories.replace(/\s+/g, ' ').split(' ')
+      for (let i = 0; i < currentCategories.length; i++) {
+        if (currentCategories[i] === content) {
+          $('#category-input-content').val('')
+          return
+        }
+      }
+      // if get non-empty content, add input content as category name
+      if (content) {
+        $('.modal-body > .categories-block > .categories-tags').prepend(`
+          <h4 class="d-inline category-badge">
+            <span class="align-middle badge rounded-pill bg-secondary mb-2">
+              <span class="align-middle category-name">${utils.escapeHtml(content)}</span>
+              <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
+            </span>
+          </h4>
+        `)
+      }
+      // clear categories input field
+      $('#category-input-content').val('')
+    }
+  })
+  
+  // remove category name from existed categories
+  $('.modal-body > .categories-block > .categories-tags').on('click', '.btn-close', (e) => {
+    $(e.target).parent().parent().fadeOut('fast', () => {
+      $(e.target).parent().parent().remove()
+    })
+  })
+
   // open todo info modal event listener
   $('.list-group-all').on('click', '.todo-info-icon', (e) => {
+    // add categories shortcut area, speed up adding category
+    let existedCategoriesName = []
+    let currentCategoriesName = ''
+    // if there are existed categories was found, add to existed categories block
+    let categories = $('.list-group-all > .list-group-item > .categories-tags')
+    if (categories.find('.d-inline:nth-child(n+2)').length) {
+      $('.modal-body > .categories-block > .existed-categories-tags').append(`
+      <div class="form-text mb-2">點擊目前既有名稱，快速套用</div>
+      `)
+    }
+    categories.find('.d-inline:nth-child(n+2)').each(function () {
+      currentCategoriesName = $(this).find('.category-name').text()
+      // if currentCategories was added to existedCategoriesName array, then skip the operation
+      for (let i = 0; i < existedCategoriesName.length; i++) {
+        if (currentCategoriesName === existedCategoriesName[i]) return
+      }
+      existedCategoriesName.push(currentCategoriesName)
+      $('.modal-body > .categories-block > .existed-categories-tags').append(`
+      <h4 class="d-inline category-badge">
+        <span class="align-middle badge rounded-pill bg-primary pointer">
+          <span class="align-middle category-name">${utils.escapeHtml(currentCategoriesName)}</span>
+        </span>
+      </h4>
+      `)
+    })
+    let existedCategoriesTags = $('.modal-body > .categories-block > .existed-categories-tags')
+    // display existed-categories-tags block
+    existedCategoriesTags.removeClass('d-none')
+    // hide existed-categories-tags block
+    $('#todoInfoModal').on('hidden.bs.modal', () => {
+      existedCategoriesTags.addClass('d-none')
+      existedCategoriesTags.empty()
+    })
+    // clear recorded previous value on todo info modal
+    $('#category-input-content').val('')
+    $('.modal-body > .categories-block > .categories-tags').empty()
+    $('#comment-textarea').val('')
+    // set low priority (default setting)
+    $('#priority-dropdown-selection').val('1')
+    // read categories (include categories and priority)
+    if ($('.list-group-all > .list-group-item > .categories-tags').length) {
+      // use trim to remove space character in both ends of string 
+      let categoriesOfTodo = $(e.target).parent().parent().children('.categories-tags').get(0).innerText.trim()
+      categoriesOfTodo = categoriesOfTodo.replace(/\s+/g, ' ').split(' ')
+      // read categories from index 1, index 0 is priority tag
+      for (let i = 1; i < categoriesOfTodo.length; i++) {
+        $('.modal-body > .categories-block > .categories-tags').append(`
+          <h4 class="d-inline category-badge">
+            <span class="align-middle badge rounded-pill bg-secondary mb-2">
+              <span class="align-middle category-name">${utils.escapeHtml(categoriesOfTodo[i])}</span>
+              <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
+            </span>
+          </h4>
+        `)
+      }
+      // read priority from todo categories block
+      let priorityOfTodo = categoriesOfTodo[0]
+      if (priorityOfTodo === '優先性：低') {
+        $('#priority-dropdown-selection').val('1')
+      }
+      if (priorityOfTodo === '優先性：中') {
+        $('#priority-dropdown-selection').val('2')
+      }
+      if (priorityOfTodo === '優先性：高') {
+        $('#priority-dropdown-selection').val('3')
+      } 
+    }
+    // read comment
+    if ($(e.target).parent().parent().children('.comment-block').text()) {
+      let commentOfTodo = $(e.target).parent().parent().children('.comment-block').text()
+      $('#comment-textarea').val(commentOfTodo)
+    }
+    // show todo info modal
     $('#todoInfoModal').modal('show')
+    // record current todo jquery object to set todo
+    utils.recordCurrentEditedTodoObj($(e.target).parent().parent())
+  })
+
+  // read todo info modal values to set the todo
+  $('.btn-todo-info-icon-confirm').click(() => {
+    // get current todo jquery object
+    let e = utils.getCurrentEditedTodoObj()
+    // get all categories name
+    // use trim to remove space character in both ends of string 
+    let currentCategories = $('.modal-body > .categories-block > .categories-tags').get(0).innerText.trim()
+    // if there are categories was founded, then convert into array
+    if (currentCategories !== '') {
+      currentCategories = currentCategories.replace(/\s+/g, ' ').split(' ')
+    }
+    // take off last space char, it is unnecessary
+    let comment = $('#comment-textarea').val()
+    // get priority from select
+    let priority = $('#priority-dropdown-selection').find(":selected").text();
+    // clear categories, comment of the todo
+    e.children('.categories-tags').empty()
+    e.children('.comment-block').empty()
+    // put categories, comment, priority on specific todo
+    if (priority) {
+      e.children('.categories-tags').append(`
+        <h4 class="d-inline category-badge">
+          <span class="align-middle badge rounded-pill bg-secondary">
+            <span class="align-middle category-name">優先性：${utils.escapeHtml(priority)}</span>
+          </span>
+        </h4>
+      `)
+    }
+    if (Array.isArray(currentCategories) && currentCategories.length) {
+      for (let i = 0; i < currentCategories.length; i++) {
+        e.children('.categories-tags').append(`
+          <h4 class="d-inline category-badge">
+            <span class="align-middle badge rounded-pill bg-secondary">
+              <span class="align-middle category-name">${utils.escapeHtml(currentCategories[i])}</span>
+              <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
+            </span>
+          </h4>
+        `)
+      }
+    }
+    if (comment) {
+      e.children('.comment-block').append(`${utils.escapeHtml(comment)}`)
+    }
+  })
+
+  // click existed categories, then add to categories tags block
+  $('.modal-body > .categories-block > .existed-categories-tags').on('click', '.category-name', (e) => {
+    let clickedCategoryName = $(e.target).text()
+    // search all categories, check if it existed
+    // if it existed, skip operation 
+    // use trim to remove space character in both ends of string 
+    let currentCategories = $('.modal-body > .categories-block > .categories-tags').get(0).innerText.trim()
+    currentCategories = currentCategories.replace(/\s+/g, ' ').split(' ')
+    // check if clickedCategoryName is added to categories tags block
+    // if it is true, skip the operation
+    for (let i = 0; i < currentCategories.length; i++) {
+      if (currentCategories[i] === clickedCategoryName) return
+    }
+    // add to categories tags block
+    $('.modal-body > .categories-block > .categories-tags').prepend(`
+      <h4 class="d-inline category-badge">
+        <span class="align-middle badge rounded-pill bg-secondary mb-2">
+          <span class="align-middle category-name">${utils.escapeHtml(clickedCategoryName)}</span>
+          <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
+        </span>
+      </h4>
+    `)
   })
 
   // RWD at width@450px 
