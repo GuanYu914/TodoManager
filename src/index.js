@@ -14,10 +14,18 @@ $(document).ready(() => {
     if (e.key === 'Enter' || e.keyCode === 13) {
       // if input is not empty
       if ($('#input-todo-content').val() !== '') {
+        // use data-todo-id attribute to represent todo id 
+        let TodoID = -1
+        $('.list-group-all').children('.list-group-item').each(function () {
+          if (parseInt($(this).attr('data-todo-id')) > TodoID) {
+            TodoID = parseInt($(this).attr('data-todo-id'))
+          }
+        })
+        TodoID++
         // add input content to lists
         $('.list-group-all').prepend(
           `
-          <div class="list-group-item todo">
+          <div class="list-group-item todo" data-todo-id=${TodoID}>
             <div class="categories-tags">
               <h4 class="d-inline category-badge">
                 <span class="align-middle badge rounded-pill bg-secondary">
@@ -27,7 +35,7 @@ $(document).ready(() => {
             </div>
             <div class="d-flex list-group-item-user-operation align-items-center mt-2">
               <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox" >
-              <p contenteditable='true' class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
+              <p class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
               <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
               <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
             </div>
@@ -37,6 +45,11 @@ $(document).ready(() => {
         )
         // clear input field content
         $('#input-todo-content').val('')
+        // apply dropdown filter condition & update current pill tab content
+        utils.applyFilterSettingFromDropdown()
+        utils.updatePillTabs('totals')
+        utils.updatePillTabs('unfinished')
+        utils.updatePillTabs('finished')
         // update unfinished todo counts
         utils.getUnfinishedTodos()
       } else {
@@ -48,51 +61,83 @@ $(document).ready(() => {
   })
 
   // remove todo (by pressing close button at list-group-all tap)
-  $('.list-group-all').on('click', '.btn-close', (e) => {
-    $(e.target).parent().parent().fadeOut('fast', () => {
-      $(e.target).parent().parent().remove()
+  $('.list-group-all, .list-group-unfinished, .list-group-finished').on('click', '.btn-close', (e) => {
+    // user wants to delete category tag 
+    if ($(e.target).parent().hasClass('badge')) {
+      let tag_name = $(e.target).parent().find('.category-name').text()
+      // get original todo, then remove category tag
+      let todo = utils.getOriginalTodo(e.target)
+      todo.find('.categories-tags > .d-inline').each(function () {
+        if ($(this).find('.category-name').text() === tag_name) {
+          $(this).remove()
+        }
+      })
+      // apply dropdown filter condition & update current pill tab content
+      utils.applyFilterSettingFromDropdown()
+      utils.updatePillTabs(utils.getCurrentPillTabName())
+      // update unfinished todo counts
       utils.getUnfinishedTodos()
-    })
+    }
+    // user wants to delete entire todo
+    if ($(e.target).parent().hasClass('list-group-item-user-operation')) {
+      let todo = utils.getOriginalTodo(e.target)
+      todo.remove()
+      // apply dropdown filter condition & update current pill tab content
+      utils.applyFilterSettingFromDropdown()
+      utils.updatePillTabs(utils.getCurrentPillTabName())
+      // update unfinished todo counts
+      utils.getUnfinishedTodos()
+    }
   })
 
   // clear all finished todos
   $('.btn-clear-todo').click(() => {
-    $('.list-group-item.done').fadeOut('fast', () => {
-      $('.list-group-item.done').remove()
-      utils.getUnfinishedTodos()
+    // check if filter mode is on ?
+    if (utils.checkFilterEnableStatus()) {
+      modal.DisplayModal('button', 'clear-todos', 'under-filter-mode')
+      return
+    }
+    // clear all todos with 'done' status
+    $('.list-group-all > .list-group-item.done').fadeOut('fast', function () {
+      $(this).remove()
     })
+    // apply dropdown filter condition & update current pill tab content
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs(utils.getCurrentPillTabName())
+    // update unfinished todo counts
+    utils.getUnfinishedTodos()
   })
 
   // complete todo (by pressing checkbox at list-group-all top)
-  $(".list-group-all").on('click', '.form-check-input', (e) => {
-    $(e.target).next().toggleClass('complete')
-    $(e.target).parent().parent().toggleClass('todo')
-    $(e.target).parent().parent().toggleClass('done')
+  $(".list-group-all, .list-group-unfinished, .list-group-finished").on('click', '.form-check-input', (e) => {
+    // get original todo
+    let todo = utils.getOriginalTodo(e.target)
+    // toggle classes to apply complete effect
+    todo.find('.list-group-item-p').toggleClass('complete')
+    // toggle classes to switch todo into 'done' status
+    todo.toggleClass('todo')
+    todo.toggleClass('done')
+    // refresh checked button status
+    utils.applyCheckedEffect()
+    // apply dropdown filter condition & update current pill tab content
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs(utils.getCurrentPillTabName())
+    // update unfinished todo counts
     utils.getUnfinishedTodos()
   })
 
   // switch to unfinished-tab
   $('#unfinished-tab').click((e) => {
-    // clear all previous records
-    $('.list-group-unfinished').empty()
-    // remove deletion buttons, checkboxes, img and p on every todo
-    $('.list-group-all > .list-group-item.todo').clone().prependTo('.list-group-unfinished')
-    $('.list-group-unfinished').find('button').remove()
-    $('.list-group-unfinished').find('input').remove()
-    $('.list-group-unfinished').find('p').removeAttr('contenteditable')
-    $('.list-group-unfinished').find('img').remove()
+    // apply dropdown filter condition & update current pill tab content | 套用篩選機制 & 更新目前 pill tab 
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs('unfinished')
   })
 
   // switch to finished-tab
   $('#finished-tab').click((e) => {
-    // clear all previous records
-    $('.list-group-finished').empty()
-    // remove deletion buttons, checkboxes, img and p on every todo
-    $('.list-group-all > .list-group-item.done').clone().prependTo('.list-group-finished')
-    $('.list-group-finished').find('button').remove()
-    $('.list-group-finished').find('input').remove()
-    $('.list-group-finished').find('p').removeAttr('contenteditable')
-    $('.list-group-finished').find('img').remove()
+    // apply dropdown filter condition & update current pill tab content | 套用篩選機制 & 更新目前 pill tab 
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs('finished')
   })
 
   // upload todo list to server database
@@ -105,7 +150,31 @@ $(document).ready(() => {
       modal.DisplayModal('button', 'upload-todos', 'empty-uploaded-content')
       return
     }
+    // check filter mode is on ?
+    if (utils.checkFilterEnableStatus()) {
+      modal.DisplayModal('button', 'upload-todos', 'under-filter-mode')
+      return
+    }
+    // send ajax request when filter mode is off
     ajax.OperationByAjax('button', 'upload-todos')
+  })
+
+  // operation confirmation under filter mode
+  $('.container:nth(1)').on('click', '.btn-op-under-filter-mode-confirm', (e) => {
+    let op_name = $(e.target).attr('data-op-name')
+    if (op_name === 'uploadAllTodos') {
+      ajax.OperationByAjax('button', 'upload-todos')
+    }
+    if (op_name === 'clearAllTodos') {
+      $('.list-group-all > .list-group-item.done').fadeOut('fast', function () {
+        $(this).remove()
+      })
+      // apply filter condition & update current pill tab content 
+      utils.applyFilterSettingFromDropdown()
+      utils.updatePillTabs(utils.getCurrentPillTabName())
+      // update unfinished todo counts
+      utils.getUnfinishedTodos()
+    } 
   })
 
   // in order to clear validity state 
@@ -227,7 +296,7 @@ $(document).ready(() => {
   })
 
   // open todo info modal event listener
-  $('.list-group-all').on('click', '.todo-info-icon', (e) => {
+  $('.list-group-all, .list-group-unfinished, .list-group-finished').on('click', '.todo-info-icon', (e) => {
     // add categories shortcut area, speed up adding category
     let existedCategoriesName = []
     let currentCategoriesName = ''
@@ -295,6 +364,9 @@ $(document).ready(() => {
         $('#priority-dropdown-selection').val('3')
       } 
     }
+    // read content
+    let todo_content = $(e.target).parents('.list-group-item').find('.list-group-item-p').text()
+    $('#modal-input-todo-content').val(todo_content)
     // read comment
     if ($(e.target).parent().parent().children('.comment-block').text()) {
       let commentOfTodo = $(e.target).parent().parent().children('.comment-block').text()
@@ -302,14 +374,14 @@ $(document).ready(() => {
     }
     // show todo info modal
     $('#todoInfoModal').modal('show')
-    // record current todo jquery object to set todo
-    utils.recordCurrentEditedTodoObj($(e.target).parent().parent())
+    // record current edited todo
+    utils.recordCurrentEditedTodoObj(utils.getOriginalTodo(e.target))
   })
 
   // read todo info modal values to set the todo
   $('.btn-todo-info-icon-confirm').click(() => {
-    // get current todo jquery object
-    let e = utils.getCurrentEditedTodoObj()
+    // get current edited todo
+    let e = utils.getCurrentEditedTodoObj() 
     // get all categories name
     // use trim to remove space character in both ends of string 
     let currentCategories = $('.modal-body > .categories-block > .categories-tags').get(0).innerText.trim()
@@ -317,14 +389,17 @@ $(document).ready(() => {
     if (currentCategories !== '') {
       currentCategories = currentCategories.replace(/\s+/g, ' ').split(' ')
     }
+    // get content of todo on todo info modal
+    let todo_content = $('#modal-input-todo-content').val()
     // take off last space char, it is unnecessary
     let comment = $('#comment-textarea').val()
     // get priority from select
     let priority = $('#priority-dropdown-selection').find(":selected").text();
-    // clear categories, comment of the todo
+    // clear categories, content, comment of the todo
     e.children('.categories-tags').empty()
+    e.children('.list-group-item-p').empty()
     e.children('.comment-block').empty()
-    // put categories, comment, priority on specific todo
+    // put categories, content, comment, priority on specific todo
     if (priority) {
       e.children('.categories-tags').append(`
         <h4 class="d-inline category-badge">
@@ -346,9 +421,16 @@ $(document).ready(() => {
         `)
       }
     }
-    if (comment) {
-      e.children('.comment-block').append(`${utils.escapeHtml(comment)}`)
+    if (todo_content) {
+      e.find('.list-group-item-p').text(todo_content)
     }
+    if (comment) {
+      // e.children('.comment-block').append(`${utils.escapeHtml(comment)}`)
+      e.children('.comment-block').text(comment)
+    }
+    // apply filter condition & update current pill tab content
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs(utils.getCurrentPillTabName())
   })
 
   // click existed categories, then add to categories tags block
@@ -373,6 +455,69 @@ $(document).ready(() => {
         </span>
       </h4>
     `)
+  })
+
+  // click priority filter event listener
+  $('.priority-filter-title').click(() => {
+    // if priority filter is set
+    if ($('.priority-filter-title').get(0).innerText.trim() !== '優先性') {
+      // if it doesn't generate remove message block, then add it
+      if ($('.priority-filter-menu').find('.filter-reset').length === 0) {
+        $('.priority-filter-menu').prepend(`
+          <span class="dropdown-item filter-reset pointer">移除套用此順序</span>`
+        )
+      }
+    }
+  })
+  // user select priority filter option
+  $('.priority-filter-menu').on('click', '.priority-filter-option', function () {
+    // set priority filer title as selected option
+    $('.priority-filter-title').text($(this).text())
+    // apply filter condition & update current pill tab content
+    utils.applyFilterSettingFromDropdown()    
+    utils.updatePillTabs(utils.getCurrentPillTabName())
+    // update filter icon state
+    utils.updateFilterIcon()
+  })
+  // clear priority filter option event listener
+  $('.priority-filter-menu').on('click', '.filter-reset', function () {
+    $('.priority-filter-title').text('優先性')
+    // apply filter condition & update current pill tab content
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs(utils.getCurrentPillTabName())
+    // update filter icon state
+    utils.updateFilterIcon()
+    // remove reset message
+    $('.priority-filter-menu').find('.filter-reset').remove()
+  })
+
+  // press categories filter event listener
+  $('.categories-filter-title').click(() => {
+    // get current categories list
+    utils.updateCategoriesDropdownList()
+    // update filter icon state
+    utils.updateFilterIcon()
+  })
+  // user select categories filter option
+  $('.categories-filter-menu').on('click', '.category-filter-option', function () {
+    // set categories filer title as selected option
+    $('.categories-filter-title').text($(this).text())
+    // apply filter condition & update current pill tab content
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs(utils.getCurrentPillTabName())
+    // update filter icon state
+    utils.updateFilterIcon()
+  })
+  // clear categories filter option event listener
+  $('.categories-filter-menu').on('click', '.filter-reset', function () {
+    $('.categories-filter-title').text('分類')
+    // apply filter condition & update current pill tab content
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs(utils.getCurrentPillTabName())
+    // update filter icon state     
+    utils.updateFilterIcon()
+    // remove reset message
+    $('.categories-filter-menu').find('.filter-reset').remove()
   })
 
   // RWD at width@450px 

@@ -27,6 +27,30 @@ function InsertFlashModal(modalName, cb) {
     cb()
     return
   }
+  if (modalName === 'clearAllTodosUnderFilterMode') {
+    $('.container:nth(1)').append(`
+    <div class="modal fade" id="clearAllTodosUnderFilterMode" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">貼心提醒</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            目前的代辦清單是被過濾的，執行此操作可能會清除掉目前清單以外的代辦事項<br>
+            點擊 " 我知道了 "，將套用此操作
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">先不要好了</button>
+            <button type="button" class="btn btn-primary btn-op-under-filter-mode-confirm" data-bs-dismiss="modal" data-op-name="clearAllTodos">我知道了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
   if (modalName === 'registerUnsuccessfullyDueToExistedAccount') {
     $('.container:nth(1)').append(`
     <div class="modal fade" id="registerUnsuccessfullyDueToExistedAccount" tabindex="-1" aria-labelledby="註冊注意事項" aria-hidden="true">
@@ -181,6 +205,30 @@ function InsertFlashModal(modalName, cb) {
     cb()
     return
   }
+  if (modalName === 'uploadTodoUnderFilterMode') {
+    $('.container:nth(1)').append(`
+    <div class="modal fade" id="uploadTodoUnderFilterMode" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">貼心提醒</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            目前的代辦清單是被過濾的，執行此操作可能會上傳目前清單以外的代辦事項<br>
+            點擊 " 我知道了 "，將套用此操作
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">先不要好了</button>
+            <button type="button" class="btn btn-primary btn-op-under-filter-mode-confirm" data-bs-dismiss="modal" data-op-name="uploadAllTodos">我知道了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
   if (modalName === 'ajaxSendErrorModal') {
     $('.container:nth(1)').append(`
     <div class="modal fade" id="ajaxSendErrorModal" tabindex="-1" aria-labelledby="注意事項" aria-hidden="true">
@@ -258,6 +306,12 @@ function RemoveFlashModal(modalName, cb) {
     })
     return
   }
+  if (modalName === 'clearAllTodosUnderFilterMode') {
+    $('#clearAllTodosUnderFilterMode').on('hidden.bs.modal', () => {
+      cb()
+      $('#clearAllTodosUnderFilterMode').remove()
+    })
+  }
   if (modalName === 'registerUnsuccessfullyDueToExistedAccount') {
     $('#registerUnsuccessfullyDueToExistedAccount').on('hidden.bs.modal', () => {
       cb()
@@ -306,6 +360,12 @@ function RemoveFlashModal(modalName, cb) {
       $('#emptyUploadTodoContent').remove()
     })
     return
+  }
+  if (modalName === 'uploadTodoUnderFilterMode') {
+    $('#uploadTodoUnderFilterMode').on('hidden.bs.modal', () => {
+      cb()
+      $('#uploadTodoUnderFilterMode').remove()
+    })
   }
   if (modalName === 'ajaxSendErrorModal') {
     $('#ajaxSendErrorModal').on('hidden.bs.modal', () => {
@@ -510,12 +570,28 @@ function DisplayModal(type, op, state) {
     return
   }
   if (type === 'button') {
+    if (op === 'clear-todos') {
+      if (state === 'under-filter-mode') {
+        InsertFlashModal('clearAllTodosUnderFilterMode', () => {
+          $('#clearAllTodosUnderFilterMode').modal('show')
+        })
+        RemoveFlashModal('clearAllTodosUnderFilterMode', () => {})
+        return
+      }
+    }
     if (op === 'upload-todos') {
       if (state === 'empty-uploaded-content') {
         InsertFlashModal('emptyUploadTodoContent', () => {
           $('#emptyUploadTodoContent').modal('show')
         })
         RemoveFlashModal('emptyUploadTodoContent', () => {})
+        return
+      }
+      if (state === 'under-filter-mode') {
+        InsertFlashModal('uploadTodoUnderFilterMode', () => {
+          $('#uploadTodoUnderFilterMode').modal('show')
+        })
+        RemoveFlashModal('uploadTodoUnderFilterMode', () => {})
         return
       }
       if (state === 'fail-ajax-error') {

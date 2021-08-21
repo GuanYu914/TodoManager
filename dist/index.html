@@ -179,28 +179,30 @@
           <div class="modal-body">
             <!-- dropdown buttons -->
             <div class="btn-group me-3">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+              <button type="button" class="btn btn-primary  priority-filter-title dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 優先性
               </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">由高至低</a></li>
-                <li><a class="dropdown-item" href="#">由低至高</a></li>
+              <ul class="dropdown-menu priority-filter-menu">
+                <li>
+                  <span class="dropdown-item priority-filter-option">由高至低</span>
+                </li>
+                <li>
+                  <span class="dropdown-item priority-filter-option">由低至高</span>
+                </li>
               </ul>
             </div>
             <div class="btn-group">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+              <button type="button" class="btn btn-primary categories-filter-title dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                項目
+                分類
               </button>
-              <ul class="dropdown-menu">
-                <li><span class="dropdown-item">您並未有任何項目名稱</span></li>
+              <ul class="dropdown-menu categories-filter-menu">
+                <li>
+                  <span class="dropdown-item">您並未有任何分類名稱</span>
+                </li>
               </ul>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary btn-filter-icon-confirm" data-bs-dismiss="modal">套用</button>
           </div>
         </div>
       </div>
@@ -219,11 +221,16 @@
               <label class="d-block form-label">分類名稱</label>
               <div class="d-none existed-categories-tags mb-3"></div>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" id="category-input-content" maxlength="12" placeholder="打上你想要的分類名稱" aria-label="輸入分類名稱" aria-describedby="送出分類名稱">
+                <input type="text" class="form-control" id="category-input-content" maxlength="8" placeholder="打上你想要的分類名稱" aria-label="輸入分類名稱" aria-describedby="送出分類名稱">
                 <button class="btn btn-outline-primary btn-add-category-name" type="button">送出</button>
               </div>
-              <div class="form-text mb-2">分類名稱最多只能設置六個</div>
+              <div class="form-text mb-2">分類名稱最多只能設置六個，類別名稱長度最多為八個字</div>
               <div class="categories-tags mb-3"></div>
+            </div>
+            <!-- content block -->
+            <div class="content-block mb-3">
+              <label class="d-block form-label">代辦內容</label>
+              <input type="text" class="form-control" id="modal-input-todo-content">
             </div>
             <!-- comment block -->
             <div class="comment-block mb-3">
@@ -276,19 +283,19 @@
           <!-- content nav-pills selector -->
           <ul class="nav nav-pills" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="fs-6 nav-link active" id="totals-tab" data-bs-toggle="pill" data-bs-target="#totals"
+              <button class="fs-6 nav-link active" id="totals-tab" data-bs-toggle="pill" data-bs-target="#totals-tab-content"
                 type="button" role="tab" aria-controls="totals" aria-selected="true">全部</button>
             </li>
             <li class="nav-item" role="presentation">
               <!-- todos-remaining -->
               <button class="position-relative fs-6 nav-link" id="unfinished-tab" data-bs-toggle="pill"
-                data-bs-target="#unfinished" type="button" role="tab" aria-controls="unfinished" aria-selected="false">
+                data-bs-target="#unfinished-tab-content" type="button" role="tab" aria-controls="unfinished" aria-selected="false">
                 未完成
                 <div class="todos-remaining"></div>
               </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="fs-6 nav-link" id="finished-tab" data-bs-toggle="pill" data-bs-target="#finished"
+              <button class="fs-6 nav-link" id="finished-tab" data-bs-toggle="pill" data-bs-target="#finished-tab-content"
                 type="button" role="tab" aria-controls="finished" aria-selected="false">已完成</button>
             </li>
           </ul>
@@ -297,21 +304,21 @@
             <!-- dropdown buttons -->
             <div class="dropdown-btn-block">
               <div class="btn-group me-3">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                <button type="button" class="btn btn-primary priority-filter-title dropdown-toggle" data-bs-toggle="dropdown"
                   aria-expanded="false">
                   優先性
                 </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">由高至低</a></li>
-                  <li><a class="dropdown-item" href="#">由低至高</a></li>
+                <ul class="dropdown-menu priority-filter-menu">
+                  <li><a class="dropdown-item priority-filter-option pointer">由高至低</a></li>
+                  <li><a class="dropdown-item priority-filter-option pointer">由低至高</a></li>
                 </ul>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                <button type="button" class="btn btn-primary categories-filter-title dropdown-toggle" data-bs-toggle="dropdown"
                   aria-expanded="false">
-                  項目
+                  分類
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu categories-filter-menu">
                   <li><span class="dropdown-item">您並未有任何項目名稱</span></li>
                 </ul>
               </div>
@@ -324,15 +331,15 @@
         <!-- content tab -->
         <div class="tab-content mt-3" id="pills-tabContent">
           <!-- display all todos -->
-          <div class="tab-pane fade show active" id="totals" role="tabpanel" aria-labelledby="totals-tab">
+          <div class="tab-pane fade show active" id="totals-tab-content" role="tabpanel" aria-labelledby="totals-tab">
             <div class="list-group-all"></div>
           </div>
           <!-- display unfinished todos -->
-          <div class="tab-pane fade" id="unfinished" role="tabpanel" aria-labelledby="unfinished-tab">
+          <div class="tab-pane fade" id="unfinished-tab-content" role="tabpanel" aria-labelledby="unfinished-tab">
             <div class="list-group-unfinished"></div>
           </div>
           <!-- display finished todos -->
-          <div class="tab-pane fade" id="finished" role="tabpanel" aria-labelledby="finished-tab">
+          <div class="tab-pane fade" id="finished-tab-content" role="tabpanel" aria-labelledby="finished-tab">
             <div class="list-group-finished"></div>
           </div>
         </div>
