@@ -60,7 +60,7 @@ $(document).ready(() => {
     }
   })
 
-  // remove todo (by pressing close button at list-group-all tap)
+  // remove category tag, todo (by pressing close button at list-group-all tap)
   $('.list-group-all, .list-group-unfinished, .list-group-finished').on('click', '.btn-close', (e) => {
     // user wants to delete category tag 
     if ($(e.target).parent().hasClass('badge')) {
@@ -78,17 +78,23 @@ $(document).ready(() => {
       // update unfinished todo counts
       utils.getUnfinishedTodos()
     }
-    // user wants to delete entire todo
+    // user wants to delete entire todo, then display confirmation modal
     if ($(e.target).parent().hasClass('list-group-item-user-operation')) {
-      let todo = utils.getOriginalTodo(e.target)
-      todo.remove()
-      // apply dropdown filter condition & update current pill tab content
-      utils.applyFilterSettingFromDropdown()
-      utils.updatePillTabs(utils.getCurrentPillTabName())
-      // update unfinished todo counts
-      utils.getUnfinishedTodos()
+      modal.DisplayModal('button', 'delete-todo', 'confirmation')
+      utils.recordCurrentEditedTodoObj($(e.target).parents('.list-group-item'))
     }
   })
+
+  // remove todo confirmation event listener
+  $('.container:nth(1)').on('click', '.btn-remove-todo-confirm', (() => {
+    let todo = utils.getOriginalTodo(utils.getCurrentEditedTodoObj())
+    todo.remove()
+    // apply dropdown filter condition & update current pill tab content
+    utils.applyFilterSettingFromDropdown()
+    utils.updatePillTabs(utils.getCurrentPillTabName())
+    // update unfinished todo counts
+    utils.getUnfinishedTodos()
+  }))
 
   // clear all finished todos
   $('.btn-clear-todo').click(() => {

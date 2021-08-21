@@ -51,6 +51,29 @@ function InsertFlashModal(modalName, cb) {
     cb()
     return
   }
+  if (modalName === 'deleteTodoModal') {
+    $('.container:nth(1)').append(`
+    <div class="modal fade" id="deleteTodoModal" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">貼心提醒</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            確定要刪除此代辦事項嗎？
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">先不要好了</button>
+            <button type="button" class="btn btn-primary btn-remove-todo-confirm" data-bs-dismiss="modal" data-op-name="clearAllTodos">對</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
   if (modalName === 'registerUnsuccessfullyDueToExistedAccount') {
     $('.container:nth(1)').append(`
     <div class="modal fade" id="registerUnsuccessfullyDueToExistedAccount" tabindex="-1" aria-labelledby="註冊注意事項" aria-hidden="true">
@@ -310,6 +333,12 @@ function RemoveFlashModal(modalName, cb) {
     $('#clearAllTodosUnderFilterMode').on('hidden.bs.modal', () => {
       cb()
       $('#clearAllTodosUnderFilterMode').remove()
+    })
+  }
+  if (modalName === 'deleteTodoModal') {
+    $('#deleteTodoModal').on('hidden.bs.modal', () => {
+      cb()
+      $('#deleteTodoModal').remove()
     })
   }
   if (modalName === 'registerUnsuccessfullyDueToExistedAccount') {
@@ -625,6 +654,15 @@ function DisplayModal(type, op, state) {
         RemoveFlashModal('ajaxSendErrorModal', () => {})
       }
       return
+    }
+    if (op === 'delete-todo') {
+      if (state === 'confirmation') {
+        InsertFlashModal('deleteTodoModal', () => {
+          $('#deleteTodoModal').modal('show')
+        })
+        RemoveFlashModal('deleteTodoModal', () => {})
+        return 
+      }
     }
     return
   }

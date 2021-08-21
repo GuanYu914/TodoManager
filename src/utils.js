@@ -427,7 +427,12 @@ function applyFilterSettingFromDropdown() {
 
 // get non-filtered todo according to data-to-id attribute
 function getOriginalTodo(obj) {
-  let todoID = $(obj).parents('.list-group-item').attr('data-todo-id')
+  let todoID
+  if ($(obj).hasClass('list-group-item')) {
+    todoID = $(obj).attr('data-todo-id')
+  } else {
+    todoID = $(obj).parents('.list-group-item').attr('data-todo-id')
+  }
   let res
   $('.list-group-all').children('.list-group-item').each(function () {
     if (!$(this).attr('class').match(/filtered-/)) {
