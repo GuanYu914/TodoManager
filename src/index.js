@@ -290,8 +290,8 @@ $(document).ready(() => {
   
   // remove category name from existed categories
   $('.modal-body > .categories-block > .categories-tags').on('click', '.btn-close', (e) => {
-    $(e.target).parent().parent().fadeOut('fast', () => {
-      $(e.target).parent().parent().remove()
+    $(e.target).parents('.category-badge').fadeOut('fast', () => {
+      $(e.target).parents('.category-badge').remove()
     })
   })
 
@@ -339,7 +339,7 @@ $(document).ready(() => {
     // read categories (include categories and priority)
     if ($('.list-group-all > .list-group-item > .categories-tags').length) {
       // use trim to remove space character in both ends of string 
-      let categoriesOfTodo = $(e.target).parent().parent().children('.categories-tags').get(0).innerText.trim()
+      let categoriesOfTodo = $(e.target).parents('.list-group-item').children('.categories-tags').get(0).innerText.trim()
       categoriesOfTodo = categoriesOfTodo.replace(/\s+/g, ' ').split(' ')
       // read categories from index 1, index 0 is priority tag
       for (let i = 1; i < categoriesOfTodo.length; i++) {
@@ -368,8 +368,8 @@ $(document).ready(() => {
     let todo_content = $(e.target).parents('.list-group-item').find('.list-group-item-p').text()
     $('#modal-input-todo-content').val(todo_content)
     // read comment
-    if ($(e.target).parent().parent().children('.comment-block').text()) {
-      let commentOfTodo = $(e.target).parent().parent().children('.comment-block').text()
+    if ($(e.target).parents('.list-group-item').children('.comment-block').text()) {
+      let commentOfTodo = $(e.target).parents('.list-group-item').children('.comment-block').text()
       $('#comment-textarea').val(commentOfTodo)
     }
     // show todo info modal
