@@ -446,6 +446,13 @@ $(document).ready(() => {
     for (let i = 0; i < currentCategories.length; i++) {
       if (currentCategories[i] === clickedCategoryName) return
     }
+    // get current categories number, maximum number is 6
+    // if number reached maximum, don't do anything then clear input 
+    let totalCategories = $('.modal-body > .categories-block > .categories-tags > .category-badge').length
+    if (totalCategories === 6) { 
+      $('#category-input-content').val('')
+      return 
+    }
     // add to categories tags block
     $('.modal-body > .categories-block > .categories-tags').prepend(`
       <h4 class="d-inline category-badge">
