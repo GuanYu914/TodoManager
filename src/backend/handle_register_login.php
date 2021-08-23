@@ -27,8 +27,8 @@ if (
 
 // check if post data is valid under RE
 if ( 
-  !preg_match('/^[a-zA-Z0-9]{8,}$/', $_POST['account']) ||
-  !preg_match('/^[a-zA-Z0-9]{8,}$/', $_POST['password'])
+  !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/', $_POST['account']) ||
+  !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/', $_POST['password'])
 ) {
   // send error response
   $response = array('isSuccessful' => 'failed', 
