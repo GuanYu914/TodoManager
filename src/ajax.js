@@ -108,8 +108,8 @@ function OperationByAjax(type, op) {
     }
     // when get successful response, it will execute 'login-get-session'
     if (op === 'login') {
-      let account = $('#login-form-account').val()
-      let password = $('#login-form-password').val()
+      let account = $('#loginModal-form-account').val()
+      let password = $('#loginModal-form-password').val()
       $.ajax({
         method: 'POST',
         url: 'http://192.168.0.15/todo_manager/handle_login.php',

@@ -183,31 +183,122 @@ $(document).ready(() => {
     } 
   })
 
-  // in order to clear validity state 
-  $('#registerModal-form-retype-password').on('input', () => {
-    $('#registerModal-form-retype-password').get(0).setCustomValidity('')
-  })
-
   // registerModal-form submit event listener
-  $('.registerModal-form').submit((e) => {
-    e.preventDefault()
-    // double password confirmation with constraint validation API
-    if ($('#registerModal-form-password').val() !== $('#registerModal-form-retype-password').val()) {
-      // get(0) -> turn jQuery object to native javascript object
-      $('#registerModal-form-retype-password').get(0).setCustomValidity('請確認兩次輸入都是同一組密碼')
-      return
+  $('.registerModal-form').submit(function(e) {
+    // pass form check, then send ajax request
+    if (this.checkValidity()) {
+      e.preventDefault()
+      ajax.OperationByAjax('form', 'register')
+      // enable spinner animation
+      $('.registerModal-form-spinner').toggleClass('hidden')
     }
-    ajax.OperationByAjax('form', 'register')
-    // enable spinner animation
-    $('.registerModal-form-spinner').toggleClass('hidden')
+    // don't pass form check, display relative warning
+    if (!this.checkValidity()) {
+      e.preventDefault()
+      e.stopPropagation()
+      // get account & password info
+      let account_val = $('#registerModal-form-account').val()
+      let password_val = $('#registerModal-form-password').val()
+  
+      // if account is empty
+      if (!account_val) {
+        $('#registerModal-form-account').nextAll('.invalid-feedback').text('請輸入帳號名稱')
+      } 
+      if (account_val) {
+        // if account length greater then 8
+        if (account_val.length >= 8) { 
+          // account isn't empty, but don't match the rule
+          if (!account_val.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)) {
+            $('#registerModal-form-account').nextAll('.invalid-feedback').text('請輸入至少一位英文大小寫跟數字')
+          } else {
+            $('#registerModal-form-account').nextAll('.valid-feedback').text('此帳號符合規則')
+          }
+        }
+        if (account_val.length < 8) {
+          $('#registerModal-form-account').nextAll('.invalid-feedback').text('帳號長度至少為 8 個字元')
+        }
+      }
+      
+      // if password is empty
+      if (!password_val) {
+        $('#registerModal-form-password').nextAll('.invalid-feedback').text('請輸入密碼')
+      }
+      if (password_val) {
+        // if password length greater than 8
+        if (password_val.length >= 8) {
+          // password isn't empty, but don't match the rule
+          if (!password_val.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)) {
+            $('#registerModal-form-password').nextAll('.invalid-feedback').text('請輸入至少一位英文大小寫跟數字')
+          } else {
+            $('#registerModal-form-password').nextAll('.valid-feedback').text('此密碼符合規則')
+          }
+        }
+        if (password_val.length < 8) {
+          $('#registerModal-form-password').nextAll('.invalid-feedback').text('密碼長度至少為 8 個字元')
+        }
+      }
+    }
+    // add 'was-validated' class name on form
+    this.classList.add('was-validated')
   })
 
   // loginModal-form submit event listener
-  $('.loginModal-form').submit((e) => {
-    e.preventDefault()
-    ajax.OperationByAjax('form', 'login')
-    // enable spinner animation
-    $('.loginModal-form-spinner').toggleClass('hidden')
+  $('.loginModal-form').submit(function (e) {
+    // pass form check, then send ajax request
+    if (this.checkValidity()) {
+      e.preventDefault()
+      ajax.OperationByAjax('form', 'login')
+      // enable spinner animation
+      $('.loginModal-form-spinner').toggleClass('hidden')
+    }
+    // don't pass form check, display relative warning
+    if (!this.checkValidity()) {
+      e.preventDefault()
+      e.stopPropagation()
+      // get account & password info
+      let account_val = $('#loginModal-form-account').val()
+      let password_val = $('#loginModal-form-password').val()
+  
+      // if account is empty
+      if (!account_val) {
+        $('#loginModal-form-account').nextAll('.invalid-feedback').text('請輸入帳號名稱')
+      } 
+      if (account_val) {
+        // if account length grater than 8
+        if (account_val.length >= 8) {
+          // account isn't empty, but don't match the rule
+          if (!account_val.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)) {
+            $('#loginModal-form-account').nextAll('.invalid-feedback').text('請輸入至少一位英文大小寫跟數字')
+          } else {
+            $('#loginModal-form-account').nextAll('.valid-feedback').text('此帳號符合規則')
+          }
+        }
+        if (account_val.length < 8) {
+          $('#loginModal-form-account').nextAll('.invalid-feedback').text('帳號長度至少為 8 個字元')
+        }
+      }
+      
+      // if password is empty
+      if (!password_val) {
+        $('#loginModal-form-password').nextAll('.invalid-feedback').text('請輸入密碼')
+      } 
+      if (password_val) {
+        // if password length greater than 8
+        if (password_val.length >= 8) {
+          // password isn't empty, but don't match the rule
+          if (!password_val.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)) {
+            $('#loginModal-form-password').nextAll('.invalid-feedback').text('請輸入至少一位英文大小寫跟數字')
+          } else {
+            $('#loginModal-form-password').nextAll('.valid-feedback').text('此密碼符合規則')
+          }
+        }
+        if (password_val.length < 8) {
+          $('#loginModal-form-password').nextAll('.invalid-feedback').text('密碼長度至少為 8 個字元')
+        }
+      }
+    }
+    // add 'was-validated' class name
+    this.classList.add('was-validated')
   })
 
   // confirm logout event listener
