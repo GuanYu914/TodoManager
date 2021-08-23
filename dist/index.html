@@ -84,27 +84,33 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
           </div>
           <div class="modal-body">
-            <form class="registerModal-form">
+            <form class="registerModal-form needs-validation" novalidate>
               <div class="mb-3">
                 <label for="nickName" class="col-form-label text-danger">* 您的暱稱</label>
                 <input type="text" class="form-control" id="registerModal-form-nickName" required maxlength="10">
                 <div id="nicknameHelp1" class="form-text">長度不得超過 10 個字元</div>
+                <div class="valid-feedback">
+                  長度已符合
+                </div>
+                <div class="invalid-feedback">
+                  請輸入暱稱
+                </div>
               </div>
               <div class="mb-3">
                 <label for="account" class="col-form-label text-danger">* 帳號</label>
-                <input class="form-control" id="registerModal-form-account" pattern="^[a-zA-Z0-9]{8,}$" required minlength="8" maxlength="20" />
+                <input class="form-control" id="registerModal-form-account"  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
                 <div id="accountHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
-                <div id="accountHelp2" class="form-text">由英文及數字組成，且必須包括 1 個英文大小寫以及 1 個數字</div>
+                <div id="accountHelp2" class="form-text">由英文及數字組成，且必須包括個英文大小寫以及數字</div>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback"></div>
               </div>
               <div class="mb-3">
                 <label for="password" class="col-form-label text-danger">* 密碼</label>
-                <input type="password" class="form-control" id="registerModal-form-password" pattern="^[a-zA-Z0-9]{8,}$" required minlength="8" maxlength="20" />
+                <input type="password" class="form-control" id="registerModal-form-password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
                 <div id="passwordHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
-                <div id="passwordHelp2" class="form-text">由英文及數字組成，且必須包括 1 個英文大小寫以及 1 個數字</div>
-              </div>
-              <div class="mb-3">
-                <label for="retypePassword" class="col-form-label text-danger">* 密碼確認</label>
-                <input type="password" class="form-control" id="registerModal-form-retype-password" required minlength="8" maxlength="20" />
+                <div id="passwordHelp2" class="form-text">由英文及數字組成，且必須包括個英文大小寫以及數字</div>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback"></div>
               </div>
               <div class="clearfix">
                 <button type="submit" class="btn btn-primary">送出</button>
@@ -126,18 +132,22 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
           </div>
           <div class="modal-body">
-            <form class="loginModal-form">
+            <form class="loginModal-form needs-validation" novalidate>
               <div class="mb-3">
                 <label for="account" class="col-form-label text-danger">* 帳號</label>
-                <input class="form-control" id="login-form-account" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required minlength="8" maxlength="20" required />
+                <input class="form-control" id="loginModal-form-account" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" required />
                 <div id="accountHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
                 <div id="accountHelp2" class="form-text">由英文及數字組成，且必須包括 1 個英文大小寫以及 1 個數字</div>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback"></div>
               </div>
               <div class="mb-3">
                 <label for="password" class="col-form-label text-danger">* 密碼</label>
-                <input type="password" class="form-control registerModal-form-password" id="login-form-password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required minlength="8" maxlength="20" required />
+                <input type="password" class="form-control" id="loginModal-form-password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" required />
                 <div id="passwordHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
                 <div id="passwordHelp2" class="form-text">由英文及數字組成，且必須包括 1 個英文大小寫以及 1 個數字</div>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback"></div>
               </div>
               <div class="clearfix">
                 <button type="submit" class="btn btn-primary">送出</button>
