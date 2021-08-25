@@ -25,6 +25,21 @@ if (
   die();
 }
 
+// if nickname doesn't match required length
+if (mb_strlen($_POST['nickname'], 'utf-8') < 1 || mb_strlen($_POST['nickname'], 'utf-8') > 10) {
+  // echo error response
+  $response = array(
+    'isSuccessful' => 'failed',
+    'displayError' => 'false',
+    'msg'          => 'regular expression check failed',
+    'detail'       => 'none'
+  );
+  $response = json_encode($response);
+  header('Content-Type: application/json;charset=utf-8');
+  echo $response;
+  die();
+}
+
 // check if post data is valid under RE
 if (
   !preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/', $_POST['account']) ||
