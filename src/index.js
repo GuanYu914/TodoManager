@@ -301,6 +301,56 @@ $(document).ready(() => {
     this.classList.add('was-validated')
   })
 
+  $('.btn-edit-profile').click(function (e) {
+    e.preventDefault()
+    // reset form validation status
+    $('.editProfileModal-form').removeClass('was-validated')
+    let currentUser = utils.getLoginUser()
+    // get current user nickname
+    $('#editProfileModal-form-nickname').val(currentUser.nickname)
+    // get current user account 
+    $('#editProfileModal-form-account').val(currentUser.account)
+    // clear password input
+    $('#editProfileModal-form-password').val('')
+    $('#editProfileModal').modal('show')
+  })
+
+
+  $('.editProfileModal-form').submit(function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (this.checkValidity()) {
+      ajax.OperationByAjax('form', 'update-user')
+      // enable spinner animation
+      $('.editProfileModal-form-spinner').toggleClass('hidden')
+    }
+    if (!this.checkValidity()) {
+      let password_val = $('#editProfileModal-form-password').val()
+
+      // if password is empty
+      if (!password_val) {
+        $('#editProfileModal-form-password').nextAll('.invalid-feedback').text('請輸入密碼')
+      } 
+      if (password_val) {
+        // if password length greater than 8
+        if (password_val.length >= 8) {
+          // password isn't empty, but don't match the rule
+          if (!password_val.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/)) {
+            $('#editProfileModal-form-password').nextAll('.invalid-feedback').text('請輸入至少一位英文大小寫跟數字')
+          } else {
+            $('#editProfileModal-form-password').nextAll('.valid-feedback').text('此密碼符合規則')
+          }
+        }
+        if (password_val.length < 8) {
+          $('#editProfileModal-form-password').nextAll('.invalid-feedback').text('密碼長度至少為 8 個字元')
+        }
+      }
+    }
+    // add 'was-validated' class name
+    this.classList.add('was-validated')
+  })
+
   // confirm logout event listener
   $('.btn-logout-confirm').click(() => {
     ajax.OperationByAjax('button', 'logout')

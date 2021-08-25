@@ -26,7 +26,7 @@
         <nav class="navbar navbar-light bg-light">
           <a class="navbar-brand fw-bold" href=".">代辦管家</a>
           <!-- navbar default style -->
-          <div class="d-flex align-items-center nav-button-block ">
+          <div class="d-flex flex-grow-1 justify-content-end align-items-center nav-button-block ">
             <button class="btn btn-primary btn-register me-2" type="button" data-bs-toggle="modal"
               data-bs-target="#registerModal">註冊</button>
             <button class="btn btn-outline-primary btn-login" type="button" data-bs-toggle="modal"
@@ -35,6 +35,7 @@
               <div class="profile-avatar circle bg-primary me-2"></div>
               <span class="profile-nickname"></span>
             </div>
+            <button class="d-none btn btn-outline-primary btn-edit-profile me-2" type="button" data-bs-toggle="modal" data-bs-target="#editProfileModal">編輯個人檔案</button>
             <button class="d-none btn btn-outline-primary btn-logout" type="button" data-bs-toggle="modal"
               data-bs-target="#logoutModal">登出</button>
           </div>
@@ -62,6 +63,7 @@
                       <div class="profile-avatar circle bg-primary me-2"></div>
                       <span class="profile-nickname"></span>
                     </div>
+                    <button class="d-none btn btn-outline-primary btn-edit-profile me-2  mt-3" type="button" data-bs-toggle="modal" data-bs-target="#editProfileModal" data-bs-dismiss="offcanvas">編輯個人檔案</button>
                     <button class="d-none btn btn-outline-primary btn-logout mt-3" type="button" data-bs-toggle="modal"
                       data-bs-target="#logoutModal" data-bs-dismiss="offcanvas">登出</button>
                   </li>
@@ -99,6 +101,7 @@
               <div class="mb-3">
                 <label for="account" class="col-form-label text-danger">* 帳號</label>
                 <input class="form-control" id="registerModal-form-account"  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
+                <div id="accountHelp1" class="form-text">帳號名稱註冊以後就不能變更了</div>
                 <div id="accountHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
                 <div id="accountHelp2" class="form-text">由英文及數字組成，且必須包括個英文大小寫以及數字</div>
                 <div class="valid-feedback"></div>
@@ -174,6 +177,51 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-logout-confirm" data-bs-dismiss="modal">確定</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- profile editing modal -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="編輯個人檔案" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">編輯個人資訊</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            <form class="editProfileModal-form needs-validation" novalidate>
+              <div class="mb-3">
+                <label for="nickName" class="col-form-label text-danger">* 您的暱稱</label>
+                <input type="text" class="form-control" id="editProfileModal-form-nickname" required maxlength="10">
+                <div id="nicknameHelp1" class="form-text">長度不得超過 10 個字元</div>
+                <div class="valid-feedback">
+                  長度已符合
+                </div>
+                <div class="invalid-feedback">
+                  請輸入暱稱
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="account" class="col-form-label text-danger">* 帳號</label>
+                <input class="form-control" id="editProfileModal-form-account" aria-label="帳號名稱不能改變" disabled>
+                <div id="accountHelp1" class="form-text">您無法變更帳號名稱</div>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="col-form-label text-danger">* 密碼</label>
+                <input type="password" class="form-control" id="editProfileModal-form-password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
+                <div id="passwordHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
+                <div id="passwordHelp2" class="form-text">由英文及數字組成，且必須包括個英文大小寫以及數字</div>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="clearfix">
+                <button type="submit" class="btn btn-primary">送出</button>
+                <div class="editProfileModal-form-spinner spinner-grow text-primary float-end hidden" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

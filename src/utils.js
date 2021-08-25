@@ -13,7 +13,9 @@ const utils = {
   getCurrentPillTabName: getCurrentPillTabName,
   updatePillTabs: updatePillTabs,
   checkFilterEnableStatus: checkFilterEnableStatus,
-  updateFilterIcon: updateFilterIcon
+  updateFilterIcon: updateFilterIcon,
+  updateLoginUser: updateLoginUser,
+  getLoginUser: getLoginUser
 }
 
 // switch UI to login state
@@ -28,6 +30,8 @@ function SwitchToLoginState(data) {
     // data = escapeHtml(data)
     $('.profile-nickname').text(`${data}, 您好`)
     $('.profile').toggleClass('d-none')
+    // show profile editing button
+    $('.btn-edit-profile').toggleClass('d-none')
     // show upload todos button
     $('.btn-store-on-db').toggleClass('d-none')
     return
@@ -103,6 +107,8 @@ function SwitchToLogoutState() {
   $('.btn-logout').toggleClass('d-none')
   $('.profile').toggleClass('d-none')
   $('.profile-nickname').text('')
+  // hide profile editing button
+  $('.btn-edit-profile').toggleClass('d-none')
   // show upload todos button
   $('.btn-store-on-db').toggleClass('d-none')
   // remove all previous stored todos
@@ -454,6 +460,20 @@ function recordCurrentEditedTodoObj (obj) {
 
 function getCurrentEditedTodoObj () {
   return todo.jq
+}
+
+const user = {
+  nickname: '',
+  account: ''
+}
+
+function updateLoginUser (nickname, account) {
+  user.nickname = nickname,
+  user.account = account
+}
+
+function getLoginUser () {
+  return user
 }
 
 module.exports = utils

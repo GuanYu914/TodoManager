@@ -98,6 +98,7 @@ function OperationByAjax(type, op) {
             return
           }
           if (json.isSuccessful === 'successful') {
+            utils.updateLoginUser(json.data.nickname, json.data.account)
             utils.SwitchToLoginState(json.data.nickname)
             OperationByAjax('general', 'get-todos')
           }
@@ -159,6 +160,7 @@ function OperationByAjax(type, op) {
           modal.DisplayModal('form', 'login-get-session', 'done-login-successfully')
           // remove 'hidden.bs.modal' event handler to prevent execute multiple times 
           $('#loginSuccessfully').off('hidden.bs.modal').on('hidden.bs.modal', () => {
+            utils.updateLoginUser(json.data.nickname, json.data.account)
             utils.SwitchToLoginState(json.data.nickname)
             OperationByAjax('general', 'get-todos')
           })
@@ -166,6 +168,37 @@ function OperationByAjax(type, op) {
         .fail(() => {
           modal.DisplayModal('form', 'login-get-session', 'fail-ajax-error')
         })
+    }
+    // update nickname, password of user
+    if (op === 'update-user') {
+      let nickname = $('#editProfileModal-form-nickname').val()
+      let password = $('#editProfileModal-form-password').val()
+      $.ajax({
+        method: 'POST',
+        url: 'http://192.168.0.15/todo_manager/handle_update_user.php',
+        xhrFields: { withCredentials: true },
+        data: {
+          nickname: nickname,
+          password: password
+        }
+      })
+        .done((json) => {
+          // hide spinner animation
+          $('.editProfileModal-form-spinner').toggleClass('hidden')
+          if (json.isSuccessful === 'failed') {
+            modal.DisplayModal('form', 'update-user', 'done-server-side-error')
+            return
+          }
+          // logout after hiding this modal
+          modal.DisplayModal('form', 'update-user', 'done-update-profile-successfully', () => {
+            OperationByAjax('button', 'logout')
+          })
+        })
+        .fail(() => {
+          // hide spinner animation
+          $('.editProfileModal-form-spinner').toggleClass('hidden')
+          modal.DisplayModal('form', 'update-user', 'fail-ajax-error')
+        }) 
     }
     return
   }
@@ -219,6 +252,7 @@ function OperationByAjax(type, op) {
           if (json.isSuccessful === 'failed') {
             return
           }
+          utils.updateLoginUser(json.data.nickname, json.data.account)
           utils.SwitchToLoginState(json.data.nickname)
           OperationByAjax('general', 'get-todos')
         })

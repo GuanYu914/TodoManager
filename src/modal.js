@@ -318,6 +318,50 @@ function InsertFlashModal(modalName, cb) {
     cb()
     return
   }
+  if (modalName === 'updateUserSuccessfully') {
+    $('.container:nth(1)').append(`
+    <div class="modal fade" id="updateUserSuccessfully" tabindex="-1" aria-labelledby="用戶更新注意事項" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">更新用戶資訊</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            更新用戶資訊成功，即將自動登出，請使用修改的密碼登入
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
+  if (modalName === 'updateUserUnsuccessfullyDueToServerError') {
+    $('.container:nth(1)').append(`
+    <div class="modal fade" id="updateUserUnsuccessfullyDueToServerError" tabindex="-1" aria-labelledby="用戶更新注意事項" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">更新用戶資訊失敗</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            伺服器發生錯誤，請稍後再試一次
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
 }
 
 // remove modal flash message
@@ -417,10 +461,23 @@ function RemoveFlashModal(modalName, cb) {
     })
     return
   }
+  if (modalName === 'updateUserSuccessfully') {
+    $('#updateUserSuccessfully').on('hidden.bs.modal', () => {
+      cb()
+      $('#updateUserSuccessfully').remove()
+    })
+    return
+  }
+  if (modalName === 'updateUserUnsuccessfullyDueToServerError') {
+    $('#updateUserUnsuccessfullyDueToServerError').on('hidden.bs.modal', () => {
+      cb()
+      $('#updateUserUnsuccessfullyDueToServerError').remove()
+    })
+  }
 }
 
 // display multiple modals
-function DisplayModal(type, op, state) {
+function DisplayModal(type, op, state, cb) {
   if (type === 'input') {
     if (op === 'submit') {
       if (state === 'empty-content') {
@@ -591,6 +648,39 @@ function DisplayModal(type, op, state) {
         })
         RemoveFlashModal('ajaxSendErrorModal', () => {
           $('#loginModal').modal('show')
+        })
+        return
+      }
+      return
+    }
+    if (op === 'update-user') {
+      if (state === 'done-server-side-error') {
+        $('#editProfileModal').modal('hide')
+        InsertFlashModal('updateUserUnsuccessfullyDueToServerError', () => {
+          $('#updateUserUnsuccessfullyDueToServerError').modal('show')
+        })
+        RemoveFlashModal('updateUserUnsuccessfullyDueToServerError', () => {
+          $('#editProfileModal').modal('show')
+        })
+        return
+      }
+      if (state === 'done-update-profile-successfully') {
+        $('#editProfileModal').modal('hide')
+        InsertFlashModal('updateUserSuccessfully', () => {
+          $('#updateUserSuccessfully').modal('show')
+        })
+        RemoveFlashModal('updateUserSuccessfully', () => {
+          cb()
+        })
+        return
+      }
+      if (state === 'fail-ajax-error') {
+        $('#editProfileModal').modal('hide')
+        InsertFlashModal('ajaxSendErrorModal', () => {
+          $('#ajaxSendErrorModal').modal('show')
+        })
+        RemoveFlashModal('ajaxSendErrorModal', () => {
+          $('#editProfileModal').modal('show')
         })
         return
       }
