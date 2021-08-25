@@ -185,17 +185,18 @@ $(document).ready(() => {
 
   // registerModal-form submit event listener
   $('.registerModal-form').submit(function(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    // reset form validation status
+    $('.registerModal-form').removeClass('was-validated')
     // pass form check, then send ajax request
     if (this.checkValidity()) {
-      e.preventDefault()
       ajax.OperationByAjax('form', 'register')
       // enable spinner animation
       $('.registerModal-form-spinner').toggleClass('hidden')
     }
     // don't pass form check, display relative warning
     if (!this.checkValidity()) {
-      e.preventDefault()
-      e.stopPropagation()
       // get account & password info
       let account_val = $('#registerModal-form-account').val()
       let password_val = $('#registerModal-form-password').val()
@@ -244,17 +245,18 @@ $(document).ready(() => {
 
   // loginModal-form submit event listener
   $('.loginModal-form').submit(function (e) {
+    e.preventDefault()
+    e.stopPropagation()
+    // reset form validation status
+    $('.loginModal-form').removeClass('was-validated')
     // pass form check, then send ajax request
     if (this.checkValidity()) {
-      e.preventDefault()
       ajax.OperationByAjax('form', 'login')
       // enable spinner animation
       $('.loginModal-form-spinner').toggleClass('hidden')
     }
     // don't pass form check, display relative warning
     if (!this.checkValidity()) {
-      e.preventDefault()
-      e.stopPropagation()
       // get account & password info
       let account_val = $('#loginModal-form-account').val()
       let password_val = $('#loginModal-form-password').val()
