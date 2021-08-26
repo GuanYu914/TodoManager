@@ -63,7 +63,7 @@ function SwitchToLoginState(data) {
       // add to all todos tab
       if (data[i].checked === 1) {
         $('.list-group-all').prepend(`
-       <div class="list-group-item todo" data-todo-id=${i+1}>
+       <div class="list-group-item done" data-todo-id=${i+1}>
           <div class="categories-tags">
             ${categories_htmlCode}
           </div>
