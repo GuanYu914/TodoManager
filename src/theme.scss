@@ -1,5 +1,26 @@
 // put customized color here...
+$primary:   #9e6835;
+$secondary: #6c757d;
+$success:   #198754;
+$info:      #c98f4d;
+$warning:   #ffc107;
+$danger:    #dc3545;
+$light:     #f8f9fa;
+$dark:      #212529;
 
+$navbar-light-brand-color: $primary;
+$navbar-light-brand-hover-color: $primary;
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+);
 // require for bootstrap
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";

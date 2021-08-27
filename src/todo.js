@@ -46,7 +46,7 @@ function addTodoEventListener() {
         <div class="list-group-item todo" data-todo-id=${TodoID}>
           <div class="categories-tags">
             <h4 class="d-inline category-badge">
-              <span class="align-middle badge rounded-pill bg-secondary">
+              <span class="align-middle badge rounded-pill bg-primary">
                 <span class="align-middle category-name">優先性：低</span>
               </span>
             </h4>
@@ -250,7 +250,7 @@ function addCategoryOnTodoInfoModalEventListener() {
     if (content) {
       $('.modal-body > .categories-block > .categories-tags').prepend(`
         <h4 class="d-inline category-badge">
-          <span class="align-middle badge rounded-pill bg-secondary mb-2">
+          <span class="align-middle badge rounded-pill bg-info mb-2">
             <span class="align-middle category-name">${utils.escapeHtml(content)}</span>
             <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
           </span>
@@ -287,7 +287,7 @@ function addCategoryOnTodoInfoModalEventListener() {
       if (content) {
         $('.modal-body > .categories-block > .categories-tags').prepend(`
           <h4 class="d-inline category-badge">
-            <span class="align-middle badge rounded-pill bg-secondary mb-2">
+            <span class="align-middle badge rounded-pill bg-info mb-2">
               <span class="align-middle category-name">${utils.escapeHtml(content)}</span>
               <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
             </span>
@@ -360,7 +360,7 @@ function openTodoInfoModalEventListener() {
       for (let i = 1; i < categoriesOfTodo.length; i++) {
         $('.modal-body > .categories-block > .categories-tags').append(`
           <h4 class="d-inline category-badge">
-            <span class="align-middle badge rounded-pill bg-secondary mb-2">
+            <span class="align-middle badge rounded-pill bg-info mb-2">
               <span class="align-middle category-name">${utils.escapeHtml(categoriesOfTodo[i])}</span>
               <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
             </span>
@@ -420,7 +420,7 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
     if (priority) {
       e.children('.categories-tags').append(`
         <h4 class="d-inline category-badge">
-          <span class="align-middle badge rounded-pill bg-secondary">
+          <span class="align-middle badge rounded-pill bg-primary">
             <span class="align-middle category-name">優先性：${utils.escapeHtml(priority)}</span>
           </span>
         </h4>
@@ -430,7 +430,7 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
       for (let i = 0; i < currentCategories.length; i++) {
         e.children('.categories-tags').append(`
           <h4 class="d-inline category-badge">
-            <span class="align-middle badge rounded-pill bg-secondary">
+            <span class="align-middle badge rounded-pill bg-info">
               <span class="align-middle category-name">${utils.escapeHtml(currentCategories[i])}</span>
               <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
             </span>
@@ -475,7 +475,7 @@ function addCategoryFromExistedCategoriesEventListener() {
     // add to categories tags block
     $('.modal-body > .categories-block > .categories-tags').prepend(`
       <h4 class="d-inline category-badge">
-        <span class="align-middle badge rounded-pill bg-secondary mb-2">
+        <span class="align-middle badge rounded-pill bg-info mb-2">
           <span class="align-middle category-name">${utils.escapeHtml(clickedCategoryName)}</span>
           <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
         </span>

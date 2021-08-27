@@ -45,7 +45,7 @@ function SwitchToLoginState(data) {
       categories = categories.replace(/\s+/g, ' ').split(' ')
       let categories_htmlCode = `
       <h4 class="d-inline">
-        <span class="align-middle badge rounded-pill bg-secondary">
+        <span class="align-middle badge rounded-pill bg-primary">
           <span class="align-middle category-name">${escapeHtml(categories[0])}</span>
         </span>
       </h4>\n
@@ -53,7 +53,7 @@ function SwitchToLoginState(data) {
       for (let i = 1; i < categories.length; i++) {
         categories_htmlCode += `
         <h4 class="d-inline">
-          <span class="align-middle badge rounded-pill bg-secondary">
+          <span class="align-middle badge rounded-pill bg-info">
             <span class="align-middle category-name">${escapeHtml(categories[i])}</span>
             <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
           </span>
