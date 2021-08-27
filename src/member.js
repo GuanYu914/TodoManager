@@ -11,6 +11,14 @@ function initMemberAllEventListener() {
   logoutEventListener()
   openEditProfileModalEventListener()
   EditUserProfileEventListener()
+  showLogoutModal()
+}
+
+
+function showLogoutModal() {
+  $('.btn-logout').click(() => {
+    $('#logoutModal').modal('show')
+  })
 }
 
 // registerModal-form submission
@@ -143,6 +151,7 @@ function logoutEventListener() {
 // show editProfile modal
 function openEditProfileModalEventListener() {
   $('.btn-edit-profile').click(function (e) {
+    $('#editProfileModal').modal('show')
     e.preventDefault()
     // reset form validation status
     $('.editProfileModal-form').removeClass('was-validated')
