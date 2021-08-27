@@ -4,7 +4,7 @@
   "description": "- 新增 / 讀取 / 修改 / 刪除 代辦事項\r - 提醒剩餘多少代辦事項\r - 一鍵清除所有已完成代辦事項\r - 分類檢視代辦事項是否完成\r - 線上儲存代辦事項 (需要登入會員)\r - 會員登入 / 登出",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production",
     "start": "webpack serve --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/GuanYu914/todo_manager#readme",
   "devDependencies": {
+    "bootstrap": "^5.1.0",
     "css-loader": "^6.2.0",
+    "sass": "^1.38.1",
     "style-loader": "^3.2.1",
     "webpack": "^5.49.0",
     "webpack-cli": "^4.7.2",
