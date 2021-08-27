@@ -1,4 +1,12 @@
-import css from "./index.css";
+// load js files for bootstrap
+const bs_alert = require('../node_modules/bootstrap/js/src/alert')
+const bs_base_cp = require('../node_modules/bootstrap/js/src/base-component')
+const bs_btn = require('../node_modules/bootstrap/js/src/button')
+const bs_dropdown = require('../node_modules/bootstrap/js/src/dropdown')
+const bs_modal = require('../node_modules/bootstrap/js/src/modal')
+const bs_offcanvas = require('../node_modules/bootstrap/js/src/offcanvas')
+const bs_tab = require('../node_modules/bootstrap/js/src/tab')
+// load pre-defined js files 
 const ajax = require('./ajax')
 const todo = require('./todo')
 const member = require('./member')
