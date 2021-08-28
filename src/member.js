@@ -11,9 +11,22 @@ function initMemberAllEventListener() {
   logoutEventListener()
   openEditProfileModalEventListener()
   EditUserProfileEventListener()
+  showRegisterModal()
+  showLoginModal()
   showLogoutModal()
 }
 
+function showRegisterModal() {
+  $('.btn-register').click(() => {
+    $('#registerModal').modal('show')
+  })
+}
+
+function showLoginModal() {
+  $('.btn-login').click(() => {
+    $('#loginModal').modal('show')
+  })
+}
 
 function showLogoutModal() {
   $('.btn-logout').click(() => {
