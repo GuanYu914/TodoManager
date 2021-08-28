@@ -46,7 +46,7 @@ function addTodoEventListener() {
         <div class="list-group-item todo" data-todo-id=${TodoID}>
           <div class="categories-tags">
             <h4 class="d-inline category-badge">
-              <span class="align-middle badge rounded-pill bg-primary">
+              <span class="align-middle badge rounded-pill bg-primary mb-1">
                 <span class="align-middle category-name">優先性：低</span>
               </span>
             </h4>
@@ -331,7 +331,7 @@ function openTodoInfoModalEventListener() {
       existedCategoriesName.push(currentCategoriesName)
       $('.modal-body > .categories-block > .existed-categories-tags').append(`
       <h4 class="d-inline category-badge">
-        <span class="align-middle badge rounded-pill bg-primary pointer">
+        <span class="align-middle badge rounded-pill bg-info pointer mb-1">
           <span class="align-middle category-name">${utils.escapeHtml(currentCategoriesName)}</span>
         </span>
       </h4>
@@ -420,7 +420,7 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
     if (priority) {
       e.children('.categories-tags').append(`
         <h4 class="d-inline category-badge">
-          <span class="align-middle badge rounded-pill bg-primary">
+          <span class="align-middle badge rounded-pill bg-primary mb-1">
             <span class="align-middle category-name">優先性：${utils.escapeHtml(priority)}</span>
           </span>
         </h4>
@@ -430,7 +430,7 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
       for (let i = 0; i < currentCategories.length; i++) {
         e.children('.categories-tags').append(`
           <h4 class="d-inline category-badge">
-            <span class="align-middle badge rounded-pill bg-info">
+            <span class="align-middle badge rounded-pill bg-info mb-1">
               <span class="align-middle category-name">${utils.escapeHtml(currentCategories[i])}</span>
               <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
             </span>
