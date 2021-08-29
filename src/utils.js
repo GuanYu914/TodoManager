@@ -68,7 +68,7 @@ function SwitchToLoginState(data) {
             ${categories_htmlCode}
           </div>
           <div class="d-flex list-group-item-user-operation align-items-center mt-2">
-            <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox" checked>
+            <input class="flex-shrink-0 form-check-input pointer mt-0 me-2 " type="checkbox" checked>
             <p class="flex-grow-1 text-break list-group-item-p space complete p-2 me-2 mb-0">${escapeHtml(data[i].content)}</p>
             <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
             <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
@@ -83,7 +83,7 @@ function SwitchToLoginState(data) {
              ${categories_htmlCode}
            </div>
            <div class="d-flex list-group-item-user-operation align-items-center mt-2">
-             <input class="flex-shrink-0 form-check-input pointer me-3 " type="checkbox">
+             <input class="flex-shrink-0 form-check-input pointer mt-0 me-2" type="checkbox">
              <p class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${escapeHtml(data[i].content)}</p>
              <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
              <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
