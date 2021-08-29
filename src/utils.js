@@ -44,16 +44,16 @@ function SwitchToLoginState(data) {
       let categories = data[i].categories
       categories = categories.replace(/\s+/g, ' ').split(' ')
       let categories_htmlCode = `
-      <h4 class="d-inline">
-        <span class="align-middle badge rounded-pill bg-primary mb-1">
+      <h4 class="d-inline-flex mb-1">
+        <span class="align-middle badge rounded-pill bg-primary">
           <span class="align-middle category-name">${escapeHtml(categories[0])}</span>
         </span>
       </h4>\n
       `
       for (let i = 1; i < categories.length; i++) {
         categories_htmlCode += `
-        <h4 class="d-inline">
-          <span class="align-middle badge rounded-pill bg-info mb-1">
+        <h4 class="d-inline-flex mb-1">
+          <span class="align-middle badge rounded-pill bg-info">
             <span class="align-middle category-name">${escapeHtml(categories[i])}</span>
             <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
           </span>
@@ -262,7 +262,7 @@ function updateCategoriesDropdownList() {
   let currentCategoriesName = ''
   let categories = $('.list-group-all > .list-group-item > .categories-tags')
   // get current categories list from all todos 
-  categories.find('.d-inline:nth-child(n+2)').each(function () {
+  categories.find('.d-inline-flex:nth-child(n+2)').each(function () {
     currentCategoriesName = $(this).find('.category-name').text()
     // if currentCategories was added to existedCategoriesName array, then skip the operation
     for (let i = 0; i < existedCategoriesName.length; i++) {
@@ -366,34 +366,34 @@ function applyFilterSettingFromDropdown() {
   // if priority is set, then generate result according to filter setting | 如果有設置優先性，則根據設置的清單內容調整
   if (priority_filter_title !== '優先性') {
     if (priority_filter_title === '由高至低') {
-      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline:first-child').each(function () {
+      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline-flex:first-child').each(function () {
         if ($(this).find('.category-name').text() === '優先性：高') {
           tmpSortedTodoList.push($(this).parents('.list-group-item').clone().addClass('filtered-priority').removeClass('d-none'))
         }
       })
-      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline:first-child').each(function () {
+      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline-flex:first-child').each(function () {
         if ($(this).find('.category-name').text() === '優先性：中') {
           tmpSortedTodoList.push($(this).parents('.list-group-item').clone().addClass('filtered-priority').removeClass('d-none'))
         }
       })
-      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline:first-child').each(function () {
+      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline-flex:first-child').each(function () {
         if ($(this).find('.category-name').text() === '優先性：低') {
           tmpSortedTodoList.push($(this).parents('.list-group-item').clone().addClass('filtered-priority').removeClass('d-none'))
         }
       })
     }
     if (priority_filter_title === '由低至高') {
-      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline:first-child').each(function () {
+      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline-flex:first-child').each(function () {
         if ($(this).find('.category-name').text() === '優先性：低') {
           tmpSortedTodoList.push($(this).parents('.list-group-item').clone().addClass('filtered-priority').removeClass('d-none'))
         }
       })
-      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline:first-child').each(function () {
+      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline-flex:first-child').each(function () {
         if ($(this).find('.category-name').text() === '優先性：中') {
           tmpSortedTodoList.push($(this).parents('.list-group-item').clone().addClass('filtered-priority').removeClass('d-none'))
         }
       })
-      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline:first-child').each(function () {
+      $('.list-group-all > .list-group-item > .categories-tags').find('.d-inline-flex:first-child').each(function () {
         if ($(this).find('.category-name').text() === '優先性：高') {
           tmpSortedTodoList.push($(this).parents('.list-group-item').clone().addClass('filtered-priority').removeClass('d-none'))
         }
