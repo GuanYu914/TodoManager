@@ -11,7 +11,7 @@ const ajax = require('./ajax')
 const todo = require('./todo')
 const member = require('./member')
 
-$(document).ready(() => {
+$(function () {
   console.log('document loaded completely')
   // if page reloaded, read session state
   ajax.OperationByAjax('general', 'reload-get-session')

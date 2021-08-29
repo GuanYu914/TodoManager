@@ -29,7 +29,7 @@ function initTodoAllEventListener() {
 function addTodoEventListener() {
   $('#input-todo-content').on('keyup', (e) => {
     // detect 'Enter' input
-    if (e.key === 'Enter' || e.keyCode === 13) {
+    if (e.key === 'Enter') {
       // if input is not empty
       if ($('#input-todo-content').val() !== '') {
         // use data-todo-id attribute to represent todo id 
@@ -120,7 +120,7 @@ function displayTodoDeletionConfirmModalEventListener() {
 
 // clear all finished todos
 function clearAllTodosEventListener() {
-  $('.btn-clear-todo').click(() => {
+  $('.btn-clear-todo').on('click', () => {
     // check if filter mode is on ?
     if (utils.checkFilterEnableStatus()) {
       modal.DisplayModal('button', 'clear-todos', 'under-filter-mode')
@@ -161,14 +161,14 @@ function completeTodoEventListener() {
 // switch pill tabs
 function switchTabEventListener() {
   // switch to unfinished-tab
-  $('#unfinished-tab').click((e) => {
+  $('#unfinished-tab').on('click', (e) => {
     // apply dropdown filter condition & update current pill tab content | 套用篩選機制 & 更新目前 pill tab 
     utils.applyFilterSettingFromDropdown()
     utils.updatePillTabs('unfinished')
   })
 
   // switch to finished-tab
-  $('#finished-tab').click((e) => {
+  $('#finished-tab').on('click', (e) => {
     // apply dropdown filter condition & update current pill tab content | 套用篩選機制 & 更新目前 pill tab 
     utils.applyFilterSettingFromDropdown()
     utils.updatePillTabs('finished')
@@ -178,7 +178,7 @@ function switchTabEventListener() {
 // upload todo list to server database
 // registered user only
 function uploadTodosEventListener() {
-  $('.btn-store-on-db').click((e) => {
+  $('.btn-store-on-db').on('click', (e) => {
     // if todo list is empty, show modal to inform user
     const todos = $('.list-group-all > .list-group-item').length
     if (todos === 0) {
@@ -218,7 +218,7 @@ function todoOperationUnderFilterModeEventListener() {
 
 // open filter modal 
 function openFilterModalOnMobileEventListener() {
-  $('.filter-icon').click(() => {
+  $('.filter-icon').on('click', () => {
     $('#filterModal').modal('show') 
   })
 }
@@ -226,7 +226,7 @@ function openFilterModalOnMobileEventListener() {
 // add categories of todo event listener 
 function addCategoryOnTodoInfoModalEventListener() {
   // by pressing button
-  $('.btn-add-category-name').click(() => {
+  $('.btn-add-category-name').on('click', () => {
     // get current categories number, maximum number is 6
     // if number reached maximum, don't do anything then clear input
     let totalCategories = $('.modal-body > .categories-block > .categories-tags > .category-badge').length
@@ -263,7 +263,7 @@ function addCategoryOnTodoInfoModalEventListener() {
 
   // by pressing key
   $('#category-input-content').on('keyup', (e) => {
-    if (e.key === 'Enter' || e.keyCode === 13) {  // press enter key
+    if (e.key === 'Enter') {  // press enter key
       // get current categories number, maximum number is 6
       // if number reached maximum, don't do anything then clear input
       let totalCategories = $('.modal-body > .categories-block > .categories-tags > .category-badge').length
@@ -396,7 +396,7 @@ function openTodoInfoModalEventListener() {
 
 // set todo info from TodoInfo modal
 function setTodoInfoWithTodoInfoModalValueEventListener() {
-  $('.btn-todo-info-icon-confirm').click(() => {
+  $('.btn-todo-info-icon-confirm').on('click', () => {
     // get current edited todo
     let e = utils.getCurrentEditedTodoObj() 
     // get all categories name
@@ -487,7 +487,7 @@ function addCategoryFromExistedCategoriesEventListener() {
 // priority filter 
 function priorityFilterAllEventListener() {
   // click priority filter event listener
-  $('.priority-filter-title').click(() => {
+  $('.priority-filter-title').on('click', () => {
     // if priority filter is set
     if ($('.priority-filter-title').get(0).innerText.trim() !== '優先性') {
       // if it doesn't generate remove message block, then add it

@@ -17,26 +17,26 @@ function initMemberAllEventListener() {
 }
 
 function showRegisterModal() {
-  $('.btn-register').click(() => {
+  $('.btn-register').on('click', () => {
     $('#registerModal').modal('show')
   })
 }
 
 function showLoginModal() {
-  $('.btn-login').click(() => {
+  $('.btn-login').on('click', () => {
     $('#loginModal').modal('show')
   })
 }
 
 function showLogoutModal() {
-  $('.btn-logout').click(() => {
+  $('.btn-logout').on('click', () => {
     $('#logoutModal').modal('show')
   })
 }
 
 // registerModal-form submission
 function registerSubmitEventListener() {
-  $('.registerModal-form').submit(function (e) {
+  $('.registerModal-form').on('submit', function (e) {
     e.preventDefault()
     e.stopPropagation()
     // reset form validation status
@@ -96,7 +96,7 @@ function registerSubmitEventListener() {
 
 // loginModal-form submission
 function loginSubmitEventListener() {
-  $('.loginModal-form').submit(function (e) {
+  $('.loginModal-form').on('submit', function (e) {
     e.preventDefault()
     e.stopPropagation()
     // reset form validation status
@@ -156,14 +156,14 @@ function loginSubmitEventListener() {
 
 // show logout confirmation modal
 function logoutEventListener() {
-  $('.btn-logout-confirm').click(() => {
+  $('.btn-logout-confirm').on('click', () => {
     ajax.OperationByAjax('button', 'logout')
   })
 }
 
 // show editProfile modal
 function openEditProfileModalEventListener() {
-  $('.btn-edit-profile').click(function (e) {
+  $('.btn-edit-profile').on('click', function (e) {
     $('#editProfileModal').modal('show')
     e.preventDefault()
     // reset form validation status
@@ -181,7 +181,7 @@ function openEditProfileModalEventListener() {
 
 // update user profile
 function EditUserProfileEventListener() {
-  $('.editProfileModal-form').submit(function (e) {
+  $('.editProfileModal-form').on('submit', function (e) {
     e.preventDefault()
     e.stopPropagation()
 
