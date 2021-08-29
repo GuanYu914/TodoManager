@@ -139,7 +139,7 @@ function getAllUploadData() {
       // get content
       content = $(this).find('.list-group-item-p').text()
       // get categories
-      $(this).find('.categories-tags > .d-inline').each(function () {
+      $(this).find('.categories-tags > .d-inline-flex').each(function () {
         // use trim to remove space character in both ends of string 
         categories.push($(this).find('.category-name').get(0).innerText.trim())
       })
