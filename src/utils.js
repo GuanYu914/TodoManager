@@ -15,7 +15,11 @@ const utils = {
   checkFilterEnableStatus: checkFilterEnableStatus,
   updateFilterIcon: updateFilterIcon,
   updateLoginUser: updateLoginUser,
-  getLoginUser: getLoginUser
+  getLoginUser: getLoginUser,
+  storedUploadedTodosIntoLocal: storedUploadedTodosIntoLocal,
+  checkCurrentLoginUserHaveLocalUploadedTodos: checkCurrentLoginUserHaveLocalUploadedTodos,
+  getUploadedTodosFromLocal: getUploadedTodosFromLocal,
+  removeUploadedTodosInLocal: removeUploadedTodosInLocal
 }
 
 // switch UI to login state
@@ -448,6 +452,43 @@ function getOriginalTodo(obj) {
     }
   })
   return res
+}
+
+// store uploaded todos into local storage
+function storedUploadedTodosIntoLocal() {
+  const current_user = getLoginUser()
+  const uploadedTodos = {
+    current_user,
+    current_uploaded_data: getAllUploadData()
+  }
+  const stored_key = `uploadedTodos-${current_user.account}`
+  localStorage.setItem(stored_key, JSON.stringify(uploadedTodos))
+}
+
+// get all uploaded todos from local storage, then render all
+function getUploadedTodosFromLocal() {
+  const current_user = getLoginUser()
+  const data = JSON.parse(localStorage.getItem(`uploadedTodos-${current_user.account}`))
+  SwitchToLoginState(data.current_uploaded_data)
+}
+
+// check if current user has uploaded todos in local storage
+function checkCurrentLoginUserHaveLocalUploadedTodos() {
+  const current_user = getLoginUser()
+  const data = JSON.parse(localStorage.getItem(`uploadedTodos-${current_user.account}`))
+  if (data !== null) {
+    if (data.current_user.account === current_user.account) {
+      return true
+    }
+    return false
+  }
+  return false
+}
+
+// remove uploaded todos in local storage
+function removeUploadedTodosInLocal() {
+  const current_user = getLoginUser()
+  localStorage.removeItem(`uploadedTodos-${current_user.account}`)
 }
 
 const todo = {

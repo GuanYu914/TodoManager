@@ -306,7 +306,7 @@ function InsertFlashModal(modalName, cb) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
           </div>
           <div class="modal-body">
-            無法上傳代辦事項，請稍後在試
+            無法上傳代辦事項到伺服器，已經將目前所有代辦事項離線儲存，請稍後再上傳一次
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
@@ -351,6 +351,50 @@ function InsertFlashModal(modalName, cb) {
           </div>
           <div class="modal-body">
             伺服器發生錯誤，請稍後再試一次
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
+  if (modalName === 'getTodoUnsuccessfully') {
+    $('.container:nth(1)').append(`
+    <div class="modal fade" id="getTodoUnsuccessfully" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">貼心提醒</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            伺服器發生錯誤，請稍後再試一次
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
+  if (modalName === 'getTodoLocally') {
+    $('.container:nth(1)').append(`
+    <div class="modal fade" id="getTodoLocally" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">貼心提醒</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            目前代辦事項為離線儲存資訊，請上傳到伺服器端同步
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
@@ -472,6 +516,18 @@ function RemoveFlashModal(modalName, cb) {
     $('#updateUserUnsuccessfullyDueToServerError').on('hidden.bs.modal', () => {
       cb()
       $('#updateUserUnsuccessfullyDueToServerError').remove()
+    })
+  }
+  if (modalName === 'getTodoUnsuccessfully') {
+    $('#getTodoUnsuccessfully').on('hidden.bs.modal', () => {
+      cb()
+      $('#getTodoUnsuccessfully').remove()
+    })
+  }
+  if (modalName === 'getTodoLocally') {
+    $('#getTodoLocally').on('hidden.bs.modal', () => {
+      cb()
+      $('#getTodoLocally').remove()
     })
   }
 }
@@ -775,11 +831,17 @@ function DisplayModal(type, op, state, cb) {
         RemoveFlashModal('ajaxSendErrorModal', () => {})
         return
       }
-      if (state === 'done-upload-todos-unsuccessfully') {
-        InsertFlashModal('uploadTodoUnsuccessfully', () => {
-          $('#uploadTodoUnsuccessfully').modal('show')
+      if (state === 'done-get-todos-locally') {
+        InsertFlashModal('getTodoLocally', () => {
+          $('#getTodoLocally').modal('show')
         })
-        RemoveFlashModal('uploadTodoUnsuccessfully', () => {})
+        RemoveFlashModal('getTodoLocally', () => {})
+      }
+      if (state === 'done-get-todos-unsuccessfully') {
+        InsertFlashModal('getTodoUnsuccessfully', () => {
+          $('#getTodoUnsuccessfully').modal('show')
+        })
+        RemoveFlashModal('getTodoUnsuccessfully', () => {})
         return
       }
       return

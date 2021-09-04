@@ -214,15 +214,24 @@ function OperationByAjax(type, op) {
         .done(json => {
           if (json.isSuccessful === 'successful') {
             modal.DisplayModal('button', 'upload-todos', 'done-upload-todos-successfully')
+            // remove any uploaded todos on local storage |  移除任何離線儲存的資料
+            utils.removeUploadedTodosInLocal()
             return
           }
           if (json.isSuccessful === 'failed') {
+            // write uploaded todos into local storage | 寫入到 localStorage
+            utils.storedUploadedTodosIntoLocal()
+            // display modal about storing current todos into local storage | 顯示儲存目前代辦事項到本地端訊息
             modal.DisplayModal('button', 'upload-todos', 'done-upload-todos-unsuccessfully')
             return
           }
         })
         .fail(() => {
-          modal.DisplayModal('button', 'upload-todos', 'fail-ajax-error')
+          // write uploaded todos into local storage | 寫入到 localStorage
+          utils.storedUploadedTodosIntoLocal()
+          // display modal about storing current todos into local storage | 顯示儲存目前代辦事項到本地端訊息
+          modal.DisplayModal('button', 'upload-todos', 'done-upload-todos-unsuccessfully')
+          // modal.DisplayModal('button', 'upload-todos', 'fail-ajax-error')
         })
       return
     }
@@ -269,16 +278,40 @@ function OperationByAjax(type, op) {
       })
         .done((json) => {
           if (json.isSuccessful === 'failed') {
-            modal.DisplayModal('general', 'get-todos', 'done-upload-todos-unsuccessfully')
-            return
+            // 先檢查是否有本地端資訊，有的話讀出來並顯示目前代辦事項是離線儲存的
+            // check local storage first, if it existed, then show modal about current todos info is located in local storage
+            if (utils.checkCurrentLoginUserHaveLocalUploadedTodos()) {
+              utils.getUploadedTodosFromLocal()
+              modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
+              return
+            }
+            // 沒有的話，顯示目前伺服器有錯
+            // if it is doesn't, show server-side error modal
+            modal.DisplayModal('general', 'get-todos', 'fail-ajax-error')
           }
 
           if (json.isSuccessful === 'successful') {
+            if (utils.checkCurrentLoginUserHaveLocalUploadedTodos()) {
+              // get todos from local storage | 直接從 local storage 拿所有代辦事項
+              utils.getUploadedTodosFromLocal()
+              // display modal about current todos info is located in local storage | 顯示目前代辦事項是離線儲存的
+              modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
+              return
+            }
             utils.SwitchToLoginState(json.data)
             return
           }
         })
         .fail(() => {
+          // 先檢查是否有本地端資訊，有的話讀出來並顯示目前代辦事項是離線儲存的
+          // check local storage first, if it existed, then show modal about current todos info is located in local storage
+          if (utils.checkCurrentLoginUserHaveLocalUploadedTodos()) {
+            utils.getUploadedTodosFromLocal()
+            modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
+            return
+          }
+          // 沒有的話，顯示目前伺服器有錯
+          // if it is doesn't, show server-side error modal
           modal.DisplayModal('general', 'get-todos', 'fail-ajax-error')
         })
     }
