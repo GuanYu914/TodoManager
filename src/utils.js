@@ -77,7 +77,7 @@ function SwitchToLoginState(data) {
           <div class="d-flex list-group-item-user-operation align-items-center mt-2">
             <input class="flex-shrink-0 form-check-input pointer mt-0 me-2 " type="checkbox" checked>
             <p class="flex-grow-1 text-break list-group-item-p space complete p-2 me-2 mb-0">${escapeHtml(data[i].content)}</p>
-            <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
+            <img src="./img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
             <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
           </div>
           <div class="comment-block text-secondary space mt-2">${escapeHtml(data[i].comment)}</div>
@@ -92,7 +92,7 @@ function SwitchToLoginState(data) {
            <div class="d-flex list-group-item-user-operation align-items-center mt-2">
              <input class="flex-shrink-0 form-check-input pointer mt-0 me-2" type="checkbox">
              <p class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${escapeHtml(data[i].content)}</p>
-             <img src="/img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
+             <img src="./img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
              <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
            </div>
            <div class="comment-block text-secondary space mt-2">${escapeHtml(data[i].comment)}</div>
@@ -314,7 +314,7 @@ function updateFilterIcon() {
     let categories_filter = $('.categories-filter-title').get(0).innerText.trim()
 
     if (priority_filter !== '優先性' || categories_filter !== '分類') {
-      $('.filter-icon').attr('src', '/img/filter-right-selected.svg')
+      $('.filter-icon').attr('src', './img/filter-right-selected.svg')
       return
     }
     $('.filter-icon').attr('src', '/img/filter-right.svg')
