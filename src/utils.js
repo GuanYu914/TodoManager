@@ -31,13 +31,14 @@ function SwitchToLoginState(data) {
     // show logout button & profile block in DOM tree
     $('.btn-logout').toggleClass('d-none')
     // prevent xss attack
-    // data = escapeHtml(data)
     $('.profile-nickname').text(`${data}, 您好`)
     $('.profile').toggleClass('d-none')
     // show profile editing button
     $('.btn-edit-profile').toggleClass('d-none')
     // show upload todos button
     $('.btn-store-on-db').toggleClass('d-none')
+    // show totals tab
+    $('#pills-tab li:first-child button').tab('show')
     return
   }
   // data is todos
@@ -115,8 +116,14 @@ function SwitchToLogoutState() {
   $('.btn-edit-profile').toggleClass('d-none')
   // show upload todos button
   $('.btn-store-on-db').toggleClass('d-none')
-  // remove all previous stored todos
+  // remove all previous stored todos on every pill tabs
   $('.list-group-all').empty()
+  $('.list-group-unfinished').empty()
+  $('.list-group-finished').empty()
+  // reset filter 
+  $('.priority-filter-title').text('優先性')
+  $('.categories-filter-title').text('分類')
+  updateFilterIcon()
   getUnfinishedTodos()
   // add alert message
   $('.alert-block').empty()
