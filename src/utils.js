@@ -37,6 +37,8 @@ function SwitchToLoginState(data) {
     $('.btn-edit-profile').toggleClass('d-none')
     // show upload todos button
     $('.btn-store-on-db').toggleClass('d-none')
+    // clean previous todos 
+    $('.list-group-all').empty()
     // show totals tab
     $('#pills-tab li:first-child button').tab('show')
     return
