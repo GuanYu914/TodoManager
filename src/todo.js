@@ -127,9 +127,7 @@ function clearAllTodosEventListener() {
       return
     }
     // clear all todos with 'done' status
-    $('.list-group-all > .list-group-item.done').fadeOut('fast', function () {
-      $(this).remove()
-    })
+    $('.list-group-all > .list-group-item.done').remove()
     // apply dropdown filter condition & update current pill tab content
     utils.applyFilterSettingFromDropdown()
     utils.updatePillTabs(utils.getCurrentPillTabName())
@@ -204,9 +202,7 @@ function todoOperationUnderFilterModeEventListener() {
       ajax.OperationByAjax('button', 'upload-todos')
     }
     if (op_name === 'clearAllTodos') {
-      $('.list-group-all > .list-group-item.done').fadeOut('fast', function () {
-        $(this).remove()
-      })
+      $('.list-group-all > .list-group-item.done').remove()
       // apply filter condition & update current pill tab content 
       utils.applyFilterSettingFromDropdown()
       utils.updatePillTabs(utils.getCurrentPillTabName())
