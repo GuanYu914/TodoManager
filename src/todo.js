@@ -53,11 +53,11 @@ function addTodoEventListener() {
           </div>
           <div class="d-flex list-group-item-user-operation align-items-center mt-2">
             <input class="flex-shrink-0 form-check-input pointer mt-0 me-2 " type="checkbox" >
-            <p class="flex-grow-1 text-break list-group-item-p space p-2 me-2 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
+            <p class="flex-grow-1 text-break list-group-item-p space fs-5 p-2 me-2 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
             <img src="./img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
             <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
           </div>
-          <div class="comment-block text-secondary space mt-2"></div>
+          <div class="comment-block text-secondary space fs-5 mt-2"></div>
         </div>
       `
         )
