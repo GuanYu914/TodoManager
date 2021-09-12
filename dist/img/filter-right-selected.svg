@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 24.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#9E6835;enable-background:new    ;}
-</style>
-<path class="st0" d="M12.5,0h-9C1.6,0,0,1.6,0,3.5v9C0,14.4,1.6,16,3.5,16h9c1.9,0,3.5-1.6,3.5-3.5v-9C16,1.6,14.4,0,12.5,0z
-	 M13.1,11.8h-2.8c-0.3,0-0.5-0.3-0.5-0.5c0-0.3,0.2-0.5,0.5-0.5h2.8c0.3,0,0.5,0.3,0.5,0.5C13.6,11.5,13.4,11.8,13.1,11.8z
-	 M13.1,8.5H6.6C6.3,8.5,6.1,8.2,6.2,7.9c0-0.2,0.2-0.4,0.4-0.4h6.5c0.3,0.1,0.5,0.3,0.4,0.6C13.5,8.3,13.3,8.5,13.1,8.5z M13.1,5.3
-	H2.9C2.6,5.2,2.4,5,2.4,4.7c0-0.3,0.2-0.5,0.5-0.5h10.2c0.3,0,0.5,0.3,0.5,0.5C13.6,5,13.4,5.2,13.1,5.3z"/>
-</svg>
+<svg id="圖層_1" data-name="圖層 1" xmlns="http://www.w3.org/2000/svg" width="5.64mm" height="5.64mm" viewBox="0 0 16 16"><defs><style>.cls-1{fill:#0d6efd;isolation:isolate;}</style></defs><path class="cls-1" d="M12.5,0h-9A3.54,3.54,0,0,0,0,3.5v9A3.54,3.54,0,0,0,3.5,16h9A3.54,3.54,0,0,0,16,12.5v-9A3.54,3.54,0,0,0,12.5,0Zm.6,11.8H10.3a.5.5,0,0,1,0-1h2.8a.5.5,0,0,1,0,1Zm0-3.3H6.6a.5.5,0,0,1,0-1h6.5a.5.5,0,1,1,0,1Zm0-3.2H2.9a.56.56,0,0,1-.5-.6.47.47,0,0,1,.5-.5H13.1a.47.47,0,0,1,.5.5A.56.56,0,0,1,13.1,5.3Z"/></svg>
