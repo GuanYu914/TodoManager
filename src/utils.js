@@ -19,7 +19,20 @@ const utils = {
   storedUploadedTodosIntoLocal: storedUploadedTodosIntoLocal,
   checkCurrentLoginUserHaveLocalUploadedTodos: checkCurrentLoginUserHaveLocalUploadedTodos,
   getUploadedTodosFromLocal: getUploadedTodosFromLocal,
-  removeUploadedTodosInLocal: removeUploadedTodosInLocal
+  removeUploadedTodosInLocal: removeUploadedTodosInLocal,
+  getColorOfPriority: getColorOfPriority
+}
+
+function getColorOfPriority(priority) {
+  if (priority === '優先性：高') {
+    return 'bg-priority-high'
+  }
+  if (priority === '優先性：中') {
+    return 'bg-priority-mid'
+  }
+  if (priority === '優先性：低') {
+    return 'bg-priority-low'
+  }
 }
 
 // switch UI to login state
@@ -52,7 +65,7 @@ function SwitchToLoginState(data) {
       categories = categories.replace(/\s+/g, ' ').split(' ')
       let categories_htmlCode = `
       <h4 class="d-inline-flex mb-1">
-        <span class="align-middle badge rounded-pill bg-primary">
+        <span class="align-middle badge rounded-pill ${getColorOfPriority(categories[0])}">
           <span class="align-middle category-name">${escapeHtml(categories[0])}</span>
         </span>
       </h4>\n
@@ -60,7 +73,7 @@ function SwitchToLoginState(data) {
       for (let i = 1; i < categories.length; i++) {
         categories_htmlCode += `
         <h4 class="d-inline-flex mb-1">
-          <span class="align-middle badge rounded-pill bg-info">
+          <span class="align-middle badge rounded-pill bg-category">
             <span class="align-middle category-name">${escapeHtml(categories[i])}</span>
             <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
           </span>

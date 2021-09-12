@@ -1,30 +1,34 @@
-// put customized color here...
-$primary:   #9e6835;
-$secondary: #6c757d;
-$success:   #198754;
-$info:      #c98f4d;
-$warning:   #ffc107;
-$danger:    #dc3545;
-$light:     #f8f9fa;
-$dark:      #212529;
-
-$navbar-light-brand-color: $primary;
-$navbar-light-brand-hover-color: $primary;
-
-$theme-colors: (
-  "primary":    $primary,
-  "secondary":  $secondary,
-  "success":    $success,
-  "info":       $info,
-  "warning":    $warning,
-  "danger":     $danger,
-  "light":      $light,
-  "dark":       $dark
-);
 // require for bootstrap
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
+
+// put customized color here...
+$priority-high: $red-500;
+$priority-mid : $orange-500;
+$priority-low : $green-500;
+$category     : #367fec;
+
+// add $custom-theme-colors
+$custom-theme-colors: (
+  "priority-high" : $priority-high,
+  "priority-mid"  : $priority-mid,
+  "priority-low"  : $priority-low,
+  'category'      : $category
+);
+
+// let page logo colored with primary
+$navbar-light-brand-color: $primary;
+$navbar-light-brand-hover-color: $primary;
+
+// merge $custom-theme-colors into $theme-colors
+$theme-colors: map-merge($theme-colors, $custom-theme-colors);
+$theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+$utilities-colors: map-merge($utilities-colors, $theme-colors-rgb);
+$utilities-text-colors: map-loop($utilities-colors, rgba-css-var, "$key", "text");
+$utilities-bg-colors: map-loop($utilities-colors, rgba-css-var, "$key", "bg");
+
+// place here after override its variable
 @import "../node_modules/bootstrap/scss/utilities";
 
 // optional for bootstrap
