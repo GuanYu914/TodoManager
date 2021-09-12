@@ -57,7 +57,7 @@ function addTodoEventListener() {
             <img src="./img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
             <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
           </div>
-          <div class="comment-block text-secondary space fs-5 mt-2"></div>
+          <div class="comment-block text-secondary space fs-6 mt-2"></div>
         </div>
       `
         )
@@ -380,7 +380,7 @@ function openTodoInfoModalEventListener() {
     $('#modal-input-todo-content').val(todo_content)
     // read comment
     if ($(e.target).parents('.list-group-item').children('.comment-block').text()) {
-      let commentOfTodo = $(e.target).parents('.list-group-item').children('.comment-block').text()
+      let commentOfTodo = $(e.target).parents('.list-group-item').children('.comment-block').get(0).innerText.replace('備註：', '')
       $('#comment-textarea').val(commentOfTodo)
     }
     // show todo info modal
@@ -439,7 +439,7 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
     }
     if (comment) {
       // e.children('.comment-block').append(`${utils.escapeHtml(comment)}`)
-      e.children('.comment-block').text(comment)
+      e.children('.comment-block').text('備註：' + comment)
     }
     // apply filter condition & update current pill tab content
     utils.applyFilterSettingFromDropdown()
