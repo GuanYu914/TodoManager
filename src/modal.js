@@ -6,7 +6,7 @@ const modal = {
 function InsertFlashModal(modalName, cb) {
   if (modalName === 'emptyInput') {
     // select modal list container, then add relative modal
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="emptyInput" tabindex="-1" aria-labelledby="輸入注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -28,7 +28,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'clearAllTodosUnderFilterMode') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="clearAllTodosUnderFilterMode" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -52,7 +52,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'deleteTodoModal') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="deleteTodoModal" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -75,7 +75,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'registerUnsuccessfullyDueToExistedAccount') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="registerUnsuccessfullyDueToExistedAccount" tabindex="-1" aria-labelledby="註冊注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -97,7 +97,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'registerUnsuccessfullyDueToServerError') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="registerUnsuccessfullyDueToServerError" tabindex="-1" aria-labelledby="註冊注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -119,7 +119,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'registerSuccessfully') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="registerSuccessfully" tabindex="-1" aria-labelledby="註冊注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -141,7 +141,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'loginUnsuccessfullyDueToServerError') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="loginUnsuccessfullyDueToServerError" tabindex="-1" aria-labelledby="登入注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -163,7 +163,7 @@ function InsertFlashModal(modalName, cb) {
     return 
   }
   if (modalName === 'loginUnsuccessfullyDueToNotExistedAccount') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="loginUnsuccessfullyDueToNotExistedAccount" tabindex="-1" aria-labelledby="登入注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -185,7 +185,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'loginSuccessfully') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="loginSuccessfully" tabindex="-1" aria-labelledby="登入注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -207,7 +207,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'emptyUploadTodoContent') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="emptyUploadTodoContent" tabindex="-1" aria-labelledby="上傳注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -229,7 +229,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'uploadTodoUnderFilterMode') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="uploadTodoUnderFilterMode" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -253,7 +253,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'ajaxSendErrorModal') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="ajaxSendErrorModal" tabindex="-1" aria-labelledby="注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -275,7 +275,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'uploadTodoSuccessfully') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="uploadTodoSuccessfully" tabindex="-1" aria-labelledby="上傳注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -297,7 +297,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'uploadTodoUnsuccessfully') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="uploadTodoUnsuccessfully" tabindex="-1" aria-labelledby="上傳注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -319,7 +319,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'updateUserSuccessfully') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="updateUserSuccessfully" tabindex="-1" aria-labelledby="用戶更新注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -341,7 +341,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'updateUserUnsuccessfullyDueToServerError') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="updateUserUnsuccessfullyDueToServerError" tabindex="-1" aria-labelledby="用戶更新注意事項" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -363,7 +363,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'getTodoUnsuccessfully') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="getTodoUnsuccessfully" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -385,7 +385,7 @@ function InsertFlashModal(modalName, cb) {
     return
   }
   if (modalName === 'getTodoLocally') {
-    $('.container:nth(1)').append(`
+    $('.container:nth-child(2)').append(`
     <div class="modal fade" id="getTodoLocally" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
