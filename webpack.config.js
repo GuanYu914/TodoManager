@@ -9,7 +9,7 @@ module.exports = {
     host: '172.20.186.226', // it will be changed when using wsl2 dev env
     port: 8080,
   },
-  entry: './src/index.js',
+  entry: './src/js/index.js',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
