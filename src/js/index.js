@@ -17,6 +17,8 @@ $(function () {
   console.log('document loaded completely')
   // if page reloaded, read session state
   ajax.OperationByAjax('general', 'reload-get-session')
+  // open introduction modal
+  $('#introductionModal').modal('show');
 
   todo.initTodoAllEventListener()
   member.initMemberAllEventListener()
