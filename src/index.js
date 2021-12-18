@@ -10,6 +10,8 @@ const bs_tab = require('../node_modules/bootstrap/js/src/tab')
 const ajax = require('./ajax')
 const todo = require('./todo')
 const member = require('./member')
+import './index.css'
+import './theme.scss'
 
 $(function () {
   console.log('document loaded completely')
@@ -19,28 +21,54 @@ $(function () {
   todo.initTodoAllEventListener()
   member.initMemberAllEventListener()
 
-  // RWD at width@450px 
+  // RWD at width@580px 
   // switch navbar to offcanva style
+  var mql_580px = window.matchMedia("(max-width: 580px)");
+  if (mql_580px.matches) {
+    $('.nav-button-block').toggleClass('d-none')
+    $('.nav-offcanvas-block').toggleClass('d-none')
+  }
+
+  mql_580px.addEventListener('change', (e) => {
+    if (e.matches) {
+      $('.nav-button-block').toggleClass('d-none')
+      $('.nav-offcanvas-block').toggleClass('d-none')
+    } else {
+      $('.nav-button-block').toggleClass('d-none')
+      $('.nav-offcanvas-block').toggleClass('d-none')
+    }
+  })
+
+  // RWD at width@450px 
   // use filter icon to replace filter dropdown buttons
   var mql_450px = window.matchMedia("(max-width: 450px)")
   if (mql_450px.matches) {
-    $('.nav-button-block').toggleClass('d-none')
-    $('.nav-offcanvas-block').toggleClass('d-none')
     $('.dropdown-btn-block').toggleClass('d-none')
     $('.filter-icon').toggleClass('d-none')
+    $('footer').toggleClass('position-static');
+    $('footer').toggleClass('position-fixed');
+    $('footer').toggleClass('start-0');
+    $('footer').toggleClass('end-0');
+    $('footer').toggleClass('bottom-0');
   }
   
   mql_450px.addEventListener('change', (e) => {
     if (e.matches) {
-      $('.nav-button-block').toggleClass('d-none')
-      $('.nav-offcanvas-block').toggleClass('d-none')
       $('.dropdown-btn-block').toggleClass('d-none')
       $('.filter-icon').toggleClass('d-none')
+      $('footer').toggleClass('position-static');
+      $('footer').toggleClass('position-fixed');
+      $('footer').toggleClass('start-0');
+      $('footer').toggleClass('end-0');
+      $('footer').toggleClass('bottom-0');
     } else {
-      $('.nav-button-block').toggleClass('d-none')
-      $('.nav-offcanvas-block').toggleClass('d-none')
       $('.dropdown-btn-block').toggleClass('d-none')
       $('.filter-icon').toggleClass('d-none')
+      $('footer').toggleClass('position-static');
+      $('footer').toggleClass('position-fixed');
+      $('footer').toggleClass('start-0');
+      $('footer').toggleClass('end-0');
+      $('footer').toggleClass('bottom-0');
     }
   })
 
