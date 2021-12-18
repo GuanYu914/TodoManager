@@ -9,6 +9,7 @@
 require_once('conn.php');
 
 if (!isset($_SESSION)) {
+  session_name('todo-manager');
   session_start();
   if (!isset($_SESSION['account'])) {
     $response = array(
@@ -84,4 +85,3 @@ $response = json_encode($response);
 header('Content-Type: application/json;charset=utf-8');
 echo $response;
 die();
-?>

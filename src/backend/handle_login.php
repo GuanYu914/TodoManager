@@ -7,6 +7,7 @@
 //   detail      : STRING, 'error message for debug'
 // }
 if (!isset($_SESSION)) {
+  session_name('todo-manager');
   session_start();  
 }
 require_once('conn.php');
@@ -109,4 +110,3 @@ $response = array('isSuccessful' => 'successful',
 $response = json_encode($response);
 header('Content-Type: application/json;charset=utf-8');
 echo $response;
-?>

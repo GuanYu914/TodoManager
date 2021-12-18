@@ -7,6 +7,7 @@
 //   detail      : STRING, 'error message for debug'
 // }
 if (!isset($_SESSION)) {
+  session_name('todo-manager');
   session_start();
 }
 
@@ -54,4 +55,3 @@ $response = json_encode($response);
 header('Content-Type: application/json;charset=utf-8');
 echo $response;
 die();
-?>

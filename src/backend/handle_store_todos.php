@@ -8,6 +8,7 @@
 require_once('conn.php');
 
 if (!isset($_SESSION)) {
+  session_name('todo-manager');
   session_start();
   if (!isset($_SESSION['account'])) {
     // echo error response
@@ -48,13 +49,15 @@ $conn->begin_transaction();
 try {
   for ($i = 0; $i < count($json); $i++) {
     $stmt = $conn->prepare('INSERT INTO todos (checked, content, categories, comment, priority, account) VALUES (?, ?, ?, ?, ?, ?)');
-    $stmt->bind_param('isssis', 
-      $json[$i]->checked, 
-      $json[$i]->content, 
-      $json[$i]->categories, 
-      $json[$i]->comment, 
-      $json[$i]->priority, 
-      $_SESSION['account']);
+    $stmt->bind_param(
+      'isssis',
+      $json[$i]->checked,
+      $json[$i]->content,
+      $json[$i]->categories,
+      $json[$i]->comment,
+      $json[$i]->priority,
+      $_SESSION['account']
+    );
     $res = $stmt->execute();
   }
   // if no errors, then commit this 
@@ -80,4 +83,3 @@ $response = array(
 $response = json_encode($response);
 header('Content-Type: application/json;charset=utf-8');
 echo $response;
-?>
