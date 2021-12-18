@@ -9,29 +9,32 @@
   <title>代辦管家</title>
   <!-- import jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <!-- used for customize bootstrap -->
-  <link rel="stylesheet" href="./theme.css">
-  <link rel="stylesheet" href="./index.css">
   <!-- bundled file for bootstrap and main codes -->
   <script src="./main.js"></script>
 </head>
 
-<body>
+<body class="content-bg-color">
   <!-- navigation bar -->
-  <div class="container">
+  <nav class="nav-block container-fluid position-fixed start-0 end-0 top-0 px-0">
     <div class="row">
       <div class="col-12">
-        <nav class="navbar navbar-light bg-transparent">
-          <a class="navbar-brand fw-bold" href=".">代辦管家</a>
+        <section class="navbar navbar-light bg-white px-3 py-3">
+          <a class="nav-brand fw-bold" href=".">代辦管家</a>
           <!-- navbar default style -->
           <div class="d-flex flex-grow-1 justify-content-end align-items-center nav-button-block ">
             <button class="btn btn-primary btn-register me-2" type="button">註冊</button>
             <button class="btn btn-outline-primary btn-login" type="button">登入</button>
             <div class="d-none d-flex d-inline-block align-items-center profile me-2">
-              <div class="profile-avatar circle bg-primary me-2"></div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                class="bi bi-person-circle me-2" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                <path fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+              </svg>
               <span class="profile-nickname"></span>
             </div>
-            <button class="d-none btn btn-outline-primary btn-edit-profile me-2" type="button" data-bs-toggle="modal" data-bs-target="#editProfileModal">編輯個人檔案</button>
+            <button class="d-none btn btn-outline-primary btn-edit-profile me-2" type="button" data-bs-toggle="modal"
+              data-bs-target="#editProfileModal">編輯個人檔案</button>
             <button class="d-none btn btn-outline-primary btn-logout" type="button">登出</button>
           </div>
           <!-- offcanva menu for width less then 450px, default is disable -->
@@ -50,25 +53,34 @@
               <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                   <li class="nav-item">
-                    <button class="btn btn-primary btn-register me-2" type="button" data-bs-dismiss="offcanvas">註冊</button>
-                    <button class="btn btn-outline-primary btn-login me-2" type="button" data-bs-dismiss="offcanvas">登入</button>
+                    <button class="btn btn-primary btn-register me-2" type="button"
+                      data-bs-dismiss="offcanvas">註冊</button>
+                    <button class="btn btn-outline-primary btn-login me-2" type="button"
+                      data-bs-dismiss="offcanvas">登入</button>
                     <div class="d-none d-flex d-inline-block align-items-center profile me-2">
-                      <div class="profile-avatar circle bg-primary me-2"></div>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                        class="bi bi-person-circle me-2" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd"
+                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                      </svg>
                       <span class="profile-nickname"></span>
                     </div>
-                    <button class="d-none btn btn-outline-primary btn-edit-profile me-2  mt-3" type="button" data-bs-dismiss="offcanvas">編輯個人檔案</button>
-                    <button class="d-none btn btn-outline-primary btn-logout mt-3" type="button" data-bs-dismiss="offcanvas">登出</button>
+                    <button class="d-none btn btn-outline-primary btn-edit-profile me-2  mt-3" type="button"
+                      data-bs-dismiss="offcanvas">編輯個人檔案</button>
+                    <button class="d-none btn btn-outline-primary btn-logout mt-3" type="button"
+                      data-bs-dismiss="offcanvas">登出</button>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-        </nav>
+        </section>
       </div>
     </div>
-  </div>
+  </nav>
   <!-- modal list -->
-  <div class="container">
+  <section class="modal-block container">
     <!-- register form modal -->
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="註冊表單" aria-hidden="true">
       <div class="modal-dialog">
@@ -92,7 +104,8 @@
               </div>
               <div class="mb-3">
                 <label for="account" class="col-form-label text-danger">* 帳號</label>
-                <input class="form-control" id="registerModal-form-account"  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
+                <input class="form-control" id="registerModal-form-account"
+                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
                 <div id="accountHelp1" class="form-text">帳號名稱註冊以後就不能變更了</div>
                 <div id="accountHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
                 <div id="accountHelp2" class="form-text">必須包括個英文大小寫以及數字</div>
@@ -101,7 +114,8 @@
               </div>
               <div class="mb-3">
                 <label for="password" class="col-form-label text-danger">* 密碼</label>
-                <input type="password" class="form-control" id="registerModal-form-password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
+                <input type="password" class="form-control" id="registerModal-form-password"
+                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
                 <div id="passwordHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
                 <div id="passwordHelp2" class="form-text">必須包括個英文大小寫以及數字</div>
                 <div class="valid-feedback"></div>
@@ -130,7 +144,8 @@
             <form class="loginModal-form needs-validation" novalidate>
               <div class="mb-3">
                 <label for="account" class="col-form-label text-danger">* 帳號</label>
-                <input class="form-control" id="loginModal-form-account" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" required />
+                <input class="form-control" id="loginModal-form-account"
+                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" required />
                 <div id="accountHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
                 <div id="accountHelp2" class="form-text">必須包括 1 個英文大小寫以及 1 個數字</div>
                 <div class="valid-feedback"></div>
@@ -138,7 +153,8 @@
               </div>
               <div class="mb-3">
                 <label for="password" class="col-form-label text-danger">* 密碼</label>
-                <input type="password" class="form-control" id="loginModal-form-password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" required />
+                <input type="password" class="form-control" id="loginModal-form-password"
+                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" required />
                 <div id="passwordHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
                 <div id="passwordHelp2" class="form-text">必須包括 1 個英文大小寫以及 1 個數字</div>
                 <div class="valid-feedback"></div>
@@ -201,7 +217,8 @@
               </div>
               <div class="mb-3">
                 <label for="password" class="col-form-label text-danger">* 密碼</label>
-                <input type="password" class="form-control" id="editProfileModal-form-password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
+                <input type="password" class="form-control" id="editProfileModal-form-password"
+                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$" required minlength="8" maxlength="20" />
                 <div id="passwordHelp1" class="form-text">長度不得超過 20 個字元，至少為 8 個字元</div>
                 <div id="passwordHelp2" class="form-text">由英文及數字組成，且必須包括個英文大小寫以及數字</div>
                 <div class="valid-feedback"></div>
@@ -229,8 +246,8 @@
           <div class="modal-body">
             <!-- dropdown buttons -->
             <div class="btn-group me-3">
-              <button type="button" class="btn btn-primary  priority-filter-title dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <button type="button" class="btn btn-primary  priority-filter-title dropdown-toggle"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 優先性
               </button>
               <ul class="dropdown-menu priority-filter-menu">
@@ -243,8 +260,8 @@
               </ul>
             </div>
             <div class="btn-group">
-              <button type="button" class="btn btn-primary categories-filter-title dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <button type="button" class="btn btn-primary categories-filter-title dropdown-toggle"
+                data-bs-toggle="dropdown" aria-expanded="false">
                 分類
               </button>
               <ul class="dropdown-menu categories-filter-menu">
@@ -281,7 +298,8 @@
               <label class="d-block form-label">分類名稱</label>
               <div class="d-none existed-categories-tags mb-3"></div>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" id="category-input-content" maxlength="8" placeholder="打上你想要的分類名稱" aria-label="輸入分類名稱" aria-describedby="送出分類名稱">
+                <input type="text" class="form-control" id="category-input-content" maxlength="8"
+                  placeholder="打上你想要的分類名稱" aria-label="輸入分類名稱" aria-describedby="送出分類名稱">
                 <button class="btn btn-outline-primary btn-add-category-name" type="button">送出</button>
               </div>
               <div class="form-text mb-2">分類名稱最多只能設置六個，類別名稱長度最多為八個字</div>
@@ -295,7 +313,8 @@
             <!-- comment block -->
             <div class="comment-block mb-3">
               <label class="form-label">備註</label>
-              <textarea class="form-control" id="comment-textarea" rows="3" maxlength="255" placeholder="寫上一些需要備註的事情 ..."></textarea>
+              <textarea class="form-control" id="comment-textarea" rows="3" maxlength="255"
+                placeholder="寫上一些需要備註的事情 ..."></textarea>
             </div>
           </div>
           <div class="modal-footer">
@@ -305,57 +324,59 @@
         </div>
       </div>
     </div>
-  </div>
-
+  </section>
   <!-- todo list body -->
-  <div class="container">
+  <main class="todos-block container">
     <div class="row">
       <div class="col-12 col-md-10 mx-auto">
         <!-- alert message block -->
-        <div class="alert-block mt-3">
+        <section class="alert-block mt-3">
           <div class="alert alert-primary" role="alert">
             註冊登入即可線上保存代辦事項，<strong class="pointer" data-bs-toggle="modal"
               data-bs-target="#registerModal">現在就立即註冊吧！</strong>
           </div>
-        </div>
+        </section>
         <!-- user input block-->
-        <div class="input-group mt-3 mb-3">
+        <section class="input-group mt-5 mb-3">
           <input type="text" class="form-control" placeholder="請輸入代辦事項，並按下 Enter 送出" aria-label="add todo content"
             aria-describedby="button-add-todo" id="input-todo-content">
-        </div>
+        </section>
         <!-- functional buttons block -->
-        <div class="d-flex flex-wrap functional-btn-block mt-3">
+        <section class="d-flex flex-wrap functional-btn-block mt-3">
           <button type="button" class="d-none btn btn-primary btn-store-on-db me-3">儲存此代辦清單</button>
           <button type="button" class="btn btn-primary btn-clear-todo">清除所有已完成的事項</button>
-        </div>
+        </section>
         <!-- nav-pills selector and filter dropdown button -->
-        <div class="d-flex justify-content-between align-items-center mt-3">
+        <section class="d-flex justify-content-between align-items-center mt-5">
           <!-- content nav-pills selector -->
           <ul class="nav nav-pills" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-              <button class="fs-6 nav-link active" id="totals-tab" data-bs-toggle="pill" data-bs-target="#totals-tab-content"
-                type="button" role="tab" aria-controls="totals" aria-selected="true">全部</button>
+              <button class="fs-6 nav-link active" id="totals-tab" data-bs-toggle="pill"
+                data-bs-target="#totals-tab-content" type="button" role="tab" aria-controls="totals"
+                aria-selected="true">全部</button>
             </li>
             <li class="nav-item" role="presentation">
               <!-- todos-remaining -->
               <button class="position-relative fs-6 nav-link" id="unfinished-tab" data-bs-toggle="pill"
-                data-bs-target="#unfinished-tab-content" type="button" role="tab" aria-controls="unfinished" aria-selected="false">
+                data-bs-target="#unfinished-tab-content" type="button" role="tab" aria-controls="unfinished"
+                aria-selected="false">
                 未完成
                 <div class="todos-remaining"></div>
               </button>
             </li>
             <li class="nav-item" role="presentation">
-              <button class="fs-6 nav-link" id="finished-tab" data-bs-toggle="pill" data-bs-target="#finished-tab-content"
-                type="button" role="tab" aria-controls="finished" aria-selected="false">已完成</button>
+              <button class="fs-6 nav-link" id="finished-tab" data-bs-toggle="pill"
+                data-bs-target="#finished-tab-content" type="button" role="tab" aria-controls="finished"
+                aria-selected="false">已完成</button>
             </li>
           </ul>
           <!-- filter dropdown buttons -->
-          <div class="filter-block">
+          <section class="filter-block">
             <!-- dropdown buttons -->
             <div class="dropdown-btn-block">
               <div class="btn-group me-3">
-                <button type="button" class="btn btn-primary priority-filter-title dropdown-toggle" data-bs-toggle="dropdown"
-                  aria-expanded="false">
+                <button type="button" class="btn btn-primary priority-filter-title dropdown-toggle"
+                  data-bs-toggle="dropdown" aria-expanded="false">
                   優先性
                 </button>
                 <ul class="dropdown-menu priority-filter-menu">
@@ -364,8 +385,8 @@
                 </ul>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn btn-primary categories-filter-title dropdown-toggle" data-bs-toggle="dropdown"
-                  aria-expanded="false">
+                <button type="button" class="btn btn-primary categories-filter-title dropdown-toggle"
+                  data-bs-toggle="dropdown" aria-expanded="false">
                   分類
                 </button>
                 <ul class="dropdown-menu categories-filter-menu">
@@ -373,30 +394,52 @@
                 </ul>
               </div>
             </div>
-            <!-- filter icon for width less than 450px, default is disable -->
-            <img src="./img/filter-right.svg" class="d-none filter-icon pointer" alt="Bootstrap-icon" width="38"
-              height="38">
-          </div>
-        </div>
+          </section>
+          <!-- filter icon for width less than 450px, default is disable -->
+          <img src="./img/filter-right.svg" class="d-none filter-icon pointer" alt="Bootstrap-icon" width="38"
+            height="38">
+        </section>
         <!-- content tab -->
-        <div class="tab-content mt-3" id="pills-tabContent">
+        <section class="tab-content mt-3" id="pills-tabContent">
           <!-- display all todos -->
           <div class="tab-pane fade show active" id="totals-tab-content" role="tabpanel" aria-labelledby="totals-tab">
-            <div class="list-group-all"></div>
+            <div class="list-group-all todo-shadow"></div>
           </div>
           <!-- display unfinished todos -->
           <div class="tab-pane fade" id="unfinished-tab-content" role="tabpanel" aria-labelledby="unfinished-tab">
-            <div class="list-group-unfinished"></div>
+            <div class="list-group-unfinished todo-shadow"></div>
           </div>
           <!-- display finished todos -->
           <div class="tab-pane fade" id="finished-tab-content" role="tabpanel" aria-labelledby="finished-tab">
-            <div class="list-group-finished"></div>
+            <div class="list-group-finished todo-shadow"></div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
-  </div>
-
+  </main>
+  <!-- footer -->
+  <footer class="position-fixed start-0 end-0 bottom-0">
+    <section class="container-fluid bg-white py-3">
+      <div class="d-flex justify-content-center mb-2">
+        <a class="icon-link me-2" href="https://github.com/GuanYu914/todo-manager" target="_blank" }>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-github"
+            viewBox="0 0 16 16">
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+        </a>
+        <a class="icon-link" href="mailto:yu.uiux.designer@gamil.com" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-mailbox2"
+            viewBox="0 0 16 16">
+            <path d="M9 8.5h2.793l.853.854A.5.5 0 0 0 13 9.5h1a.5.5 0 0 0 .5-.5V8a.5.5 0 0 0-.5-.5H9v1z" />
+            <path
+              d="M12 3H4a4 4 0 0 0-4 4v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V7a4 4 0 0 0-4-4zM8 7a3.99 3.99 0 0 0-1.354-3H12a3 3 0 0 1 3 3v6H8V7zm-3.415.157C4.42 7.087 4.218 7 4 7c-.218 0-.42.086-.585.157C3.164 7.264 3 7.334 3 7a1 1 0 0 1 2 0c0 .334-.164.264-.415.157z" />
+          </svg>
+        </a>
+      </div>
+      <p class="text-center mb-0">透過點擊上方圖示，查看原始碼或跟我 Say 哈囉</p>
+      <p class="text-center mt-1">專案為個人練習，素材皆為免費授權，且不做任何商業營利用途</p>
+    </section>
+  </footer>
 </body>
 
 </html>
