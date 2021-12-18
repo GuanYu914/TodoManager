@@ -39,7 +39,8 @@
 }
 
 nav {
-  z-index: 1;
+  /* 解決輸入框觸發時被覆蓋的問題 */
+  z-index: 10;
   box-shadow: rgba(33, 35, 38, 0.1) 0px -6px 8px 4px;
 }
 
