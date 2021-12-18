@@ -1,0 +1,61 @@
+.complete {
+  text-decoration: line-through;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.circle {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.space {
+  white-space: pre-wrap;
+}
+/* todo remaining indicator effect */
+.start-86 {
+  left: 86%;
+}
+
+.todo-shadow {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 4px;
+}
+
+.todos-block {
+  margin-top: 120px;
+  margin-bottom: 180px;
+}
+
+/* body 背景色 */
+.content-bg-color {
+  background-color: #f3f3f3;
+}
+
+nav {
+  z-index: 1;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px -6px 8px 4px;
+}
+
+/* logo 樣式 */
+.nav-brand {
+  color: var(--bs-body-color);
+  margin-right: 1rem;
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+
+/* footer 圖示 */
+.icon-link {
+  color: var(--bs-body-color);
+}
+
+footer {
+  box-shadow: rgb(33, 35, 38, 0.1) 0px 6px 8px 4px;
+}
