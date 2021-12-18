@@ -4,22 +4,20 @@
 @import "../node_modules/bootstrap/scss/mixins";
 
 // put customized color here...
+$primary: $blue-500;
 $priority-high: $red-500;
-$priority-mid : $orange-500;
-$priority-low : $green-500;
-$category     : #367fec;
+$priority-mid: $orange-500;
+$priority-low: $green-500;
+$category: #955cdf;
 
 // add $custom-theme-colors
 $custom-theme-colors: (
-  "priority-high" : $priority-high,
-  "priority-mid"  : $priority-mid,
-  "priority-low"  : $priority-low,
-  'category'      : $category
+  "primary": $primary,
+  "priority-high": $priority-high,
+  "priority-mid": $priority-mid,
+  "priority-low": $priority-low,
+  "category": $category,
 );
-
-// let page logo colored with primary
-$navbar-light-brand-color: $primary;
-$navbar-light-brand-hover-color: $primary;
 
 // merge $custom-theme-colors into $theme-colors
 $theme-colors: map-merge($theme-colors, $custom-theme-colors);
