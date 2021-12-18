@@ -107,7 +107,7 @@ function deleteTodoRelativeInfoEventListener() {
 
 // removed todo confirmation 
 function displayTodoDeletionConfirmModalEventListener() {
-  $('.container:nth(1)').on('click', '.btn-remove-todo-confirm', (() => {
+  $('.modal-block').on('click', '.btn-remove-todo-confirm', (() => {
     let todo = utils.getOriginalTodo(utils.getCurrentEditedTodoObj())
     todo.remove()
     // apply dropdown filter condition & update current pill tab content
@@ -196,7 +196,7 @@ function uploadTodosEventListener() {
 
 // operation confirmation under filter mode
 function todoOperationUnderFilterModeEventListener() {
-  $('.container:nth(1)').on('click', '.btn-op-under-filter-mode-confirm', (e) => {
+  $('.modal-block').on('click', '.btn-op-under-filter-mode-confirm', (e) => {
     let op_name = $(e.target).attr('data-op-name')
     if (op_name === 'uploadAllTodos') {
       ajax.OperationByAjax('button', 'upload-todos')
