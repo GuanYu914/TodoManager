@@ -228,30 +228,6 @@ function InsertFlashModal(modalName, cb) {
     cb()
     return
   }
-  if (modalName === 'uploadTodoUnderFilterMode') {
-    $('.modal-block').append(`
-    <div class="modal fade" id="uploadTodoUnderFilterMode" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">貼心提醒</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
-          </div>
-          <div class="modal-body">
-            目前的代辦清單是被過濾的，執行此操作可能會上傳目前清單以外的代辦事項<br>
-            點擊 " 我知道了 "，將套用此操作
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">先不要好了</button>
-            <button type="button" class="btn btn-primary btn-op-under-filter-mode-confirm" data-bs-dismiss="modal" data-op-name="uploadAllTodos">我知道了</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    `)
-    cb()
-    return
-  }
   if (modalName === 'ajaxSendErrorModal') {
     $('.modal-block').append(`
     <div class="modal fade" id="ajaxSendErrorModal" tabindex="-1" aria-labelledby="注意事項" aria-hidden="true">
@@ -274,28 +250,6 @@ function InsertFlashModal(modalName, cb) {
     cb()
     return
   }
-  if (modalName === 'uploadTodoSuccessfully') {
-    $('.modal-block').append(`
-    <div class="modal fade" id="uploadTodoSuccessfully" tabindex="-1" aria-labelledby="上傳注意事項" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">上傳代辦事項</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
-          </div>
-          <div class="modal-body">
-            上傳代辦事項成功
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    `)
-    cb()
-    return
-  }
   if (modalName === 'uploadTodoUnsuccessfully') {
     $('.modal-block').append(`
     <div class="modal fade" id="uploadTodoUnsuccessfully" tabindex="-1" aria-labelledby="上傳注意事項" aria-hidden="true">
@@ -306,7 +260,7 @@ function InsertFlashModal(modalName, cb) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
           </div>
           <div class="modal-body">
-            無法上傳代辦事項到伺服器，已經將目前所有代辦事項離線儲存，請稍後再上傳一次
+            無法上傳代辦事項到伺服器，已經將目前所有代辦事項離線儲存，若系統恢復正常，管家將自動上傳
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
@@ -394,7 +348,7 @@ function InsertFlashModal(modalName, cb) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
           </div>
           <div class="modal-body">
-            目前代辦事項為離線儲存資訊，請上傳到伺服器端同步
+            目前代辦事項為離線儲存，等系統恢復正常，管家將自動上傳
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
@@ -478,23 +432,10 @@ function RemoveFlashModal(modalName, cb) {
     })
     return
   }
-  if (modalName === 'uploadTodoUnderFilterMode') {
-    $('#uploadTodoUnderFilterMode').on('hidden.bs.modal', () => {
-      cb()
-      $('#uploadTodoUnderFilterMode').remove()
-    })
-  }
   if (modalName === 'ajaxSendErrorModal') {
     $('#ajaxSendErrorModal').on('hidden.bs.modal', () => {
       cb()
       $('#ajaxSendErrorModal').remove()
-    })
-    return
-  }
-  if (modalName === 'uploadTodoSuccessfully') {
-    $('#uploadTodoSuccessfully').on('hidden.bs.modal', () => {
-      cb()
-      $('#uploadTodoSuccessfully').remove()
     })
     return
   }
@@ -754,44 +695,6 @@ function DisplayModal(type, op, state, cb) {
         return
       }
     }
-    if (op === 'upload-todos') {
-      if (state === 'empty-uploaded-content') {
-        InsertFlashModal('emptyUploadTodoContent', () => {
-          $('#emptyUploadTodoContent').modal('show')
-        })
-        RemoveFlashModal('emptyUploadTodoContent', () => {})
-        return
-      }
-      if (state === 'under-filter-mode') {
-        InsertFlashModal('uploadTodoUnderFilterMode', () => {
-          $('#uploadTodoUnderFilterMode').modal('show')
-        })
-        RemoveFlashModal('uploadTodoUnderFilterMode', () => {})
-        return
-      }
-      if (state === 'fail-ajax-error') {
-        InsertFlashModal('ajaxSendErrorModal', () => {
-          $('#ajaxSendErrorModal').modal('show')
-        })
-        RemoveFlashModal('ajaxSendErrorModal', () => {})
-        return
-      }
-      if (state === 'done-upload-todos-successfully') {
-        InsertFlashModal('uploadTodoSuccessfully', () => {
-          $('#uploadTodoSuccessfully').modal('show')
-        })
-        RemoveFlashModal('uploadTodoSuccessfully', () => {})
-        return
-      }
-      if (state === 'done-upload-todos-unsuccessfully') {
-        InsertFlashModal('uploadTodoUnsuccessfully', () => {
-          $('#uploadTodoUnsuccessfully').modal('show')
-        })
-        RemoveFlashModal('uploadTodoUnsuccessfully', () => {})
-        return
-      }
-      return
-    }
     if (op === 'logout') {
       if (state === 'fail-ajax-error') {
         InsertFlashModal('ajaxSendErrorModal', () => {
@@ -819,6 +722,30 @@ function DisplayModal(type, op, state, cb) {
           $('#ajaxSendErrorModal').modal('show')
         })
         RemoveFlashModal('ajaxSendErrorModal', () => {})
+        return
+      }
+      return
+    }
+    if (op === 'upload-todos') {
+      if (state === 'empty-uploaded-content') {
+        InsertFlashModal('emptyUploadTodoContent', () => {
+          $('#emptyUploadTodoContent').modal('show')
+        })
+        RemoveFlashModal('emptyUploadTodoContent', () => {})
+        return
+      }
+      if (state === 'fail-ajax-error') {
+        InsertFlashModal('ajaxSendErrorModal', () => {
+          $('#ajaxSendErrorModal').modal('show')
+        })
+        RemoveFlashModal('ajaxSendErrorModal', () => {})
+        return
+      }
+      if (state === 'done-upload-todos-unsuccessfully') {
+        InsertFlashModal('uploadTodoUnsuccessfully', () => {
+          $('#uploadTodoUnsuccessfully').modal('show')
+        })
+        RemoveFlashModal('uploadTodoUnsuccessfully', () => {})
         return
       }
       return
