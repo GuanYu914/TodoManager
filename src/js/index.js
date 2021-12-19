@@ -75,25 +75,16 @@ $(function () {
   })
 
   // RWD at width@380px
-  // make .btn-store-on-db & .btn-clear-todo full width
+  // make .btn-clear-todo full width
   var mql_380px = window.matchMedia("(max-width: 380px)")
   if (mql_380px.matches) {
-    $('.btn-store-on-db').toggleClass('me-3')
-    $('.btn-store-on-db').toggleClass('mb-3')
-    $('.btn-store-on-db').toggleClass('w-100')
     $('.btn-clear-todo').toggleClass('w-100')
   }
 
   mql_380px.addEventListener('change', (e) => {
     if (e.matches) {
-      $('.btn-store-on-db').toggleClass('me-3')
-      $('.btn-store-on-db').toggleClass('mb-3')
-      $('.btn-store-on-db').toggleClass('w-100')
       $('.btn-clear-todo').toggleClass('w-100')
     } else {
-      $('.btn-store-on-db').toggleClass('me-3')
-      $('.btn-store-on-db').toggleClass('mb-3')
-      $('.btn-store-on-db').toggleClass('w-100')
       $('.btn-clear-todo').toggleClass('w-100')
     }
   })
