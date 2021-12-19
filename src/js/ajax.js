@@ -98,7 +98,7 @@ function OperationByAjax(type, op) {
             return
           }
           if (json.isSuccessful === 'successful') {
-            utils.updateLoginUser(json.data.nickname, json.data.account)
+            utils.updateLoginUser(true, json.data.nickname, json.data.account)
             utils.SwitchToLoginState(json.data.nickname)
             OperationByAjax('general', 'get-todos')
           }
@@ -160,7 +160,7 @@ function OperationByAjax(type, op) {
           modal.DisplayModal('form', 'login-get-session', 'done-login-successfully')
           // remove 'hidden.bs.modal' event handler to prevent execute multiple times 
           $('#loginSuccessfully').off('hidden.bs.modal').on('hidden.bs.modal', () => {
-            utils.updateLoginUser(json.data.nickname, json.data.account)
+            utils.updateLoginUser(true, json.data.nickname, json.data.account)
             utils.SwitchToLoginState(json.data.nickname)
             OperationByAjax('general', 'get-todos')
           })
@@ -202,51 +202,26 @@ function OperationByAjax(type, op) {
     }
     return
   }
-  // upload todos 
   if (type === 'button') {
-    if (op === 'upload-todos') {
-      $.post({
-        url: "http://192.168.0.15/todo_manager/handle_store_todos.php",
-        xhrFields: { withCredentials: true }
-      }, {
-        content: JSON.stringify(utils.getAllUploadData())
-      })
-        .done(json => {
-          if (json.isSuccessful === 'successful') {
-            modal.DisplayModal('button', 'upload-todos', 'done-upload-todos-successfully')
-            // remove any uploaded todos on local storage |  移除任何離線儲存的資料
-            utils.removeUploadedTodosInLocal()
-            return
-          }
-          if (json.isSuccessful === 'failed') {
-            // write uploaded todos into local storage | 寫入到 localStorage
-            utils.storedUploadedTodosIntoLocal()
-            // display modal about storing current todos into local storage | 顯示儲存目前代辦事項到本地端訊息
-            modal.DisplayModal('button', 'upload-todos', 'done-upload-todos-unsuccessfully')
-            return
-          }
-        })
-        .fail(() => {
-          // write uploaded todos into local storage | 寫入到 localStorage
-          utils.storedUploadedTodosIntoLocal()
-          // display modal about storing current todos into local storage | 顯示儲存目前代辦事項到本地端訊息
-          modal.DisplayModal('button', 'upload-todos', 'done-upload-todos-unsuccessfully')
-          // modal.DisplayModal('button', 'upload-todos', 'fail-ajax-error')
-        })
-      return
-    }
+    // destroy session 
     if (op === 'logout') {
       $.ajax({
         url: 'http://192.168.0.15/todo_manager/handle_logout.php',
         xhrFields: { withCredentials: true }
       })
       .done(() => {
-        utils.SwitchToLogoutState()
+        // set user to guest, and fetch local todos
+        utils.updateLoginUser(false)
+        if(utils.checkGuestHaveLocalTodos()){
+          utils.SwitchToLogoutState(utils.getTodosFromLocal())
+          return
+        }
+        // no local todos to fetch
+        utils.SwitchToLogoutState();
       })
       .fail(() => {
         modal.DisplayModal('button', 'logout', 'fail-ajax-error')
       })
-      return
     }
     return
   }
@@ -258,16 +233,55 @@ function OperationByAjax(type, op) {
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
+          // user is guest
           if (json.isSuccessful === 'failed') {
+            utils.updateLoginUser(false)
+            if(utils.checkGuestHaveLocalTodos()){
+              utils.SwitchToLogoutState(utils.getTodosFromLocal())
+              return
+            }
+            utils.SwitchToLogoutState();
             return
           }
-          utils.updateLoginUser(json.data.nickname, json.data.account)
+          // user is member, get todos from server
+          utils.updateLoginUser(true, json.data.nickname, json.data.account)
           utils.SwitchToLoginState(json.data.nickname)
           OperationByAjax('general', 'get-todos')
         })
         .fail(() => {
           modal.DisplayModal('general', 'reload-get-session', 'fail-ajax-error')
         })
+        return
+    }
+    // upload todos of current user to server
+    if (op === 'upload-todos') {
+      $.post({
+        url: "http://192.168.0.15/todo_manager/handle_store_todos.php",
+        xhrFields: { withCredentials: true }
+      }, {
+        content: JSON.stringify(utils.packAllTodos())
+      })
+        .done(json => {
+          if (json.isSuccessful === 'successful') {
+            // remove any uploaded todos on local storage
+            utils.removeUploadedTodosInLocal()
+            return
+          }
+          if (json.isSuccessful === 'failed') {
+            // write uploaded todos into local storage
+            utils.storedTodosIntoLocal()
+            // display modal about storing current todos into local storage
+            modal.DisplayModal('general', 'upload-todos', 'done-upload-todos-unsuccessfully')
+            return
+          }
+        })
+        .fail(() => {
+          // write uploaded todos into local storage
+          utils.storedTodosIntoLocal()
+          // display modal about storing current todos into local storage
+          modal.DisplayModal('general', 'upload-todos', 'done-upload-todos-unsuccessfully')
+        })
+      return
     }
     // get todos from server response
     if (op === 'get-todos') {
@@ -278,39 +292,35 @@ function OperationByAjax(type, op) {
       })
         .done((json) => {
           if (json.isSuccessful === 'failed') {
-            // 先檢查是否有本地端資訊，有的話讀出來並顯示目前代辦事項是離線儲存的
             // check local storage first, if it existed, then show modal about current todos info is located in local storage
-            if (utils.checkCurrentLoginUserHaveLocalUploadedTodos()) {
-              utils.getUploadedTodosFromLocal()
+            if (utils.checkCurrentLoginUserHaveLocalTodos()) {
+              utils.SwitchToLoginState(utils.getTodosFromLocal())
               modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
               return
             }
-            // 沒有的話，顯示目前伺服器有錯
             // if it is doesn't, show server-side error modal
             modal.DisplayModal('general', 'get-todos', 'fail-ajax-error')
           }
-
           if (json.isSuccessful === 'successful') {
-            if (utils.checkCurrentLoginUserHaveLocalUploadedTodos()) {
-              // get todos from local storage | 直接從 local storage 拿所有代辦事項
-              utils.getUploadedTodosFromLocal()
-              // display modal about current todos info is located in local storage | 顯示目前代辦事項是離線儲存的
+            if (utils.checkCurrentLoginUserHaveLocalTodos()) {
+              // get todos from local storage
+              utils.SwitchToLoginState(utils.getTodosFromLocal())
+              // display modal about current todos info is located in local storage
               modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
               return
             }
+            // if no todos are located in local storage, get todos data from json response
             utils.SwitchToLoginState(json.data)
             return
           }
         })
         .fail(() => {
-          // 先檢查是否有本地端資訊，有的話讀出來並顯示目前代辦事項是離線儲存的
           // check local storage first, if it existed, then show modal about current todos info is located in local storage
-          if (utils.checkCurrentLoginUserHaveLocalUploadedTodos()) {
-            utils.getUploadedTodosFromLocal()
+          if (utils.checkCurrentLoginUserHaveLocalTodos()) {
+            utils.getTodosFromLocal()
             modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
             return
           }
-          // 沒有的話，顯示目前伺服器有錯
           // if it is doesn't, show server-side error modal
           modal.DisplayModal('general', 'get-todos', 'fail-ajax-error')
         })

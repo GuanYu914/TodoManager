@@ -13,7 +13,6 @@ function initTodoAllEventListener() {
   clearAllTodosEventListener()
   completeTodoEventListener()
   switchTabEventListener()
-  uploadTodosEventListener()
   todoOperationUnderFilterModeEventListener()
   openFilterModalOnMobileEventListener()
   addCategoryOnTodoInfoModalEventListener()
@@ -70,6 +69,13 @@ function addTodoEventListener() {
         utils.updatePillTabs('finished')
         // update unfinished todo counts
         utils.getUnfinishedTodos()
+        // if user is guest, store todos on local storage
+        // if user is member, upload todos to the serer
+        if (utils.getLoginUser() === null) {
+          utils.storedTodosIntoLocal()
+        } else {
+          ajax.OperationByAjax('general', 'upload-todos')
+        }
       } else {
         // show modal view
         modal.DisplayModal('input', 'submit', 'empty-content')
@@ -96,6 +102,13 @@ function deleteTodoRelativeInfoEventListener() {
       utils.updatePillTabs(utils.getCurrentPillTabName())
       // update unfinished todo counts
       utils.getUnfinishedTodos()
+      // if user is guest, store todos on local storage
+      // if user is member, upload todos to the serer
+      if (utils.getLoginUser() === null) {
+        utils.storedTodosIntoLocal()
+      } else {
+        ajax.OperationByAjax('general', 'upload-todos')
+      }
     }
     // user wants to delete entire todo, then display confirmation modal
     if ($(e.target).parent().hasClass('list-group-item-user-operation')) {
@@ -115,6 +128,13 @@ function displayTodoDeletionConfirmModalEventListener() {
     utils.updatePillTabs(utils.getCurrentPillTabName())
     // update unfinished todo counts
     utils.getUnfinishedTodos()
+    // if user is guest, store todos on local storage
+    // if user is member, upload todos to the serer
+    if (utils.getLoginUser() === null) {
+      utils.storedTodosIntoLocal()
+    } else {
+      ajax.OperationByAjax('general', 'upload-todos')
+    }
   }))
 }
 
@@ -133,6 +153,13 @@ function clearAllTodosEventListener() {
     utils.updatePillTabs(utils.getCurrentPillTabName())
     // update unfinished todo counts
     utils.getUnfinishedTodos()
+    // if user is guest, store todos on local storage
+    // if user is member, upload todos to the serer
+    if (utils.getLoginUser() === null) {
+      utils.storedTodosIntoLocal()
+    } else {
+      ajax.OperationByAjax('general', 'upload-todos')
+    }
   })
 }
 
@@ -153,6 +180,13 @@ function completeTodoEventListener() {
     utils.updatePillTabs(utils.getCurrentPillTabName())
     // update unfinished todo counts
     utils.getUnfinishedTodos()
+    // if user is guest, store todos on local storage
+    // if user is member, upload todos to the serer
+    if (utils.getLoginUser() === null) {
+      utils.storedTodosIntoLocal()
+    } else {
+      ajax.OperationByAjax('general', 'upload-todos')
+    }
   })
 }
 
@@ -173,34 +207,10 @@ function switchTabEventListener() {
   })
 }
 
-// upload todo list to server database
-// registered user only
-function uploadTodosEventListener() {
-  $('.btn-store-on-db').on('click', (e) => {
-    // if todo list is empty, show modal to inform user
-    const todos = $('.list-group-all > .list-group-item').length
-    if (todos === 0) {
-      // show modal view
-      modal.DisplayModal('button', 'upload-todos', 'empty-uploaded-content')
-      return
-    }
-    // check filter mode is on ?
-    if (utils.checkFilterEnableStatus()) {
-      modal.DisplayModal('button', 'upload-todos', 'under-filter-mode')
-      return
-    }
-    // send ajax request when filter mode is off
-    ajax.OperationByAjax('button', 'upload-todos')
-  })
-}
-
 // operation confirmation under filter mode
 function todoOperationUnderFilterModeEventListener() {
   $('.modal-block').on('click', '.btn-op-under-filter-mode-confirm', (e) => {
     let op_name = $(e.target).attr('data-op-name')
-    if (op_name === 'uploadAllTodos') {
-      ajax.OperationByAjax('button', 'upload-todos')
-    }
     if (op_name === 'clearAllTodos') {
       $('.list-group-all > .list-group-item.done').remove()
       // apply filter condition & update current pill tab content 
@@ -444,6 +454,13 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
     // apply filter condition & update current pill tab content
     utils.applyFilterSettingFromDropdown()
     utils.updatePillTabs(utils.getCurrentPillTabName())
+    // if user is guest, store todos on local storage
+    // if user is member, upload todos to the serer
+    if (utils.getLoginUser() === null) {
+      utils.storedTodosIntoLocal()
+    } else {
+      ajax.OperationByAjax('general', 'upload-todos')
+    }
   })
 }
 
