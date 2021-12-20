@@ -27,6 +27,51 @@ function InsertFlashModal(modalName, cb) {
     cb()
     return
   }
+  if (modalName === 'clearNoneCompletedTodos') {
+    $('.modal-block').append(`
+    <div class="modal fade" id="clearNoneCompletedTodos" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">貼心提醒</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            管家沒有找到有標記完成的代辦事項，請確認代辦事項有打上勾勾
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">我知道了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
+  if (modalName === 'clearAllTodosConfirmation') {
+    $('.modal-block').append(`
+    <div class="modal fade" id="clearAllTodosConfirmation" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">貼心提醒</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
+          </div>
+          <div class="modal-body">
+            確定要清除所有標記完成的代辦事項嗎？
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">先不要好了</button>
+            <button type="button" class="btn btn-primary btn-clear-todo-confirm" data-bs-dismiss="modal">清除吧</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    `)
+    cb()
+    return
+  }
   if (modalName === 'clearAllTodosUnderFilterMode') {
     $('.modal-block').append(`
     <div class="modal fade" id="clearAllTodosUnderFilterMode" tabindex="-1" aria-labelledby="貼心提醒" aria-hidden="true">
@@ -37,7 +82,7 @@ function InsertFlashModal(modalName, cb) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉視窗"></button>
           </div>
           <div class="modal-body">
-            目前的代辦清單是被過濾的，執行此操作可能會清除掉目前清單以外的代辦事項<br>
+            目前的代辦清單是被過濾的，執行此操作可能會清除掉目前清單以外的代辦事項<br><br>
             點擊 " 我知道了 "，將套用此操作
           </div>
           <div class="modal-footer">
@@ -371,6 +416,18 @@ function RemoveFlashModal(modalName, cb) {
     })
     return
   }
+  if (modalName === 'clearNoneCompletedTodos') {
+    $('#clearNoneCompletedTodos').on('hidden.bs.modal', () => {
+      cb()
+      $('#clearNoneCompletedTodos').remove();
+    })
+  }
+  if (modalName === 'clearAllTodosConfirmation') {
+    $('#clearAllTodosConfirmation').on('hidden.bs.modal', () => {
+      cb()
+      $('#clearAllTodosConfirmation').remove();
+    })
+  }
   if (modalName === 'clearAllTodosUnderFilterMode') {
     $('#clearAllTodosUnderFilterMode').on('hidden.bs.modal', () => {
       cb()
@@ -687,6 +744,18 @@ function DisplayModal(type, op, state, cb) {
   }
   if (type === 'button') {
     if (op === 'clear-todos') {
+      if (state === 'clear-none-completed-todos') {
+        InsertFlashModal('clearNoneCompletedTodos', () => {
+          $('#clearNoneCompletedTodos').modal('show')
+        })
+        RemoveFlashModal('#clearNoneCompletedTodos', () => {})
+      }
+      if (state === 'double-confirmation') {
+        InsertFlashModal('clearAllTodosConfirmation', () => {
+          $('#clearAllTodosConfirmation').modal('show')
+        })
+        RemoveFlashModal('clearAllTodosConfirmation', () => {})
+      }
       if (state === 'under-filter-mode') {
         InsertFlashModal('clearAllTodosUnderFilterMode', () => {
           $('#clearAllTodosUnderFilterMode').modal('show')

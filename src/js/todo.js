@@ -14,7 +14,7 @@ function initTodoAllEventListener() {
   completeTodoEventListener()
   switchTabEventListener()
   todoOperationUnderFilterModeEventListener()
-  openFilterModalOnMobileEventListener()
+  displayClearCompletedTodoConfirmationModalEventListener()
   addCategoryOnTodoInfoModalEventListener()
   removeExistedCategoryOnTodoInfoModalEventListener()
   openTodoInfoModalEventListener()
@@ -141,11 +141,24 @@ function displayTodoDeletionConfirmModalEventListener() {
 // clear all finished todos
 function clearAllTodosEventListener() {
   $('.btn-clear-todo').on('click', () => {
+    if ($('.list-group-all > .list-group-item.done').length === 0) {
+      modal.DisplayModal('button', 'clear-todos', 'clear-none-completed-todos')
+      return
+    } 
     // check if filter mode is on ?
     if (utils.checkFilterEnableStatus()) {
       modal.DisplayModal('button', 'clear-todos', 'under-filter-mode')
       return
     }
+    // ask user again
+    modal.DisplayModal('button', 'clear-todos', 'double-confirmation')
+    return;
+  })
+}
+
+// clear completed todo confirmation 
+function displayClearCompletedTodoConfirmationModalEventListener() {
+  $('.modal-block').on('click', '.btn-clear-todo-confirm', (() => {
     // clear all todos with 'done' status
     $('.list-group-all > .list-group-item.done').remove()
     // apply dropdown filter condition & update current pill tab content
@@ -160,7 +173,7 @@ function clearAllTodosEventListener() {
     } else {
       ajax.OperationByAjax('general', 'upload-todos')
     }
-  })
+  }))
 }
 
 // complete todo
