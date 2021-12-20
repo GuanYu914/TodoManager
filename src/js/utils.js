@@ -1,29 +1,3 @@
-const utils = {
-  SwitchToLoginState: SwitchToLoginState,
-  SwitchToLogoutState: SwitchToLogoutState,
-  packAllTodos: packAllTodos,
-  getUnfinishedTodos: getUnfinishedTodos,
-  escapeHtml: escapeHtml,
-  recordCurrentEditedTodoObj: recordCurrentEditedTodoObj,
-  getCurrentEditedTodoObj: getCurrentEditedTodoObj,
-  updateCategoriesDropdownList: updateCategoriesDropdownList,
-  applyFilterSettingFromDropdown: applyFilterSettingFromDropdown,
-  applyCheckedEffect: applyCheckedEffect,
-  getOriginalTodo: getOriginalTodo,
-  getCurrentPillTabName: getCurrentPillTabName,
-  updatePillTabs: updatePillTabs,
-  checkFilterEnableStatus: checkFilterEnableStatus,
-  updateFilterIcon: updateFilterIcon,
-  updateLoginUser: updateLoginUser,
-  getLoginUser: getLoginUser,
-  storedTodosIntoLocal: storedTodosIntoLocal,
-  checkCurrentLoginUserHaveLocalTodos: checkCurrentLoginUserHaveLocalTodos,
-  checkGuestHaveLocalTodos: checkGuestHaveLocalTodos,
-  getTodosFromLocal: getTodosFromLocal,
-  removeUploadedTodosInLocal: removeUploadedTodosInLocal,
-  getColorOfPriority: getColorOfPriority
-}
-
 function getColorOfPriority(priority) {
   if (priority === '優先性：高') {
     return 'bg-priority-high'
@@ -660,4 +634,28 @@ function getLoginUser () {
   return user
 }
 
-module.exports = utils
+module.exports = {
+  SwitchToLoginState: SwitchToLoginState,
+  SwitchToLogoutState: SwitchToLogoutState,
+  packAllTodos: packAllTodos,
+  getUnfinishedTodos: getUnfinishedTodos,
+  escapeHtml: escapeHtml,
+  recordCurrentEditedTodoObj: recordCurrentEditedTodoObj,
+  getCurrentEditedTodoObj: getCurrentEditedTodoObj,
+  updateCategoriesDropdownList: updateCategoriesDropdownList,
+  applyFilterSettingFromDropdown: applyFilterSettingFromDropdown,
+  applyCheckedEffect: applyCheckedEffect,
+  getOriginalTodo: getOriginalTodo,
+  getCurrentPillTabName: getCurrentPillTabName,
+  updatePillTabs: updatePillTabs,
+  checkFilterEnableStatus: checkFilterEnableStatus,
+  updateFilterIcon: updateFilterIcon,
+  updateLoginUser: updateLoginUser,
+  getLoginUser: getLoginUser,
+  storedTodosIntoLocal: storedTodosIntoLocal,
+  checkCurrentLoginUserHaveLocalTodos: checkCurrentLoginUserHaveLocalTodos,
+  checkGuestHaveLocalTodos: checkGuestHaveLocalTodos,
+  getTodosFromLocal: getTodosFromLocal,
+  removeUploadedTodosInLocal: removeUploadedTodosInLocal,
+  getColorOfPriority: getColorOfPriority
+}

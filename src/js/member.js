@@ -1,9 +1,5 @@
-const ajax = require('./ajax')
-const utils = require('./utils')
-
-const member = {
-  initMemberAllEventListener: initMemberAllEventListener
-}
+const {OperationByAjax} = require('./ajax')
+const {getLoginUser} = require('./utils')
 
 function initMemberAllEventListener() {
   registerSubmitEventListener()
@@ -43,7 +39,7 @@ function registerSubmitEventListener() {
     $('.registerModal-form').removeClass('was-validated')
     // pass form check, then send ajax request
     if (this.checkValidity()) {
-      ajax.OperationByAjax('form', 'register')
+      OperationByAjax('form', 'register')
       // enable spinner animation
       $('.registerModal-form-spinner').toggleClass('hidden')
     }
@@ -103,7 +99,7 @@ function loginSubmitEventListener() {
     $('.loginModal-form').removeClass('was-validated')
     // pass form check, then send ajax request
     if (this.checkValidity()) {
-      ajax.OperationByAjax('form', 'login')
+      OperationByAjax('form', 'login')
       // enable spinner animation
       $('.loginModal-form-spinner').toggleClass('hidden')
     }
@@ -157,7 +153,7 @@ function loginSubmitEventListener() {
 // show logout confirmation modal
 function logoutEventListener() {
   $('.btn-logout-confirm').on('click', () => {
-    ajax.OperationByAjax('button', 'logout')
+    OperationByAjax('button', 'logout')
   })
 }
 
@@ -186,7 +182,7 @@ function EditUserProfileEventListener() {
     e.stopPropagation()
 
     if (this.checkValidity()) {
-      ajax.OperationByAjax('form', 'update-user')
+      OperationByAjax('form', 'update-user')
       // enable spinner animation
       $('.editProfileModal-form-spinner').toggleClass('hidden')
     }
@@ -217,4 +213,6 @@ function EditUserProfileEventListener() {
   })
 }
 
-module.exports = member
+module.exports = {
+  initMemberAllEventListener: initMemberAllEventListener
+}

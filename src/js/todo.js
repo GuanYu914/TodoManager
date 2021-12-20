@@ -1,10 +1,22 @@
-const utils = require('./utils')
-const modal = require('./modal')
-const ajax = require('./ajax')
-
-const todo = {
-  initTodoAllEventListener: initTodoAllEventListener
-}
+const {
+  getUnfinishedTodos,
+  escapeHtml,
+  recordCurrentEditedTodoObj,
+  getCurrentEditedTodoObj,
+  updateCategoriesDropdownList,
+  applyFilterSettingFromDropdown,
+  applyCheckedEffect,
+  getOriginalTodo,
+  getCurrentPillTabName,
+  updatePillTabs,
+  checkFilterEnableStatus,
+  getLoginUser,
+  storedTodosIntoLocal,
+  getColorOfPriority,
+  updateFilterIcon
+} = require('./utils')
+const {DisplayModal} = require('./modal')
+const {OperationByAjax} = require('./ajax')
 
 function initTodoAllEventListener() {
   addTodoEventListener()
@@ -53,7 +65,7 @@ function addTodoEventListener() {
           </div>
           <div class="d-flex list-group-item-user-operation align-items-center mt-2">
             <input class="flex-shrink-0 form-check-input pointer mt-0 me-2 " type="checkbox" >
-            <p class="flex-grow-1 text-break list-group-item-p space fs-5 p-2 me-2 mb-0">${utils.escapeHtml($('#input-todo-content').val())}</p>
+            <p class="flex-grow-1 text-break list-group-item-p space fs-5 p-2 me-2 mb-0">${escapeHtml($('#input-todo-content').val())}</p>
             <img src="./img/info-lg.svg" class="flex-shrink-0 todo-info-icon pointer me-3" alt="Bootstrap-icon" width="18" height="18">
             <button type="button" class="flex-shrink-0 btn-close px-0 py-0" aria-label="Close"></button>
           </div>
@@ -64,22 +76,22 @@ function addTodoEventListener() {
         // clear input field content
         $('#input-todo-content').val('')
         // apply dropdown filter condition & update current pill tab content
-        utils.applyFilterSettingFromDropdown()
-        utils.updatePillTabs('totals')
-        utils.updatePillTabs('unfinished')
-        utils.updatePillTabs('finished')
+        applyFilterSettingFromDropdown()
+        updatePillTabs('totals')
+        updatePillTabs('unfinished')
+        updatePillTabs('finished')
         // update unfinished todo counts
-        utils.getUnfinishedTodos()
+        getUnfinishedTodos()
         // if user is guest, store todos on local storage
         // if user is member, upload todos to the serer
-        if (utils.getLoginUser() === null) {
-          utils.storedTodosIntoLocal()
+        if (getLoginUser() === null) {
+          storedTodosIntoLocal()
         } else {
-          ajax.OperationByAjax('general', 'upload-todos')
+          OperationByAjax('general', 'upload-todos')
         }
       } else {
         // show modal view
-        modal.DisplayModal('input', 'submit', 'empty-content')
+        DisplayModal('input', 'submit', 'empty-content')
       }
     }
   })
@@ -92,29 +104,29 @@ function deleteTodoRelativeInfoEventListener() {
     if ($(e.target).parent().hasClass('badge')) {
       let tag_name = $(e.target).parent().find('.category-name').text()
       // get original todo, then remove category tag
-      let todo = utils.getOriginalTodo(e.target)
+      let todo = getOriginalTodo(e.target)
       todo.find('.categories-tags > .d-inline-flex').each(function () {
         if ($(this).find('.category-name').text() === tag_name) {
           $(this).remove()
         }
       })
       // apply dropdown filter condition & update current pill tab content
-      utils.applyFilterSettingFromDropdown()
-      utils.updatePillTabs(utils.getCurrentPillTabName())
+      applyFilterSettingFromDropdown()
+      updatePillTabs(getCurrentPillTabName())
       // update unfinished todo counts
-      utils.getUnfinishedTodos()
+      getUnfinishedTodos()
       // if user is guest, store todos on local storage
       // if user is member, upload todos to the serer
-      if (utils.getLoginUser() === null) {
-        utils.storedTodosIntoLocal()
+      if (getLoginUser() === null) {
+        storedTodosIntoLocal()
       } else {
-        ajax.OperationByAjax('general', 'upload-todos')
+        OperationByAjax('general', 'upload-todos')
       }
     }
     // user wants to delete entire todo, then display confirmation modal
     if ($(e.target).parent().hasClass('list-group-item-user-operation')) {
-      modal.DisplayModal('button', 'delete-todo', 'confirmation')
-      utils.recordCurrentEditedTodoObj($(e.target).parents('.list-group-item'))
+      DisplayModal('button', 'delete-todo', 'confirmation')
+      recordCurrentEditedTodoObj($(e.target).parents('.list-group-item'))
     }
   })
 }
@@ -122,19 +134,19 @@ function deleteTodoRelativeInfoEventListener() {
 // removed todo confirmation 
 function displayTodoDeletionConfirmModalEventListener() {
   $('.modal-block').on('click', '.btn-remove-todo-confirm', (() => {
-    let todo = utils.getOriginalTodo(utils.getCurrentEditedTodoObj())
+    let todo = getOriginalTodo(getCurrentEditedTodoObj())
     todo.remove()
     // apply dropdown filter condition & update current pill tab content
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs(utils.getCurrentPillTabName())
+    applyFilterSettingFromDropdown()
+    updatePillTabs(getCurrentPillTabName())
     // update unfinished todo counts
-    utils.getUnfinishedTodos()
+    getUnfinishedTodos()
     // if user is guest, store todos on local storage
     // if user is member, upload todos to the serer
-    if (utils.getLoginUser() === null) {
-      utils.storedTodosIntoLocal()
+    if (getLoginUser() === null) {
+      storedTodosIntoLocal()
     } else {
-      ajax.OperationByAjax('general', 'upload-todos')
+      OperationByAjax('general', 'upload-todos')
     }
   }))
 }
@@ -143,16 +155,16 @@ function displayTodoDeletionConfirmModalEventListener() {
 function clearAllTodosEventListener() {
   $('.btn-clear-todo').on('click', () => {
     if ($('.list-group-all > .list-group-item.done').length === 0) {
-      modal.DisplayModal('button', 'clear-todos', 'clear-none-completed-todos')
+      DisplayModal('button', 'clear-todos', 'clear-none-completed-todos')
       return
     } 
     // check if filter mode is on ?
-    if (utils.checkFilterEnableStatus()) {
-      modal.DisplayModal('button', 'clear-todos', 'under-filter-mode')
+    if (checkFilterEnableStatus()) {
+      DisplayModal('button', 'clear-todos', 'under-filter-mode')
       return
     }
     // ask user again
-    modal.DisplayModal('button', 'clear-todos', 'double-confirmation')
+    DisplayModal('button', 'clear-todos', 'double-confirmation')
     return;
   })
 }
@@ -163,16 +175,16 @@ function displayClearCompletedTodoConfirmationModalEventListener() {
     // clear all todos with 'done' status
     $('.list-group-all > .list-group-item.done').remove()
     // apply dropdown filter condition & update current pill tab content
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs(utils.getCurrentPillTabName())
+    applyFilterSettingFromDropdown()
+    updatePillTabs(getCurrentPillTabName())
     // update unfinished todo counts
-    utils.getUnfinishedTodos()
+    getUnfinishedTodos()
     // if user is guest, store todos on local storage
     // if user is member, upload todos to the serer
-    if (utils.getLoginUser() === null) {
-      utils.storedTodosIntoLocal()
+    if (getLoginUser() === null) {
+      storedTodosIntoLocal()
     } else {
-      ajax.OperationByAjax('general', 'upload-todos')
+      OperationByAjax('general', 'upload-todos')
     }
   }))
 }
@@ -181,25 +193,25 @@ function displayClearCompletedTodoConfirmationModalEventListener() {
 function completeTodoEventListener() {
   $(".list-group-all, .list-group-unfinished, .list-group-finished").on('click', '.form-check-input', (e) => {
     // get original todo
-    let todo = utils.getOriginalTodo(e.target)
+    let todo = getOriginalTodo(e.target)
     // toggle classes to apply complete effect
     todo.find('.list-group-item-p').toggleClass('complete')
     // toggle classes to switch todo into 'done' status
     todo.toggleClass('todo')
     todo.toggleClass('done')
     // refresh checked button status
-    utils.applyCheckedEffect()
+    applyCheckedEffect()
     // apply dropdown filter condition & update current pill tab content
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs(utils.getCurrentPillTabName())
+    applyFilterSettingFromDropdown()
+    updatePillTabs(getCurrentPillTabName())
     // update unfinished todo counts
-    utils.getUnfinishedTodos()
+    getUnfinishedTodos()
     // if user is guest, store todos on local storage
     // if user is member, upload todos to the serer
-    if (utils.getLoginUser() === null) {
-      utils.storedTodosIntoLocal()
+    if (getLoginUser() === null) {
+      storedTodosIntoLocal()
     } else {
-      ajax.OperationByAjax('general', 'upload-todos')
+      OperationByAjax('general', 'upload-todos')
     }
   })
 }
@@ -209,15 +221,15 @@ function switchTabEventListener() {
   // switch to unfinished-tab
   $('#unfinished-tab').on('click', (e) => {
     // apply dropdown filter condition & update current pill tab content | 套用篩選機制 & 更新目前 pill tab 
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs('unfinished')
+    applyFilterSettingFromDropdown()
+    updatePillTabs('unfinished')
   })
 
   // switch to finished-tab
   $('#finished-tab').on('click', (e) => {
     // apply dropdown filter condition & update current pill tab content | 套用篩選機制 & 更新目前 pill tab 
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs('finished')
+    applyFilterSettingFromDropdown()
+    updatePillTabs('finished')
   })
 }
 
@@ -228,10 +240,10 @@ function todoOperationUnderFilterModeEventListener() {
     if (op_name === 'clearAllTodos') {
       $('.list-group-all > .list-group-item.done').remove()
       // apply filter condition & update current pill tab content 
-      utils.applyFilterSettingFromDropdown()
-      utils.updatePillTabs(utils.getCurrentPillTabName())
+      applyFilterSettingFromDropdown()
+      updatePillTabs(getCurrentPillTabName())
       // update unfinished todo counts
-      utils.getUnfinishedTodos()
+      getUnfinishedTodos()
     } 
   })
 }
@@ -271,7 +283,7 @@ function addCategoryOnTodoInfoModalEventListener() {
       $('.modal-body > .categories-block > .categories-tags').prepend(`
         <h4 class="d-inline-flex category-badge mb-2">
           <span class="align-middle badge rounded-pill bg-category">
-            <span class="align-middle category-name">${utils.escapeHtml(content)}</span>
+            <span class="align-middle category-name">${escapeHtml(content)}</span>
             <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
           </span>
         </h4>
@@ -308,7 +320,7 @@ function addCategoryOnTodoInfoModalEventListener() {
         $('.modal-body > .categories-block > .categories-tags').prepend(`
           <h4 class="d-inline-flex category-badge mb-2">
             <span class="align-middle badge rounded-pill bg-category">
-              <span class="align-middle category-name">${utils.escapeHtml(content)}</span>
+              <span class="align-middle category-name">${escapeHtml(content)}</span>
               <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
             </span>
           </h4>
@@ -352,7 +364,7 @@ function openTodoInfoModalEventListener() {
       $('.modal-body > .categories-block > .existed-categories-tags').append(`
       <h4 class="d-inline-flex category-badge mb-1">
         <span class="align-middle badge rounded-pill bg-category pointer">
-          <span class="align-middle category-name">${utils.escapeHtml(currentCategoriesName)}</span>
+          <span class="align-middle category-name">${escapeHtml(currentCategoriesName)}</span>
         </span>
       </h4>
       `)
@@ -381,7 +393,7 @@ function openTodoInfoModalEventListener() {
         $('.modal-body > .categories-block > .categories-tags').append(`
           <h4 class="d-inline-flex category-badge mb-2">
             <span class="align-middle badge rounded-pill bg-category">
-              <span class="align-middle category-name">${utils.escapeHtml(categoriesOfTodo[i])}</span>
+              <span class="align-middle category-name">${escapeHtml(categoriesOfTodo[i])}</span>
               <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
             </span>
           </h4>
@@ -410,7 +422,7 @@ function openTodoInfoModalEventListener() {
     // show todo info modal
     $('#todoInfoModal').modal('show')
     // record current edited todo
-    utils.recordCurrentEditedTodoObj(utils.getOriginalTodo(e.target))
+    recordCurrentEditedTodoObj(getOriginalTodo(e.target))
   })
 }
 
@@ -418,7 +430,7 @@ function openTodoInfoModalEventListener() {
 function setTodoInfoWithTodoInfoModalValueEventListener() {
   $('.btn-todo-info-icon-confirm').on('click', () => {
     // get current edited todo
-    let e = utils.getCurrentEditedTodoObj() 
+    let e = getCurrentEditedTodoObj() 
     // get all categories name
     // use trim to remove space character in both ends of string 
     let currentCategories = $('.modal-body > .categories-block > .categories-tags').get(0).innerText.trim()
@@ -440,8 +452,8 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
     if (priority) {
       e.children('.categories-tags').append(`
         <h4 class="d-inline-flex category-badge mb-1">
-          <span class="align-middle badge rounded-pill ${utils.getColorOfPriority('優先性：' + priority)}">
-            <span class="align-middle category-name">優先性：${utils.escapeHtml(priority)}</span>
+          <span class="align-middle badge rounded-pill ${getColorOfPriority('優先性：' + priority)}">
+            <span class="align-middle category-name">優先性：${escapeHtml(priority)}</span>
           </span>
         </h4>
       `)
@@ -451,7 +463,7 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
         e.children('.categories-tags').append(`
           <h4 class="d-inline-flex category-badge mb-1">
             <span class="align-middle badge rounded-pill bg-category">
-              <span class="align-middle category-name">${utils.escapeHtml(currentCategories[i])}</span>
+              <span class="align-middle category-name">${escapeHtml(currentCategories[i])}</span>
               <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
             </span>
           </h4>
@@ -462,18 +474,17 @@ function setTodoInfoWithTodoInfoModalValueEventListener() {
       e.find('.list-group-item-p').text(todo_content)
     }
     if (comment) {
-      // e.children('.comment-block').append(`${utils.escapeHtml(comment)}`)
       e.children('.comment-block').text('備註：' + comment)
     }
     // apply filter condition & update current pill tab content
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs(utils.getCurrentPillTabName())
+    applyFilterSettingFromDropdown()
+    updatePillTabs(getCurrentPillTabName())
     // if user is guest, store todos on local storage
     // if user is member, upload todos to the serer
-    if (utils.getLoginUser() === null) {
-      utils.storedTodosIntoLocal()
+    if (getLoginUser() === null) {
+      storedTodosIntoLocal()
     } else {
-      ajax.OperationByAjax('general', 'upload-todos')
+      OperationByAjax('general', 'upload-todos')
     }
   })
 }
@@ -503,7 +514,7 @@ function addCategoryFromExistedCategoriesEventListener() {
     $('.modal-body > .categories-block > .categories-tags').prepend(`
       <h4 class="d-inline-flex category-badge mb-2">
         <span class="align-middle badge rounded-pill bg-category">
-          <span class="align-middle category-name">${utils.escapeHtml(clickedCategoryName)}</span>
+          <span class="align-middle category-name">${escapeHtml(clickedCategoryName)}</span>
           <button type="button" class="align-middle btn-close btn-close-white px-0 py-0" aria-label="Close"></button>
         </span>
       </h4>
@@ -530,19 +541,19 @@ function priorityFilterAllEventListener() {
     // set priority filer title as selected option
     $('.priority-filter-title').text($(this).text())
     // apply filter condition & update current pill tab content
-    utils.applyFilterSettingFromDropdown()    
-    utils.updatePillTabs(utils.getCurrentPillTabName())
+    applyFilterSettingFromDropdown()    
+    updatePillTabs(getCurrentPillTabName())
     // update filter icon state
-    utils.updateFilterIcon()
+    updateFilterIcon()
   })
   // clear priority filter option event listener
   $('.priority-filter-menu').on('click', '.filter-reset', function () {
     $('.priority-filter-title').text('優先性')
     // apply filter condition & update current pill tab content
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs(utils.getCurrentPillTabName())
+    applyFilterSettingFromDropdown()
+    updatePillTabs(getCurrentPillTabName())
     // update filter icon state
-    utils.updateFilterIcon()
+    updateFilterIcon()
     // remove reset message
     $('.priority-filter-menu').find('.filter-reset').remove()
   })
@@ -552,31 +563,33 @@ function priorityFilterAllEventListener() {
 function categoryFilterAllEventListener() {
   $('.categories-filter-title').click(() => {
     // get current categories list
-    utils.updateCategoriesDropdownList()
+    updateCategoriesDropdownList()
     // update filter icon state
-    utils.updateFilterIcon()
+    updateFilterIcon()
   })
   // user select categories filter option
   $('.categories-filter-menu').on('click', '.category-filter-option', function () {
     // set categories filer title as selected option
     $('.categories-filter-title').text($(this).text())
     // apply filter condition & update current pill tab content
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs(utils.getCurrentPillTabName())
+    applyFilterSettingFromDropdown()
+    updatePillTabs(getCurrentPillTabName())
     // update filter icon state
-    utils.updateFilterIcon()
+    updateFilterIcon()
   })
   // clear categories filter option event listener
   $('.categories-filter-menu').on('click', '.filter-reset', function () {
     $('.categories-filter-title').text('分類')
     // apply filter condition & update current pill tab content
-    utils.applyFilterSettingFromDropdown()
-    utils.updatePillTabs(utils.getCurrentPillTabName())
+    applyFilterSettingFromDropdown()
+    updatePillTabs(getCurrentPillTabName())
     // update filter icon state     
-    utils.updateFilterIcon()
+    updateFilterIcon()
     // remove reset message
     $('.categories-filter-menu').find('.filter-reset').remove()
   })
 }
 
-module.exports = todo
+module.exports = {
+  initTodoAllEventListener: initTodoAllEventListener
+}

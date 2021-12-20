@@ -7,21 +7,21 @@ const bs_modal = require('../../node_modules/bootstrap/js/src/modal')
 const bs_offcanvas = require('../../node_modules/bootstrap/js/src/offcanvas')
 const bs_tab = require('../../node_modules/bootstrap/js/src/tab')
 // load pre-defined js files 
-const ajax = require('./ajax')
-const todo = require('./todo')
-const member = require('./member')
+const {OperationByAjax} = require('./ajax')
+const {initTodoAllEventListener} = require('./todo')
+const {initMemberAllEventListener} = require('./member')
 import '../css/index.css'
 import '../css/theme.scss'
 
 $(function () {
   console.log('document loaded completely')
   // if page reloaded, read session state
-  ajax.OperationByAjax('general', 'reload-get-session')
+  OperationByAjax('general', 'reload-get-session')
   // open introduction modal
   $('#introductionModal').modal('show');
 
-  todo.initTodoAllEventListener()
-  member.initMemberAllEventListener()
+  initTodoAllEventListener()
+  initMemberAllEventListener()
 
   // RWD at width@580px 
   // switch navbar to offcanva style

@@ -1,10 +1,16 @@
-const utils = require('./utils')
-const modal = require('./modal')
+const {
+  SwitchToLoginState,
+  SwitchToLogoutState,
+  packAllTodos,
+  updateLoginUser,
+  storedTodosIntoLocal,
+  checkCurrentLoginUserHaveLocalTodos,
+  checkGuestHaveLocalTodos,
+  getTodosFromLocal,
+  removeUploadedTodosInLocal,
+} = require('./utils')
+const {DisplayModal} = require('./modal')
 const {APIsURL} = require('./constant');
-
-const ajax = {
-  OperationByAjax: OperationByAjax,
-}
 
 // list ajax requests and operations
 function OperationByAjax(type, op) {
@@ -30,17 +36,17 @@ function OperationByAjax(type, op) {
           $('.registerModal-form-spinner').toggleClass('hidden')
           // existed register user founded in database
           if (json.isSuccessful === 'failed' && json.displayError === 'true') {
-            modal.DisplayModal('form', 'register', 'done-existed-register-user')
+            DisplayModal('form', 'register', 'done-existed-register-user')
             return
           }
           // receive server-side error from server
           if (json.isSuccessful === 'failed') {
-            modal.DisplayModal('form', 'register', 'done-server-side-error')
+            DisplayModal('form', 'register', 'done-server-side-error')
             return
           }
           // enroll successfully
           if (json.isSuccessful === 'successful') {
-            modal.DisplayModal('form', 'register', 'done-enroll-successfully')
+            DisplayModal('form', 'register', 'done-enroll-successfully')
             // remove 'hidden.bs.modal' event handler to prevent execute multiple times 
             $('#registerSuccessfully').off('hidden.bs.modal').on('hidden.bs.modal', () => {
               // send an ajax request to login directly
@@ -52,7 +58,7 @@ function OperationByAjax(type, op) {
         .fail(() => {
           // hide spinner animation
           $('.registerModal-form-spinner').toggleClass('hidden')
-          modal.DisplayModal('form', 'register', 'fail-ajax-error')
+          DisplayModal('form', 'register', 'fail-ajax-error')
         })
     }
     // when get successful response, it will execute 'register-get-session'
@@ -73,7 +79,7 @@ function OperationByAjax(type, op) {
       })
         .done((json) => {
           if (json.isSuccessful === 'failed') {
-            modal.DisplayModal('form', 'login-after-register', 'done-server-side-error')
+            DisplayModal('form', 'login-after-register', 'done-server-side-error')
             return
           }
           if (json.isSuccessful === 'successful') {
@@ -83,7 +89,7 @@ function OperationByAjax(type, op) {
           }
         })
         .fail(() => {
-          modal.DisplayModal('form', 'login-after-register', 'fail-ajax-error')
+          DisplayModal('form', 'login-after-register', 'fail-ajax-error')
         })
     }
     // when get successful response, it will switch to login state
@@ -95,17 +101,17 @@ function OperationByAjax(type, op) {
         .done((json) => {
           // receive error when get wrong a session variable
           if (json.isSuccessful === 'failed') {
-            modal.DisplayModal('form', 'register-get-session', 'done-server-side-error')
+            DisplayModal('form', 'register-get-session', 'done-server-side-error')
             return
           }
           if (json.isSuccessful === 'successful') {
-            utils.updateLoginUser(true, json.data.nickname, json.data.account)
-            utils.SwitchToLoginState(json.data.nickname)
+            updateLoginUser(true, json.data.nickname, json.data.account)
+            SwitchToLoginState(json.data.nickname)
             OperationByAjax('general', 'get-todos')
           }
         })
         .fail(() => {
-          modal.DisplayModal('form', 'register-get-session', 'fail-ajax-error')
+          DisplayModal('form', 'register-get-session', 'fail-ajax-error')
         })
     }
     // when get successful response, it will execute 'login-get-session'
@@ -125,12 +131,12 @@ function OperationByAjax(type, op) {
           // hide spinner animation
           $('.loginModal-form-spinner').toggleClass('hidden')
           if (json.isSuccessful === 'failed' && json.displayError === 'true') {
-            modal.DisplayModal('form', 'login', 'done-not-existed-account')
+            DisplayModal('form', 'login', 'done-not-existed-account')
             return
           }
           // receive server-side error form server 
           if (json.isSuccessful === 'failed') {
-            modal.DisplayModal('form', 'login', 'done-server-side-error')
+            DisplayModal('form', 'login', 'done-server-side-error')
             return
           }
           // login successfully
@@ -143,7 +149,7 @@ function OperationByAjax(type, op) {
         .fail(() => {
           // hide spinner animation
           $('.loginModal-form-spinner').toggleClass('hidden')
-          modal.DisplayModal('form', 'login', 'fail-ajax-error')
+          DisplayModal('form', 'login', 'fail-ajax-error')
         })
     }
     // when get successful response, it will switch to login state and execute 'get-todos'
@@ -155,19 +161,19 @@ function OperationByAjax(type, op) {
         .done((json) => {
           // receive error when get wrong a session variable
           if (json.isSuccessful === 'failed') {
-            modal.DisplayModal('form', 'login-get-session', 'done-server-side-error')
+            DisplayModal('form', 'login-get-session', 'done-server-side-error')
             return
           }
-          modal.DisplayModal('form', 'login-get-session', 'done-login-successfully')
+          DisplayModal('form', 'login-get-session', 'done-login-successfully')
           // remove 'hidden.bs.modal' event handler to prevent execute multiple times 
           $('#loginSuccessfully').off('hidden.bs.modal').on('hidden.bs.modal', () => {
-            utils.updateLoginUser(true, json.data.nickname, json.data.account)
-            utils.SwitchToLoginState(json.data.nickname)
+            updateLoginUser(true, json.data.nickname, json.data.account)
+            SwitchToLoginState(json.data.nickname)
             OperationByAjax('general', 'get-todos')
           })
         })
         .fail(() => {
-          modal.DisplayModal('form', 'login-get-session', 'fail-ajax-error')
+          DisplayModal('form', 'login-get-session', 'fail-ajax-error')
         })
     }
     // update nickname, password of user
@@ -187,18 +193,18 @@ function OperationByAjax(type, op) {
           // hide spinner animation
           $('.editProfileModal-form-spinner').toggleClass('hidden')
           if (json.isSuccessful === 'failed') {
-            modal.DisplayModal('form', 'update-user', 'done-server-side-error')
+            DisplayModal('form', 'update-user', 'done-server-side-error')
             return
           }
           // logout after hiding this modal
-          modal.DisplayModal('form', 'update-user', 'done-update-profile-successfully', () => {
+          DisplayModal('form', 'update-user', 'done-update-profile-successfully', () => {
             OperationByAjax('button', 'logout')
           })
         })
         .fail(() => {
           // hide spinner animation
           $('.editProfileModal-form-spinner').toggleClass('hidden')
-          modal.DisplayModal('form', 'update-user', 'fail-ajax-error')
+          DisplayModal('form', 'update-user', 'fail-ajax-error')
         }) 
     }
     return
@@ -212,16 +218,16 @@ function OperationByAjax(type, op) {
       })
       .done(() => {
         // set user to guest, and fetch local todos
-        utils.updateLoginUser(false)
-        if(utils.checkGuestHaveLocalTodos()){
-          utils.SwitchToLogoutState(utils.getTodosFromLocal())
+        updateLoginUser(false)
+        if(checkGuestHaveLocalTodos()){
+          SwitchToLogoutState(getTodosFromLocal())
           return
         }
         // no local todos to fetch
-        utils.SwitchToLogoutState();
+        SwitchToLogoutState();
       })
       .fail(() => {
-        modal.DisplayModal('button', 'logout', 'fail-ajax-error')
+        DisplayModal('button', 'logout', 'fail-ajax-error')
       })
     }
     return
@@ -236,21 +242,21 @@ function OperationByAjax(type, op) {
         .done((json) => {
           // user is guest
           if (json.isSuccessful === 'failed') {
-            utils.updateLoginUser(false)
-            if(utils.checkGuestHaveLocalTodos()){
-              utils.SwitchToLogoutState(utils.getTodosFromLocal())
+            updateLoginUser(false)
+            if(checkGuestHaveLocalTodos()){
+              SwitchToLogoutState(getTodosFromLocal())
               return
             }
-            utils.SwitchToLogoutState();
+            SwitchToLogoutState();
             return
           }
           // user is member, get todos from server
-          utils.updateLoginUser(true, json.data.nickname, json.data.account)
-          utils.SwitchToLoginState(json.data.nickname)
+          updateLoginUser(true, json.data.nickname, json.data.account)
+          SwitchToLoginState(json.data.nickname)
           OperationByAjax('general', 'get-todos')
         })
         .fail(() => {
-          modal.DisplayModal('general', 'reload-get-session', 'fail-ajax-error')
+          DisplayModal('general', 'reload-get-session', 'fail-ajax-error')
         })
         return
     }
@@ -260,27 +266,27 @@ function OperationByAjax(type, op) {
         url: `${APIsURL}/handle_store_todos.php`,
         xhrFields: { withCredentials: true }
       }, {
-        content: JSON.stringify(utils.packAllTodos())
+        content: JSON.stringify(packAllTodos())
       })
         .done(json => {
           if (json.isSuccessful === 'successful') {
             // remove any uploaded todos on local storage
-            utils.removeUploadedTodosInLocal()
+            removeUploadedTodosInLocal()
             return
           }
           if (json.isSuccessful === 'failed') {
             // write uploaded todos into local storage
-            utils.storedTodosIntoLocal()
+            storedTodosIntoLocal()
             // display modal about storing current todos into local storage
-            modal.DisplayModal('general', 'upload-todos', 'done-upload-todos-unsuccessfully')
+            DisplayModal('general', 'upload-todos', 'done-upload-todos-unsuccessfully')
             return
           }
         })
         .fail(() => {
           // write uploaded todos into local storage
-          utils.storedTodosIntoLocal()
+          storedTodosIntoLocal()
           // display modal about storing current todos into local storage
-          modal.DisplayModal('general', 'upload-todos', 'done-upload-todos-unsuccessfully')
+          DisplayModal('general', 'upload-todos', 'done-upload-todos-unsuccessfully')
         })
       return
     }
@@ -294,40 +300,42 @@ function OperationByAjax(type, op) {
         .done((json) => {
           if (json.isSuccessful === 'failed') {
             // check local storage first, if it existed, then show modal about current todos info is located in local storage
-            if (utils.checkCurrentLoginUserHaveLocalTodos()) {
-              utils.SwitchToLoginState(utils.getTodosFromLocal())
-              modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
+            if (checkCurrentLoginUserHaveLocalTodos()) {
+              SwitchToLoginState(getTodosFromLocal())
+              DisplayModal('general', 'get-todos', 'done-get-todos-locally')
               return
             }
             // if it is doesn't, show server-side error modal
-            modal.DisplayModal('general', 'get-todos', 'fail-ajax-error')
+            DisplayModal('general', 'get-todos', 'fail-ajax-error')
           }
           if (json.isSuccessful === 'successful') {
-            if (utils.checkCurrentLoginUserHaveLocalTodos()) {
+            if (checkCurrentLoginUserHaveLocalTodos()) {
               // get todos from local storage
-              utils.SwitchToLoginState(utils.getTodosFromLocal())
+              SwitchToLoginState(getTodosFromLocal())
               // display modal about current todos info is located in local storage
-              modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
+              DisplayModal('general', 'get-todos', 'done-get-todos-locally')
               return
             }
             // if no todos are located in local storage, get todos data from json response
-            utils.SwitchToLoginState(json.data)
+            SwitchToLoginState(json.data)
             return
           }
         })
         .fail(() => {
           // check local storage first, if it existed, then show modal about current todos info is located in local storage
-          if (utils.checkCurrentLoginUserHaveLocalTodos()) {
-            utils.getTodosFromLocal()
-            modal.DisplayModal('general', 'get-todos', 'done-get-todos-locally')
+          if (checkCurrentLoginUserHaveLocalTodos()) {
+            getTodosFromLocal()
+            DisplayModal('general', 'get-todos', 'done-get-todos-locally')
             return
           }
           // if it is doesn't, show server-side error modal
-          modal.DisplayModal('general', 'get-todos', 'fail-ajax-error')
+          DisplayModal('general', 'get-todos', 'fail-ajax-error')
         })
     }
     return
   }
 }
 
-module.exports = ajax
+module.exports = {
+  OperationByAjax: OperationByAjax,
+}

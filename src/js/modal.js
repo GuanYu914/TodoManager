@@ -1,7 +1,3 @@
-const modal = {
-  DisplayModal: DisplayModal
-}
-
 // add modal flash message
 function InsertFlashModal(modalName, cb) {
   if (modalName === 'emptyInput') {
@@ -846,4 +842,6 @@ function DisplayModal(type, op, state, cb) {
   }
 }
 
-module.exports = modal
+module.exports = {
+  DisplayModal: DisplayModal
+}
