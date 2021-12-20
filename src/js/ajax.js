@@ -1,5 +1,6 @@
 const utils = require('./utils')
 const modal = require('./modal')
+const {APIsURL} = require('./constant');
 
 const ajax = {
   OperationByAjax: OperationByAjax,
@@ -16,7 +17,7 @@ function OperationByAjax(type, op) {
       let password = $('#registerModal-form-password').val()
       $.ajax({
         method: 'POST',
-        url: 'http://192.168.0.15/todo_manager/handle_register.php',
+        url: `${APIsURL}/handle_register.php`,
         data: {
           nickname: nickname,
           account: account,
@@ -62,7 +63,7 @@ function OperationByAjax(type, op) {
       let password = $('#registerModal-form-password').val()
       $.ajax({
         method: 'POST',
-        url: 'http://192.168.0.15/todo_manager/handle_register_login.php',
+        url: `${APIsURL}/handle_register_login.php`,
         data: {
           nickname: nickname,
           account: account,
@@ -88,7 +89,7 @@ function OperationByAjax(type, op) {
     // when get successful response, it will switch to login state
     if (op === 'register-get-session') {
       $.ajax({
-        url: 'http://192.168.0.15/todo_manager/get_session.php',
+        url: `${APIsURL}/get_session.php`,
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
@@ -113,7 +114,7 @@ function OperationByAjax(type, op) {
       let password = $('#loginModal-form-password').val()
       $.ajax({
         method: 'POST',
-        url: 'http://192.168.0.15/todo_manager/handle_login.php',
+        url: `${APIsURL}/handle_login.php`,
         xhrFields: { withCredentials: true },
         data: {
           account: account,
@@ -148,7 +149,7 @@ function OperationByAjax(type, op) {
     // when get successful response, it will switch to login state and execute 'get-todos'
     if (op === 'login-get-session') {
       $.ajax({
-        url: 'http://192.168.0.15/todo_manager/get_session.php',
+        url: `${APIsURL}/get_session.php`,
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
@@ -175,7 +176,7 @@ function OperationByAjax(type, op) {
       let password = $('#editProfileModal-form-password').val()
       $.ajax({
         method: 'POST',
-        url: 'http://192.168.0.15/todo_manager/handle_update_user.php',
+        url: `${APIsURL}/handle_update_user.php`,
         xhrFields: { withCredentials: true },
         data: {
           nickname: nickname,
@@ -206,7 +207,7 @@ function OperationByAjax(type, op) {
     // destroy session 
     if (op === 'logout') {
       $.ajax({
-        url: 'http://192.168.0.15/todo_manager/handle_logout.php',
+        url: `${APIsURL}/handle_logout.php`,
         xhrFields: { withCredentials: true }
       })
       .done(() => {
@@ -229,7 +230,7 @@ function OperationByAjax(type, op) {
   if (type === 'general') {
     if (op === 'reload-get-session') {
       $.ajax({
-        url: 'http://192.168.0.15/todo_manager/get_session.php',
+        url: `${APIsURL}/get_session.php`,
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
@@ -256,7 +257,7 @@ function OperationByAjax(type, op) {
     // upload todos of current user to server
     if (op === 'upload-todos') {
       $.post({
-        url: "http://192.168.0.15/todo_manager/handle_store_todos.php",
+        url: `${APIsURL}/handle_store_todos.php`,
         xhrFields: { withCredentials: true }
       }, {
         content: JSON.stringify(utils.packAllTodos())
@@ -287,7 +288,7 @@ function OperationByAjax(type, op) {
     if (op === 'get-todos') {
       $.ajax({
         method: 'GET',
-        url: 'http://192.168.0.15/todo_manager/handle_get_todos.php',
+        url: `${APIsURL}/handle_get_todos.php`,
         xhrFields: { withCredentials: true }
       })
         .done((json) => {
