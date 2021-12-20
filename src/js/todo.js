@@ -22,6 +22,7 @@ function initTodoAllEventListener() {
   addCategoryFromExistedCategoriesEventListener()
   priorityFilterAllEventListener()
   categoryFilterAllEventListener()
+  openFilterModalOnMobileEventListener()
 }
 
 // add todo list 
