@@ -418,7 +418,7 @@ function updateFilterIcon() {
       $('.filter-icon').attr('src', './img/filter-right-selected.svg')
       return
     }
-    $('.filter-icon').attr('src', '/img/filter-right.svg')
+    $('.filter-icon').attr('src', './img/filter-right.svg')
   }
 }
 
