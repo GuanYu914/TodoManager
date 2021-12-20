@@ -46,13 +46,18 @@ function SwitchToLoginState(data) {
     $('.btn-logout').removeClass('d-none')
     // prevent xss attack
     $('.profile-nickname').text(`${data}, 您好`)
-    $('.profile').removeClass('d-none')
     // show profile editing button
+    $('.profile').removeClass('d-none')
     $('.btn-edit-profile').removeClass('d-none')
     // clean previous todos 
     $('.list-group-all').empty()
     // show totals tab
     $('#pills-tab li:first-child button').tab('show')
+    // reset filter 
+    $('.priority-filter-title').text('優先性')
+    $('.categories-filter-title').text('分類')
+    // update filter icon state
+    updateFilterIcon()
     // add alert message
     $('.alert-block').empty()
     $('.alert-block').append(`
@@ -64,6 +69,29 @@ function SwitchToLoginState(data) {
   }
   // data is todos
   if (typeof (data) === 'object') {
+    // hide register、login buttons
+    $('.btn-register, .btn-login').addClass('d-none')
+    // show logout button & profile block in DOM tree
+    $('.btn-logout').removeClass('d-none')
+    // show profile editing button
+    $('.profile').removeClass('d-none')
+    $('.btn-edit-profile').removeClass('d-none')
+    // clean previous todos 
+    $('.list-group-all').empty()
+    // show totals tab
+    $('#pills-tab li:first-child button').tab('show')
+    // reset filter 
+    $('.priority-filter-title').text('優先性')
+    $('.categories-filter-title').text('分類')
+    // update filter icon state
+    updateFilterIcon()
+    // add alert message
+    $('.alert-block').empty()
+    $('.alert-block').append(`
+    <div class="alert alert-success" role="alert">
+        管家將自動幫你同步所有代辦事項內容喔～
+    </div>
+    `)
     // generate categories html block
     for (let i = 0; i < data.length; i++) {
       let categories = data[i].categories
@@ -139,8 +167,9 @@ function SwitchToLogoutState(data = null) {
   // reset filter 
   $('.priority-filter-title').text('優先性')
   $('.categories-filter-title').text('分類')
-  // because clear previous login user todos so update unfinished todos
+  // update filter icon state
   updateFilterIcon()
+  // because clear previous login user todos so update unfinished todos
   getUnfinishedTodos()
   // add alert message
   $('.alert-block').empty()
