@@ -23,7 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
-    "autoprefixer": "^10.4.0",
+    "autoprefixer": "^10.4.2",
     "babel-loader": "^8.2.2",
     "bootstrap": "^5.1.0",
     "css-loader": "^6.5.1",
@@ -37,5 +37,8 @@
     "webpack": "^5.64.4",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "browserslist": "^4.19.1"
   }
 }
