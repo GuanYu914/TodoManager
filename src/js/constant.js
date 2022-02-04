@@ -1,3 +1,3 @@
 module.exports = {
-  APIsURL: "https://emory.work/todo-manager/api"
-}
+  APIsURL: "http://192.168.0.15/todo_manager", // test on private network
+};
