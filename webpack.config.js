@@ -5,7 +5,6 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
-    host: "172.18.134.82", // it will be changed when using wsl2 dev env
     port: 8080,
   },
   entry: "./src/js/index.js",
