@@ -6,7 +6,7 @@
   "scripts": {
     "production": "webpack --mode=production",
     "dev": "webpack --mode=development",
-    "start": "webpack serve --open",
+    "start": "SERVER_URL=http://localhost/todo_manager webpack serve --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
