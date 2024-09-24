@@ -1,3 +1,3 @@
 module.exports = {
-  APIsURL: "http://localhost/todo_manager", // test on private network
+  APIsURL: process.env.SERVER_URL, // test on private network
 };

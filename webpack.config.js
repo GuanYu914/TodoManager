@@ -1,16 +1,17 @@
-const path = require("path");
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 8080,
   },
-  entry: "./src/js/index.js",
+  entry: './src/js/index.js',
   output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist'),
   },
   performance: {
     maxEntrypointSize: 512000,
@@ -21,10 +22,10 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          "style-loader",
-          "css-loader",
+          'style-loader',
+          'css-loader',
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
           },
         ],
       },
@@ -32,23 +33,33 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          'style-loader',
           // Translates CSS into CommonJS
-          "css-loader",
+          'css-loader',
           // Compiles Sass to CSS
-          "sass-loader",
+          'sass-loader',
         ],
       },
       {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"],
+            presets: ['@babel/preset-env'],
           },
         },
       },
     ],
   },
+  plugins: [
+    new webpack.ProgressPlugin(),
+    new webpack.DefinePlugin({
+      process: {
+        env: {
+          SERVER_URL: JSON.stringify(process.env.SERVER_URL),
+        },
+      },
+    }),
+  ],
 };
